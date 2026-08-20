@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Traffic Light Food Logger</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --ink-1: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-muted: #898781;
+    --grid: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11,11,11,0.10);
+    --good: #0ca30c;
+    --good-text: #006300;
+    --good-tint: #e5f4e5;
+    --warn: #fab219;
+    --warn-text: #7a5200;
+    --warn-tint: #fdf3dc;
+    --crit: #d03b3b;
+    --crit-text: #9c2020;
+    --crit-tint: #fae5e5;
+    --accent: #2a78d6;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --ink-1: #ffffff;
+      --ink-2: #c3c2b7;
+      --ink-muted: #898781;
+      --grid: #2c2c2a;
+      --baseline: #383835;
+      --border: rgba(255,255,255,0.10);
+      --good: #0ca30c;
+      --good-text: #7fd67f;
+      --good-tint: #12310f;
+      --warn: #fab219;
+      --warn-text: #f7cb6b;
+      --warn-tint: #33290e;
+      --crit: #d03b3b;
+      --crit-text: #f09c9c;
+      --crit-tint: #3a1414;
+      --accent: #3987e5;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--ink-1);
+    line-height: 1.45;
+    padding-bottom: 90px;
+  }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 12px 14px; }
+  header.app {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 2px 10px;
+  }
+  header.app h1 { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  header.app h1 .lights { letter-spacing: 2px; font-size: 15px; }
+  .client-row { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+  select, input[type="text"], input[type="number"], input[type="date"], input[type="search"] {
+    font: inherit; color: var(--ink-1);
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 9px 12px; width: 100%;
+  }
+  select:focus, input:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  button {
+    font: inherit; cursor: pointer; border: 1px solid var(--border);
+    background: var(--surface-1); color: var(--ink-1);
+    border-radius: 10px; padding: 9px 14px;
+  }
+  button.primary { background: var(--accent); border-color: transparent; color: #fff; font-weight: 600; }
+  button.small { padding: 5px 10px; font-size: 13px; border-radius: 8px; }
+  button.icon { padding: 8px 11px; }
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .card h2 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); margin-bottom: 10px; }
+  .scanrow { display: flex; gap: 8px; margin-bottom: 8px; }
+  .scanrow .grow { flex: 1; }
+  #reader { border-radius: 10px; overflow: hidden; margin-top: 10px; }
+  #reader:empty { display: none; }
+  .hint { font-size: 12.5px; color: var(--ink-muted); margin-top: 6px; }
+  .searchResults { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+  .searchResults button { text-align: left; font-size: 14px; }
+  .searchResults .sub { color: var(--ink-muted); font-size: 12.5px; }
+
+  /* food result */
+  .food-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .food-name { font-size: 17px; font-weight: 700; }
+  .food-brand { color: var(--ink-2); font-size: 13.5px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-weight: 700; font-size: 13px; border-radius: 999px;
+    padding: 5px 12px; white-space: nowrap;
+  }
+  .badge .shape { font-size: 12px; line-height: 1; }
+  .badge.green  { background: var(--good-tint); color: var(--good-text); }
+  .badge.yellow { background: var(--warn-tint); color: var(--warn-text); }
+  .badge.red    { background: var(--crit-tint); color: var(--crit-text); }
+  .reasons { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .reason-chip {
+    font-size: 12px; color: var(--ink-2);
+    background: var(--page); border: 1px solid var(--border);
+    border-radius: 999px; padding: 3px 10px;
+  }
+  .portion-row { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; align-items: center; }
+  .portion-row button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .nutrient-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+  .ntile { background: var(--page); border: 1px solid var(--border); border-radius: 10px; padding: 8px; text-align: center; }
+  .ntile .v { font-size: 16px; font-weight: 700; }
+  .ntile .l { font-size: 11px; color: var(--ink-muted); }
+  .override-row { margin-top: 12px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .override-row .lbl { font-size: 12.5px; color: var(--ink-muted); }
+  .log-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .log-actions .primary { flex: 1; }
+
+  /* stat tiles */
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .tile { background: var(--page); border: 1px solid var(--border); border-radius: 10px; padding: 10px 8px; text-align: center; }
+  .tile .v { font-size: 22px; font-weight: 700; }
+  .tile .l { font-size: 11.5px; color: var(--ink-muted); display: flex; align-items: center; justify-content: center; gap: 4px; }
+  .dotg { color: var(--good); } .doty { color: var(--warn); } .dotr { color: var(--crit); }
+
+  /* log list */
+  .log-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 2px; border-bottom: 1px solid var(--grid);
+  }
+  .log-item:last-child { border-bottom: none; }
+  .log-item .mark { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; }
+  .log-item .mark.g { color: var(--good); } .log-item .mark.y { color: var(--warn); } .log-item .mark.r { color: var(--crit); }
+  .log-item .info { flex: 1; min-width: 0; }
+  .log-item .n { font-size: 14.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .log-item .d { font-size: 12.5px; color: var(--ink-muted); }
+  .log-item .kcal { font-size: 13.5px; color: var(--ink-2); white-space: nowrap; }
+  .log-item .del { border: none; background: none; color: var(--ink-muted); font-size: 16px; padding: 4px 6px; }
+  .empty { color: var(--ink-muted); font-size: 14px; text-align: center; padding: 16px 0; }
+  .date-nav { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .date-nav input { flex: 1; }
+
+  /* week chart */
+  .chart-wrap { margin-top: 6px; }
+  .legend { display: flex; gap: 14px; font-size: 12.5px; color: var(--ink-2); margin-top: 8px; flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .goal-line { font-size: 13.5px; margin-top: 10px; }
+  .goal-line b.over { color: var(--crit-text); }
+  .goal-line b.under { color: var(--good-text); }
+
+  /* settings */
+  details.settings summary { cursor: pointer; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-muted); }
+  .set-grid { display: grid; grid-template-columns: 1fr 90px; gap: 8px; align-items: center; margin-top: 12px; }
+  .set-grid label { font-size: 13.5px; color: var(--ink-2); }
+  .set-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .footer-note { font-size: 11.5px; color: var(--ink-muted); padding: 4px 2px 20px; }
+  .toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--ink-1); color: var(--page);
+    border-radius: 999px; padding: 9px 18px; font-size: 13.5px;
+    opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 50;
+    max-width: 90vw; text-align: center;
+  }
+  .toast.show { opacity: 1; }
+  .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .quick-grid button { font-size: 13px; text-align: left; }
+  dialog {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-1); color: var(--ink-1);
+    padding: 16px; width: min(92vw, 420px); margin: auto;
+  }
+  dialog::backdrop { background: rgba(0,0,0,0.4); }
+  .dlg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .dlg-grid .full { grid-column: 1 / -1; }
+  .dlg-grid label { font-size: 12px; color: var(--ink-muted); display: block; margin-bottom: 3px; }
+  .dlg-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="app">
+    <h1>Traffic Light Logger <span class="lights" aria-hidden="true">🟢🟡🔴</span></h1>
+    <button class="icon" id="btnAddClient" title="Add client">+ Client</button>
+  </header>
+
+  <div class="client-row">
+    <select id="clientSelect" aria-label="Active client"></select>
+  </div>
+
+  <!-- SCAN / SEARCH -->
+  <section class="card">
+    <h2>Find a food</h2>
+    <div class="scanrow">
+      <button class="primary grow" id="btnScan">📷 Scan barcode</button>
+      <button class="grow" id="btnCustom">✎ Custom food</button>
+    </div>
+    <div class="scanrow">
+      <input type="search" class="grow" id="lookupInput" placeholder="Barcode number or food name…" inputmode="search">
+      <button id="btnLookup">Go</button>
+    </div>
+    <div id="reader" aria-live="polite"></div>
+    <div class="searchResults" id="searchResults"></div>
+    <div class="hint" id="lookupHint">Scan a package barcode, type one in, or search by name. Data: USDA FoodData Central (generic &amp; branded foods) + Open Food Facts (barcodes).</div>
+  </section>
+
+  <!-- FOOD RESULT -->
+  <section class="card" id="foodCard" hidden>
+    <div class="food-head">
+      <div>
+        <div class="food-name" id="fName"></div>
+        <div class="food-brand" id="fBrand"></div>
+      </div>
+      <span class="badge" id="fBadge"></span>
+    </div>
+    <div class="reasons" id="fReasons"></div>
+
+    <div class="portion-row" id="portionRow" role="group" aria-label="Portion size">
+      <span class="hint" style="margin:0 4px 0 0">Portion:</span>
+    </div>
+    <div class="hint" id="servingHint"></div>
+
+    <div class="nutrient-grid">
+      <div class="ntile"><div class="v" id="nvKcal">–</div><div class="l">kcal</div></div>
+      <div class="ntile"><div class="v" id="nvFat">–</div><div class="l">fat g</div></div>
+      <div class="ntile"><div class="v" id="nvSugar">–</div><div class="l">sugars g</div></div>
+      <div class="ntile"><div class="v" id="nvProtein">–</div><div class="l">protein g</div></div>
+    </div>
+
+    <div class="override-row">
+      <span class="lbl">Override color:</span>
+      <button class="small" data-ov="green">● Green</button>
+      <button class="small" data-ov="yellow">▲ Yellow</button>
+      <button class="small" data-ov="red">⬣ Red</button>
+      <button class="small" data-ov="">Auto</button>
+    </div>
+
+    <div class="log-actions">
+      <input type="date" id="logDate" aria-label="Log date" style="max-width:160px">
+      <button class="primary" id="btnLog">Add to log</button>
+    </div>
+  </section>
+
+  <!-- TODAY -->
+  <section class="card">
+    <h2>Daily log</h2>
+    <div class="date-nav">
+      <button class="small" id="dayPrev" aria-label="Previous day">‹</button>
+      <input type="date" id="viewDate" aria-label="View date">
+      <button class="small" id="dayNext" aria-label="Next day">›</button>
+    </div>
+    <div class="tiles" id="dayTiles"></div>
+    <div id="dayLog"></div>
+  </section>
+
+  <!-- WEEK -->
+  <section class="card">
+    <h2>This week</h2>
+    <div class="goal-line" id="goalLine"></div>
+    <div class="chart-wrap" id="weekChart"></div>
+    <div class="legend" aria-hidden="false">
+      <span><span class="dotg">●</span> Green: go</span>
+      <span><span class="doty">▲</span> Yellow: slow</span>
+      <span><span class="dotr">⬣</span> Red: whoa</span>
+    </div>
+  </section>
+
+  <!-- QUICK ADD -->
+  <section class="card">
+    <h2>Quick add (common foods)</h2>
+    <div class="quick-grid" id="quickGrid"></div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="card">
+    <details class="settings" id="settingsPanel">
+      <summary>Settings &amp; classification rules</summary>
+      <div class="set-grid" id="setGrid"></div>
+      <div class="set-actions">
+        <button class="small" id="btnResetRules">Reset rules to defaults</button>
+        <button class="small" id="btnExportCsv">Export CSV</button>
+        <button class="small" id="btnExportJson">Backup (JSON)</button>
+        <button class="small" id="btnImportJson">Restore backup</button>
+        <input type="file" id="importFile" accept=".json" hidden>
+      </div>
+      <p class="hint" style="margin-top:10px">
+        Color rules follow Epstein's Traffic Light (Stoplight) Diet approach: green = low-calorie
+        foods eaten freely (most fruits &amp; vegetables), yellow = staple foods eaten in sensible
+        portions, red = foods high in added sugar or fat, or sugary drinks, tracked against a weekly
+        red-food budget. Thresholds above are editable so you can match your program's protocol.
+        Every classification shows its reasons and can be overridden per item.
+      </p>
+    </details>
+  </section>
+
+  <p class="footer-note">
+    ⚠️ Prototype for professional use alongside clinical judgment; not medical advice.
+    Data lives in this open page only: use <b>Backup (JSON)</b> to save and <b>Restore</b> to reload.
+    Nutrition data from USDA FoodData Central and Open Food Facts; branded records are label-deep, so verify against the package when accuracy matters.
+  </p>
+</div>
+
+<!-- Custom food dialog -->
+<dialog id="customDlg">
+  <b>Custom food</b>
+  <div class="dlg-grid">
+    <div class="full"><label>Name</label><input type="text" id="cfName" placeholder="e.g., Homemade veggie soup"></div>
+    <div><label>Calories / serving</label><input type="number" id="cfKcal" min="0" inputmode="numeric"></div>
+    <div><label>Serving size (label)</label><input type="text" id="cfServ" placeholder="1 cup"></div>
+    <div><label>Total fat g / serving</label><input type="number" id="cfFat" min="0" step="0.1" inputmode="decimal"></div>
+    <div><label>Sat. fat g / serving</label><input type="number" id="cfSat" min="0" step="0.1" inputmode="decimal"></div>
+    <div><label>Added sugar g / serving</label><input type="number" id="cfAdded" min="0" step="0.1" inputmode="decimal"></div>
+    <div><label>Protein g / serving</label><input type="number" id="cfProt" min="0" step="0.1" inputmode="decimal"></div>
+  </div>
+  <div class="dlg-actions">
+    <button id="cfCancel">Cancel</button>
+    <button class="primary" id="cfOk">Classify</button>
+  </div>
+</dialog>
+
+<!-- Add client dialog -->
+<dialog id="clientDlg">
+  <b>New client</b>
+  <div class="dlg-grid">
+    <div class="full"><label>Name or initials</label><input type="text" id="clName" placeholder="e.g., J.R."></div>
+    <div class="full"><label>Weekly red-food budget</label><input type="number" id="clGoal" min="0" value="4" inputmode="numeric"></div>
+  </div>
+  <div class="dlg-actions">
+    <button id="clCancel">Cancel</button>
+    <button class="primary" id="clOk">Add</button>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   Traffic Light Food Logger - single-file prototype
+   Barcode → Open Food Facts lookup → Epstein-style color coding
+   ============================================================ */
+
+// ---------- state (in-memory; persisted only via JSON backup) ----------
+const state = {
+  clients: [{ id: 1, name: "Demo client", goal: 4 }],
+  activeClient: 1,
+  log: [],            // {id, clientId, date:'YYYY-MM-DD', time, name, brand, color, auto, overridden, kcal, fat, sugars, protein, portion}
+  nextId: 1,
+  current: null,      // currently displayed food
+  portionMult: 1,
+  override: "",
+};
+
+const DEFAULT_RULES = {
+  greenKcal100: 45,      // ≤ kcal/100g → green (very low calorie density)
+  greenProduceKcal100: 100, // fruits/veg category green cap
+  redAdded100: 10,       // added sugar g/100g → red
+  redAddedServ: 8,       // added sugar g/serving → red (fallback)
+  redFat100: 17,         // total fat g/100g → red
+  redFatServ: 10,        // fat g/serving → red (fallback)
+  redSat100: 8,          // sat fat g/100g → red
+  redSatServ: 5,         // sat fat g/serving → red (fallback)
+  redKcal100: 400,       // calorie density → red (unless protein-rich)
+  proteinSpare100: 15,   // protein g/100g that spares the calorie-density rule
+  bevSugar100: 5,        // beverage sugars g/100ml → red
+  bevGreenKcal100: 20,   // beverage kcal/100ml → green if ≤
+};
+let RULES = { ...DEFAULT_RULES };
+const PREFS = { usdaKey: "DEMO_KEY" };  // free personal key: https://api.data.gov/signup
+
+// ---------- helpers ----------
+const $ = (id) => document.getElementById(id);
+const todayStr = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+const fmt1 = (v) => (v == null || isNaN(v)) ? "–" : (Math.round(v * 10) / 10).toString();
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2600); }
+const SHAPES = { green: "●", yellow: "▲", red: "⬣" };
+const LABELS = { green: "GREEN", yellow: "YELLOW", red: "RED" };
+
+// ---------- classification engine (Epstein Traffic Light style) ----------
+function hasCat(cats, ...needles) {
+  return cats.some(c => needles.some(n => c.includes(n)));
+}
+function classify(f, rules) {
+  // f: {name, cats[], per100:{kcal,fat,sat,sugars,added,protein}, serv:{kcal,fat,sat,sugars,added,protein}, isBeverage}
+  const R = rules, p = f.per100 || {}, s = f.serv || {};
+  const cats = f.cats || [];
+  const reasons = [];
+  const num = (v) => (typeof v === "number" && !isNaN(v)) ? v : null;
+  const kcal100 = num(p.kcal), fat100 = num(p.fat), sat100 = num(p.sat),
+        sug100 = num(p.sugars), add100 = num(p.added), prot100 = num(p.protein);
+  const kcalS = num(s.kcal), fatS = num(s.fat), satS = num(s.sat), addS = num(s.added);
+
+  // --- beverages get their own track ---
+  if (f.isBeverage) {
+    const isMilk = hasCat(cats, "milks") && !hasCat(cats, "flavoured-milks", "chocolate");
+    const isSoda = hasCat(cats, "sodas", "soft-drink", "energy-drink", "sweetened-beverages");
+    const isJuice = hasCat(cats, "juices", "nectars", "smoothies");
+    if (isMilk) {
+      if (hasCat(cats, "skimmed", "fat-free")) { reasons.push("Skim milk: nutrient-rich, low fat"); return done("green"); }
+      if ((add100 ?? 0) < 1) { reasons.push("Plain milk: staple beverage"); return done("yellow"); }
+    }
+    if (isSoda || (add100 != null && add100 >= 4) || (add100 == null && sug100 != null && sug100 >= R.bevSugar100 && !isMilk)) {
+      if (sug100 != null && sug100 < 2.5 && (add100 ?? 0) < 1) {
+        reasons.push("Diet / zero-sugar drink: no added sugar, but not a “go” drink");
+        return done("yellow");
+      }
+      reasons.push("Sugary drink (" + (add100 != null ? fmt1(add100) + "g added sugar" : fmt1(sug100) + "g sugars") + " per 100ml)");
+      return done("red");
+    }
+    if (isJuice) { reasons.push("Fruit juice: most traffic-light programs count juice as red"); return done("red"); }
+    if (kcal100 != null && kcal100 <= R.bevGreenKcal100 && (sug100 ?? 0) < 2.5) {
+      reasons.push("Water / unsweetened drink (" + fmt1(kcal100) + " kcal per 100ml)"); return done("green");
+    }
+    reasons.push("Beverage: moderate"); return done("yellow");
+  }
+
+  // --- RED checks (category first, then nutrients) ---
+  // note: OFF files yogurts under "desserts", so exempt them - yogurt is judged on its nutrients
+  const isYogurt = hasCat(cats, "yogurts", "kefirs", "skyr", "fromages-blancs");
+  const redCat = !isYogurt && hasCat(cats, "sugary-snacks", "candies", "candy", "chocolates", "confectioneries",
+    "biscuits", "cakes", "pastries", "desserts", "ice-cream", "chips-and-fries", "crisps",
+    "french-fries", "fried-food", "salty-snacks", "viennoiseries", "pies");
+  const isNuts = hasCat(cats, "nuts", "nut-butters", "peanut-butter", "seeds") &&
+                 (add100 == null || add100 < 5);
+  const isFruitCat = hasCat(cats, "fruits", "fruit") && !hasCat(cats, "dried");
+  const isVegCat = hasCat(cats, "vegetables", "legumes", "salads") && !redCat;
+
+  if (redCat) reasons.push("Treat / snack category: high in sugar or fat, low nutrition");
+  if (add100 != null && add100 >= R.redAdded100) reasons.push("High added sugar: " + fmt1(add100) + "g per 100g (≥ " + R.redAdded100 + ")");
+  else if (add100 == null && addS != null && addS >= R.redAddedServ) reasons.push("High added sugar: " + fmt1(addS) + "g per serving (≥ " + R.redAddedServ + ")");
+  else if (add100 == null && addS == null && sug100 != null && sug100 >= 18 && !isFruitCat) reasons.push("Very high sugars: " + fmt1(sug100) + "g per 100g (added sugar unknown)");
+
+  if (!isNuts) {
+    if (fat100 != null && fat100 >= R.redFat100) reasons.push("High fat: " + fmt1(fat100) + "g per 100g (≥ " + R.redFat100 + ")");
+    else if (fat100 == null && fatS != null && fatS >= R.redFatServ) reasons.push("High fat: " + fmt1(fatS) + "g per serving (≥ " + R.redFatServ + ")");
+    if (sat100 != null && sat100 >= R.redSat100) reasons.push("High saturated fat: " + fmt1(sat100) + "g per 100g (≥ " + R.redSat100 + ")");
+    else if (sat100 == null && satS != null && satS >= R.redSatServ) reasons.push("High saturated fat: " + fmt1(satS) + "g per serving (≥ " + R.redSatServ + ")");
+    if (kcal100 != null && kcal100 >= R.redKcal100 && (prot100 ?? 0) < R.proteinSpare100)
+      reasons.push("Calorie-dense: " + fmt1(kcal100) + " kcal per 100g");
+  }
+  if (reasons.length) return done("red");
+
+  // --- GREEN checks ---
+  if ((isFruitCat || isVegCat) && (kcal100 == null || kcal100 <= R.greenProduceKcal100) && (add100 ?? 0) <= 2) {
+    reasons.push("Fruit / vegetable: go food"); return done("green");
+  }
+  if (kcal100 != null && kcal100 <= R.greenKcal100 && (add100 ?? 0) <= 2) {
+    reasons.push("Very low calorie density: " + fmt1(kcal100) + " kcal per 100g"); return done("green");
+  }
+  if (isYogurt && (fat100 ?? 99) <= 2 && (add100 ?? 0) <= 2 && (sug100 ?? 0) <= 8) {
+    reasons.push("Plain low-fat yogurt: go food"); return done("green");
+  }
+  if (kcal100 == null && kcalS != null && kcalS <= 50 && (fatS ?? 0) <= 1 && (addS ?? 0) <= 2) {
+    reasons.push("Low calorie: " + fmt1(kcalS) + " kcal per serving"); return done("green");
+  }
+
+  // --- default ---
+  if (isNuts) reasons.push("Nuts / nut butter: nutritious but calorie-dense; watch portions");
+  else reasons.push("Staple food: fine in sensible portions");
+  return done("yellow");
+
+  function done(color) { return { color, reasons }; }
+}
+
+// ---------- Open Food Facts lookup ----------
+const OFF_FIELDS = "code,product_name,brands,serving_size,serving_quantity,nutriments,categories_tags,nutrition_data_per";
+async function offByBarcode(code) {
+  const variants = [code];
+  const digits = code.replace(/\D/g, "");
+  if (digits.length && digits.length < 13) variants.push(digits.padStart(13, "0"));
+  if (digits.length === 13 && digits.startsWith("0")) variants.push(digits.slice(1));
+  for (const v of [...new Set(variants)]) {
+    try {
+      const r = await fetch("https://world.openfoodfacts.org/api/v2/product/" + encodeURIComponent(v) + ".json?fields=" + OFF_FIELDS);
+      const j = await r.json();
+      if (j.status === 1 && j.product) return j.product;
+    } catch (e) { /* network issue - fall through */ }
+  }
+  return null;
+}
+async function offSearch(q) {
+  try {
+    const url = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" + encodeURIComponent(q) +
+      "&search_simple=1&action=process&json=1&page_size=8&fields=" + OFF_FIELDS;
+    const r = await fetch(url);
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const j = await r.json();
+    return (j.products || []).filter(p => p.product_name);
+  } catch (e) {
+    // fallback: search-a-licious endpoint (search.pl is aggressively rate-limited)
+    const r2 = await fetch("https://search.openfoodfacts.org/search?q=" + encodeURIComponent(q) +
+      "&page_size=8&fields=code,product_name,brands,nutriments,serving_size,serving_quantity,categories_tags");
+    const j2 = await r2.json();
+    return (j2.hits || []).map(h => ({ ...h, brands: Array.isArray(h.brands) ? h.brands.join(", ") : h.brands }))
+      .filter(p => p.product_name);
+  }
+}
+function foodFromOFF(p) {
+  const n = p.nutriments || {};
+  const g = (k) => { const v = n[k]; return (typeof v === "number") ? v : (v != null && v !== "" ? parseFloat(v) : null); };
+  const cats = (p.categories_tags || []).map(c => String(c).toLowerCase());
+  const isBeverage = cats.some(c => c.includes("beverages") || c.includes("waters") || c.includes("juices") || c.includes("sodas") || c.includes("milks"));
+  const per100 = {
+    kcal: g("energy-kcal_100g"), fat: g("fat_100g"), sat: g("saturated-fat_100g"),
+    sugars: g("sugars_100g"), added: g("added-sugars_100g"), protein: g("proteins_100g"),
+  };
+  let serv = {
+    kcal: g("energy-kcal_serving"), fat: g("fat_serving"), sat: g("saturated-fat_serving"),
+    sugars: g("sugars_serving"), added: g("added-sugars_serving"), protein: g("proteins_serving"),
+  };
+  const servQty = (typeof p.serving_quantity === "number") ? p.serving_quantity : parseFloat(p.serving_quantity);
+  if (serv.kcal == null && per100.kcal != null && servQty > 0) {
+    const f = servQty / 100;
+    serv = { kcal: per100.kcal * f, fat: nz(per100.fat, f), sat: nz(per100.sat, f), sugars: nz(per100.sugars, f), added: nz(per100.added, f), protein: nz(per100.protein, f) };
+  }
+  let servingLabel = p.serving_size || (servQty > 0 ? servQty + " g" : "100 g");
+  servingLabel = servingLabel.replace(/(\([^()]*\))(\s*\1)+/g, "$1"); // collapse duplicated "(28 g) (28 g)"
+  const base = (serv.kcal != null) ? serv : per100;
+  const baseLabel = (serv.kcal != null) ? ("per serving (" + servingLabel + ")") : "per 100 g";
+  return {
+    name: p.product_name || "Unnamed product", brand: p.brands || "",
+    cats, isBeverage, per100, serv, base, baseLabel, servingLabel,
+    source: "Open Food Facts", code: p.code || "",
+  };
+  function nz(v, f) { return v == null ? null : v * f; }
+}
+
+// ---------- USDA FoodData Central lookup ----------
+const FDC_NUTR = { 1008: "kcal", 1004: "fat", 1258: "sat", 1003: "protein", 1235: "added", 2000: "sugars", 1063: "sugars" };
+async function fdcSearch(q, opts = {}) {
+  const params = new URLSearchParams({
+    api_key: PREFS.usdaKey || "DEMO_KEY", query: q, pageSize: String(opts.pageSize || 6),
+  });
+  if (opts.dataType) params.set("dataType", opts.dataType);
+  const r = await fetch("https://api.nal.usda.gov/fdc/v1/foods/search?" + params.toString());
+  if (!r.ok) throw new Error("USDA HTTP " + r.status);
+  const j = await r.json();
+  if (j.error) throw new Error("USDA: " + (j.error.code || "error"));
+  return j.foods || [];
+}
+async function fdcByBarcode(code) {
+  const digits = code.replace(/\D/g, "");
+  if (!digits) return null;
+  for (const padded of [...new Set([digits.padStart(14, "0"), digits.padStart(13, "0")])]) {
+    try {
+      const foods = await fdcSearch("gtinUpc:" + padded, { dataType: "Branded", pageSize: 2 });
+      const hit = foods.find(f => (f.gtinUpc || "").replace(/\D/g, "").endsWith(digits)) || foods[0];
+      if (hit) return hit;
+    } catch (e) { /* try next padding */ }
+  }
+  return null;
+}
+function fdcCatsToTags(f) {
+  const cat = String(f.foodCategory || "").toLowerCase();
+  const desc = String(f.description || "").toLowerCase();
+  const tags = [];
+  let isBeverage = false;
+  if (cat.includes("vegetable")) tags.push("en:vegetables");
+  if (cat.includes("fruit")) {
+    if (desc.includes("juice") || desc.includes("nectar")) { tags.push("en:beverages", "en:fruit-juices"); isBeverage = true; }
+    else tags.push("en:fruits");
+    if (desc.includes("dried") || desc.includes("dehydrated")) tags.push("en:dried");
+  }
+  if (cat.includes("sweets") || desc.includes("candy") || desc.includes("candies")) tags.push("en:sugary-snacks", "en:candies");
+  if (cat.includes("snacks")) tags.push("en:salty-snacks");
+  if (cat.includes("baked products") && /cookie|cake|pastry|doughnut|donut|brownie|pie\b/.test(desc)) tags.push("en:sugary-snacks", "en:biscuits");
+  if (cat.includes("cereal")) tags.push("en:breakfast-cereals");
+  if (cat.includes("nut and seed")) tags.push("en:nuts");
+  if (cat.includes("beverages") || cat.includes("alcoholic")) { tags.push("en:beverages"); isBeverage = true; }
+  if (/\b(soda|sodas|cola|colas|soft drinks?|energy drinks?)\b/.test(desc)) { tags.push("en:beverages", "en:sodas"); isBeverage = true; }
+  if ((cat.includes("dairy") || cat.includes("beverages")) && desc.includes("milk") && !cat.includes("sweets")) {
+    tags.push("en:beverages", "en:milks"); isBeverage = true;
+    if (/skim|nonfat|non-fat|fat.free/.test(desc)) tags.push("en:skimmed-milks");
+    if (/chocolate|strawberry|flavored|flavoured/.test(desc)) tags.push("en:flavoured-milks");
+  }
+  if (desc.includes("yogurt") || desc.includes("yoghurt")) { tags.push("en:yogurts"); isBeverage = false; }
+  if (desc.includes("fried") && !desc.includes("stir")) tags.push("en:fried-food");
+  if (desc.includes("water") && (cat.includes("beverages") || !cat)) { tags.push("en:waters"); isBeverage = true; }
+  return { tags, isBeverage };
+}
+function titleCase(s) {
+  if (s === s.toUpperCase()) return s.toLowerCase().replace(/(^|\s|[("-])([a-z])/g, (m, p, c) => p + c.toUpperCase());
+  return s;
+}
+function foodFromFDC(f) {
+  const per100 = {};
+  for (const n of f.foodNutrients || []) {
+    const key = FDC_NUTR[n.nutrientId];
+    if (key && per100[key] == null && typeof n.value === "number") per100[key] = n.value;
+  }
+  const { tags, isBeverage } = fdcCatsToTags(f);
+  const unit = String(f.servingSizeUnit || "").toLowerCase();
+  const servQty = (typeof f.servingSize === "number" && (unit === "g" || unit === "ml" || unit === "grm" || unit === "mlt")) ? f.servingSize : null;
+  let serv = null, servingLabel = "100 g", baseLabel = "per 100 g";
+  if (servQty) {
+    const fr = servQty / 100;
+    serv = {};
+    for (const k of ["kcal", "fat", "sat", "sugars", "added", "protein"]) serv[k] = per100[k] == null ? null : per100[k] * fr;
+    servingLabel = (f.householdServingFullText ? f.householdServingFullText + ", " : "") + servQty + " " + (unit.startsWith("m") ? "ml" : "g");
+    baseLabel = "per serving (" + servingLabel + ")";
+  }
+  return {
+    name: titleCase(f.description || "Unnamed food"),
+    brand: [f.brandName, f.brandOwner].filter(Boolean).join(" · ") || (f.dataType || ""),
+    cats: tags, isBeverage, per100, serv: serv || {},
+    base: serv || per100, baseLabel, servingLabel,
+    source: "USDA " + (f.dataType || "FoodData Central"), code: f.gtinUpc || "",
+  };
+}
+
+// ---------- quick-add foods (USDA-typical values) ----------
+const QUICK_FOODS = [
+  { name: "Apple, medium", brand: "generic", cats: ["en:fruits"], isBeverage: false, per100: { kcal: 52, fat: 0.2, sat: 0, sugars: 10.4, added: 0, protein: 0.3 }, servG: 182, servingLabel: "1 medium (182g)" },
+  { name: "Broccoli, cooked, 1 cup", brand: "generic", cats: ["en:vegetables"], isBeverage: false, per100: { kcal: 35, fat: 0.4, sat: 0.1, sugars: 1.4, added: 0, protein: 2.4 }, servG: 156, servingLabel: "1 cup (156g)" },
+  { name: "Chicken breast, grilled", brand: "generic", cats: ["en:meats"], isBeverage: false, per100: { kcal: 165, fat: 3.6, sat: 1, sugars: 0, added: 0, protein: 31 }, servG: 85, servingLabel: "3 oz (85g)" },
+  { name: "White rice, cooked, 1 cup", brand: "generic", cats: ["en:cereals"], isBeverage: false, per100: { kcal: 130, fat: 0.3, sat: 0.1, sugars: 0.1, added: 0, protein: 2.7 }, servG: 158, servingLabel: "1 cup (158g)" },
+  { name: "Skim milk, 1 cup", brand: "generic", cats: ["en:beverages", "en:milks", "en:skimmed-milks"], isBeverage: true, per100: { kcal: 34, fat: 0.1, sat: 0.1, sugars: 5, added: 0, protein: 3.4 }, servG: 245, servingLabel: "1 cup (245ml)" },
+  { name: "Cola, 12 oz can", brand: "generic", cats: ["en:beverages", "en:sodas"], isBeverage: true, per100: { kcal: 39, fat: 0, sat: 0, sugars: 10.6, added: 10.6, protein: 0 }, servG: 355, servingLabel: "1 can (355ml)" },
+  { name: "Potato chips, 1 oz", brand: "generic", cats: ["en:salty-snacks", "en:crisps"], isBeverage: false, per100: { kcal: 536, fat: 35, sat: 4.6, sugars: 0.4, added: 0, protein: 7 }, servG: 28, servingLabel: "1 oz (28g)" },
+  { name: "Chocolate chip cookie", brand: "generic", cats: ["en:sugary-snacks", "en:biscuits"], isBeverage: false, per100: { kcal: 488, fat: 24, sat: 8, sugars: 36, added: 30, protein: 5 }, servG: 30, servingLabel: "1 cookie (30g)" },
+];
+function foodFromQuick(q) {
+  const f = q.servG / 100;
+  const serv = {};
+  for (const k of ["kcal", "fat", "sat", "sugars", "added", "protein"]) serv[k] = q.per100[k] == null ? null : q.per100[k] * f;
+  return { name: q.name, brand: q.brand, cats: q.cats, isBeverage: q.isBeverage, per100: q.per100, serv, base: serv, baseLabel: "per serving (" + q.servingLabel + ")", servingLabel: q.servingLabel, source: "reference values", code: "" };
+}
+
+// ---------- UI: current food ----------
+const PORTIONS = [0.25, 0.5, 0.75, 1, 1.5, 2, 3];
+function showFood(food) {
+  state.current = food;
+  state.portionMult = 1;
+  state.override = "";
+  const res = classify(food, RULES);
+  food.auto = res.color;
+  food.reasons = res.reasons;
+  $("foodCard").hidden = false;
+  $("fName").textContent = food.name;
+  $("fBrand").textContent = [food.brand, food.source].filter(Boolean).join(" · ");
+  renderPortions();
+  renderVerdict();
+  $("logDate").value = $("viewDate").value || todayStr();
+  $("foodCard").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function renderPortions() {
+  const row = $("portionRow");
+  row.querySelectorAll("button").forEach(b => b.remove());
+  for (const m of PORTIONS) {
+    const b = document.createElement("button");
+    b.className = "small";
+    b.textContent = m === 0.25 ? "¼×" : m === 0.5 ? "½×" : m === 0.75 ? "¾×" : m + "×";
+    b.setAttribute("aria-pressed", String(m === state.portionMult));
+    b.onclick = () => { state.portionMult = m; renderPortions(); renderVerdict(); };
+    row.appendChild(b);
+  }
+}
+function currentColor() { return state.override || state.current.auto; }
+function renderVerdict() {
+  const f = state.current; if (!f) return;
+  const color = currentColor();
+  const badge = $("fBadge");
+  badge.className = "badge " + color;
+  badge.innerHTML = '<span class="shape" aria-hidden="true">' + SHAPES[color] + "</span>" + LABELS[color] + (state.override ? " (manual)" : "");
+  const rWrap = $("fReasons");
+  rWrap.innerHTML = "";
+  for (const r of f.reasons) {
+    const c = document.createElement("span"); c.className = "reason-chip"; c.textContent = r; rWrap.appendChild(c);
+  }
+  const m = state.portionMult, b = f.base;
+  $("nvKcal").textContent = b.kcal == null ? "–" : Math.round(b.kcal * m);
+  $("nvFat").textContent = fmt1(b.fat == null ? null : b.fat * m);
+  $("nvSugar").textContent = fmt1(b.sugars == null ? null : b.sugars * m);
+  $("nvProtein").textContent = fmt1(b.protein == null ? null : b.protein * m);
+  $("servingHint").textContent = "Base: " + f.baseLabel + ", showing " + (m === 1 ? "1 serving" : m + " × serving");
+}
+
+// ---------- logging ----------
+function portionText(m) { return m === 1 ? "1 serving" : m + " × serving"; }
+function addToLog() {
+  const f = state.current; if (!f) return;
+  const m = state.portionMult, b = f.base;
+  const d = new Date();
+  state.log.push({
+    id: state.nextId++, clientId: state.activeClient,
+    date: $("logDate").value || todayStr(),
+    time: String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"),
+    name: f.name, brand: f.brand,
+    color: currentColor(), auto: f.auto, overridden: !!state.override,
+    kcal: b.kcal == null ? null : Math.round(b.kcal * m),
+    fat: b.fat == null ? null : Math.round(b.fat * m * 10) / 10,
+    sugars: b.sugars == null ? null : Math.round(b.sugars * m * 10) / 10,
+    protein: b.protein == null ? null : Math.round(b.protein * m * 10) / 10,
+    portion: portionText(m) + (f.servingLabel ? " · " + f.servingLabel : ""),
+  });
+  toast(SHAPES[currentColor()] + " Logged: " + f.name);
+  $("foodCard").hidden = true;
+  state.current = null;
+  renderAll();
+}
+
+// ---------- day view ----------
+function activeLog() { return state.log.filter(e => e.clientId === state.activeClient); }
+function renderDay() {
+  const date = $("viewDate").value;
+  const entries = activeLog().filter(e => e.date === date);
+  const counts = { green: 0, yellow: 0, red: 0 };
+  let kcal = 0;
+  for (const e of entries) { counts[e.color]++; kcal += e.kcal || 0; }
+  $("dayTiles").innerHTML =
+    tile(counts.green, '<span class="dotg">●</span> green') +
+    tile(counts.yellow, '<span class="doty">▲</span> yellow') +
+    tile(counts.red, '<span class="dotr">⬣</span> red') +
+    tile(kcal, "kcal");
+  const wrap = $("dayLog");
+  wrap.innerHTML = "";
+  if (!entries.length) { wrap.innerHTML = '<div class="empty">Nothing logged this day yet.</div>'; return; }
+  for (const e of entries) {
+    const div = document.createElement("div");
+    div.className = "log-item";
+    div.innerHTML =
+      '<span class="mark ' + e.color[0] + '" title="' + LABELS[e.color] + '">' + SHAPES[e.color] + "</span>" +
+      '<div class="info"><div class="n">' + esc(e.name) + (e.overridden ? " ✎" : "") + "</div>" +
+      '<div class="d">' + esc(e.portion) + " · " + e.time + "</div></div>" +
+      '<span class="kcal">' + (e.kcal != null ? e.kcal + " kcal" : "") + "</span>" +
+      '<button class="del" aria-label="Delete entry" title="Delete">✕</button>';
+    div.querySelector(".del").onclick = () => { state.log = state.log.filter(x => x.id !== e.id); renderAll(); };
+    wrap.appendChild(div);
+  }
+  function tile(v, l) { return '<div class="tile"><div class="v">' + v + '</div><div class="l">' + l + "</div></div>"; }
+}
+function esc(s) { const d = document.createElement("span"); d.textContent = s || ""; return d.innerHTML; }
+
+// ---------- week view ----------
+function last7Dates(endStr) {
+  const [y, mo, da] = endStr.split("-").map(Number);
+  const end = new Date(y, mo - 1, da);
+  const out = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(end); d.setDate(end.getDate() - i);
+    out.push(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"));
+  }
+  return out;
+}
+function renderWeek() {
+  const dates = last7Dates($("viewDate").value || todayStr());
+  const log = activeLog();
+  const days = dates.map(dt => {
+    const es = log.filter(e => e.date === dt);
+    return { date: dt, g: es.filter(e => e.color === "green").length, y: es.filter(e => e.color === "yellow").length, r: es.filter(e => e.color === "red").length };
+  });
+  const redTotal = days.reduce((a, d) => a + d.r, 0);
+  const client = state.clients.find(c => c.id === state.activeClient);
+  const goal = client ? client.goal : 4;
+  const over = redTotal > goal;
+  $("goalLine").innerHTML = '<span class="dotr">⬣</span> Red foods: <b class="' + (over ? "over" : "under") + '">' + redTotal + " of " + goal + "</b> weekly budget" + (over ? ", over budget" : "");
+
+  // simple stacked bar chart (status colors, 2px gaps, hairline baseline)
+  const W = 320, H = 96, PAD = 2, bw = Math.floor((W - 6 * 6) / 7);
+  const maxTotal = Math.max(1, ...days.map(d => d.g + d.y + d.r));
+  const unit = (H - 14) / maxTotal;
+  let x = 0, bars = "";
+  const cs = getComputedStyle(document.documentElement);
+  const COL = { g: cs.getPropertyValue("--good").trim(), y: cs.getPropertyValue("--warn").trim(), r: cs.getPropertyValue("--crit").trim() };
+  for (const d of days) {
+    let yPos = H - 12;
+    for (const [k, cnt] of [["g", d.g], ["y", d.y], ["r", d.r]]) {
+      if (!cnt) continue;
+      const h = Math.max(2, cnt * unit - PAD);
+      yPos -= h;
+      bars += '<rect x="' + x + '" y="' + yPos + '" width="' + bw + '" height="' + h + '" rx="2" fill="' + COL[k] + '"><title>' +
+        d.date + ": " + cnt + " " + (k === "g" ? "green" : k === "y" ? "yellow" : "red") + "</title></rect>";
+      yPos -= PAD;
+    }
+    const lbl = d.date.slice(5).replace("-", "/");
+    bars += '<text x="' + (x + bw / 2) + '" y="' + (H - 1) + '" text-anchor="middle" font-size="8.5" fill="' + cs.getPropertyValue("--ink-muted").trim() + '">' + lbl + "</text>";
+    x += bw + 6;
+  }
+  $("weekChart").innerHTML =
+    '<svg viewBox="0 0 ' + W + " " + H + '" width="100%" role="img" aria-label="Foods logged per day over the last 7 days, stacked by traffic-light color">' +
+    '<line x1="0" y1="' + (H - 12) + '" x2="' + W + '" y2="' + (H - 12) + '" stroke="' + cs.getPropertyValue("--baseline").trim() + '" stroke-width="1"/>' +
+    bars + "</svg>";
+}
+
+// ---------- clients ----------
+function renderClients() {
+  const sel = $("clientSelect");
+  sel.innerHTML = "";
+  for (const c of state.clients) {
+    const o = document.createElement("option");
+    o.value = c.id; o.textContent = c.name + " (red budget " + c.goal + "/wk)";
+    if (c.id === state.activeClient) o.selected = true;
+    sel.appendChild(o);
+  }
+}
+
+// ---------- settings ----------
+const RULE_LABELS = {
+  greenKcal100: "Green: max kcal per 100g",
+  greenProduceKcal100: "Green: max kcal/100g for fruits & veg",
+  redAdded100: "Red: added sugar g per 100g ≥",
+  redAddedServ: "Red: added sugar g per serving ≥",
+  redFat100: "Red: fat g per 100g ≥",
+  redFatServ: "Red: fat g per serving ≥",
+  redSat100: "Red: sat fat g per 100g ≥",
+  redSatServ: "Red: sat fat g per serving ≥",
+  redKcal100: "Red: kcal per 100g ≥",
+  proteinSpare100: "…unless protein g/100g ≥",
+  bevSugar100: "Red drink: sugars g per 100ml ≥",
+  bevGreenKcal100: "Green drink: max kcal per 100ml",
+};
+function renderSettings() {
+  const g = $("setGrid");
+  g.innerHTML = "";
+  // USDA API key row
+  const kl = document.createElement("label");
+  kl.htmlFor = "usdaKeyInput";
+  kl.innerHTML = 'USDA API key. Free at <a href="https://api.data.gov/signup" target="_blank" rel="noopener">api.data.gov/signup</a> (DEMO_KEY works but is limited to ~30 lookups/hour)';
+  const ki = document.createElement("input");
+  ki.type = "text"; ki.id = "usdaKeyInput"; ki.value = PREFS.usdaKey; ki.autocomplete = "off"; ki.spellcheck = false;
+  ki.onchange = () => { PREFS.usdaKey = ki.value.trim() || "DEMO_KEY"; toast("USDA key updated"); };
+  g.appendChild(kl); g.appendChild(ki);
+  for (const k of Object.keys(RULE_LABELS)) {
+    const lab = document.createElement("label"); lab.textContent = RULE_LABELS[k]; lab.htmlFor = "rule_" + k;
+    const inp = document.createElement("input"); inp.type = "number"; inp.step = "0.5"; inp.min = "0"; inp.id = "rule_" + k; inp.value = RULES[k];
+    inp.onchange = () => { const v = parseFloat(inp.value); if (!isNaN(v)) { RULES[k] = v; if (state.current) { const res = classify(state.current, RULES); state.current.auto = res.color; state.current.reasons = res.reasons; renderVerdict(); } } };
+    g.appendChild(lab); g.appendChild(inp);
+  }
+}
+
+// ---------- export / import ----------
+function download(name, text, type) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+}
+function exportCsv() {
+  const rows = [["date", "time", "client", "food", "brand", "portion", "color", "auto_color", "overridden", "kcal", "fat_g", "sugars_g", "protein_g"]];
+  for (const e of state.log) {
+    const c = state.clients.find(x => x.id === e.clientId);
+    rows.push([e.date, e.time, c ? c.name : "", e.name, e.brand, e.portion, e.color, e.auto, e.overridden ? "yes" : "no", e.kcal ?? "", e.fat ?? "", e.sugars ?? "", e.protein ?? ""]);
+  }
+  const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n");
+  download("traffic_light_log.csv", csv, "text/csv");
+}
+function exportJson() {
+  download("traffic_light_backup.json", JSON.stringify({ v: 1, clients: state.clients, activeClient: state.activeClient, log: state.log, nextId: state.nextId, rules: RULES, prefs: PREFS }, null, 2), "application/json");
+}
+function importJson(file) {
+  const rd = new FileReader();
+  rd.onload = () => {
+    try {
+      const j = JSON.parse(rd.result);
+      if (!Array.isArray(j.clients) || !Array.isArray(j.log)) throw new Error("bad file");
+      state.clients = j.clients; state.log = j.log;
+      state.nextId = j.nextId || (Math.max(0, ...j.log.map(e => e.id)) + 1);
+      state.activeClient = j.activeClient && j.clients.some(c => c.id === j.activeClient) ? j.activeClient : (j.clients[0] && j.clients[0].id);
+      if (j.rules) RULES = { ...DEFAULT_RULES, ...j.rules };
+      if (j.prefs && j.prefs.usdaKey) PREFS.usdaKey = j.prefs.usdaKey;
+      renderClients(); renderSettings(); renderAll();
+      toast("Backup restored: " + state.log.length + " entries");
+    } catch (e) { toast("Could not read that backup file"); }
+  };
+  rd.readAsText(file);
+}
+
+// ---------- barcode scanner ----------
+let scanner = null, scanning = false;
+async function toggleScan() {
+  if (scanning) { await stopScan(); return; }
+  if (typeof Html5Qrcode === "undefined") { toast("Scanner library didn't load. Type the barcode instead"); return; }
+  $("btnScan").textContent = "■ Stop camera";
+  scanning = true;
+  try {
+    scanner = new Html5Qrcode("reader");
+    await scanner.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: { width: 240, height: 140 },
+        formatsToSupport: [Html5QrcodeSupportedFormats.EAN_13, Html5QrcodeSupportedFormats.EAN_8, Html5QrcodeSupportedFormats.UPC_A, Html5QrcodeSupportedFormats.UPC_E] },
+      async (text) => { await stopScan(); $("lookupInput").value = text; lookup(); },
+      () => {} /* per-frame decode misses are normal */
+    );
+  } catch (e) {
+    await stopScan();
+    toast("Camera unavailable here. Type the barcode number instead");
+    $("lookupHint").textContent = "Camera blocked or unavailable in this view. If you opened this inside the Claude side panel, download the file and open it in your browser (or on your phone) for camera scanning. Manual entry and search work everywhere.";
+  }
+}
+async function stopScan() {
+  scanning = false;
+  $("btnScan").textContent = "📷 Scan barcode";
+  if (scanner) { try { await scanner.stop(); scanner.clear(); } catch (e) {} scanner = null; }
+  $("reader").innerHTML = "";
+}
+
+// ---------- lookup flow ----------
+async function lookup() {
+  const q = $("lookupInput").value.trim();
+  if (!q) return;
+  $("searchResults").innerHTML = "";
+  const isCode = /^\d{6,14}$/.test(q.replace(/\s/g, ""));
+  $("lookupHint").textContent = isCode ? "Looking up barcode…" : "Searching…";
+  try {
+    if (isCode) {
+      const code = q.replace(/\s/g, "");
+      const p = await offByBarcode(code);
+      if (p) { showFood(foodFromOFF(p)); $("lookupHint").textContent = "Found via Open Food Facts."; return; }
+      $("lookupHint").textContent = "Not in Open Food Facts, checking USDA…";
+      const u = await fdcByBarcode(code).catch(() => null);
+      if (u) { showFood(foodFromFDC(u)); $("lookupHint").textContent = "Found via USDA FoodData Central."; }
+      else $("lookupHint").textContent = "Barcode not found in Open Food Facts or USDA. Try searching by name, or use ✎ Custom food to enter the label yourself.";
+    } else {
+      // search USDA (generic + branded) and Open Food Facts in parallel
+      const [usdaRes, offRes] = await Promise.allSettled([
+        fdcSearch(q, { dataType: "Foundation,SR Legacy,Survey (FNDDS),Branded", pageSize: 8 }),
+        offSearch(q),
+      ]);
+      const usda = usdaRes.status === "fulfilled" ? usdaRes.value : [];
+      const off = offRes.status === "fulfilled" ? offRes.value : [];
+      // generic USDA foods first (lab-analyzed / survey), then OFF branded, then USDA branded
+      const usdaGeneric = usda.filter(f => f.dataType !== "Branded");
+      const usdaBranded = usda.filter(f => f.dataType === "Branded");
+      const items = [
+        ...usdaGeneric.slice(0, 4).map(f => ({ label: titleCase(f.description), sub: "USDA · " + f.dataType, food: () => foodFromFDC(f) })),
+        ...off.slice(0, 4).map(p => ({ label: p.product_name, sub: (p.brands ? p.brands + " · " : "") + "Open Food Facts", food: () => foodFromOFF(p) })),
+        ...usdaBranded.slice(0, 3).map(f => ({ label: titleCase(f.description), sub: (f.brandOwner ? titleCase(f.brandOwner) + " · " : "") + "USDA Branded", food: () => foodFromFDC(f) })),
+      ].slice(0, 10);
+      const wrap = $("searchResults");
+      if (!items.length) {
+        $("lookupHint").textContent = (usdaRes.status === "rejected" && offRes.status === "rejected")
+          ? "Couldn't reach USDA or Open Food Facts. Check your connection (or USDA key in Settings), or use ✎ Custom food."
+          : "No matches. Try another spelling or use ✎ Custom food.";
+        return;
+      }
+      $("lookupHint").textContent = "Pick a match:" + (usdaRes.status === "rejected" ? " (USDA unavailable - showing Open Food Facts only; check the USDA key in Settings)" : "");
+      for (const it of items) {
+        const b = document.createElement("button");
+        b.innerHTML = esc(it.label) + ' <span class="sub">· ' + esc(it.sub) + "</span>";
+        b.onclick = () => { wrap.innerHTML = ""; showFood(it.food()); };
+        wrap.appendChild(b);
+      }
+    }
+  } catch (e) {
+    $("lookupHint").textContent = "Couldn't reach the food databases (network blocked in this view?). If you're inside the Claude side panel, download the file and open it in a browser - or use ✎ Custom food / Quick add, which work offline.";
+  }
+}
+
+// ---------- wiring ----------
+function renderAll() { renderDay(); renderWeek(); }
+document.addEventListener("DOMContentLoaded", () => {
+  $("viewDate").value = todayStr();
+  $("logDate").value = todayStr();
+  renderClients(); renderSettings(); renderAll();
+
+  // quick add
+  const qg = $("quickGrid");
+  for (const q of QUICK_FOODS) {
+    const b = document.createElement("button");
+    const f = foodFromQuick(q);
+    const col = classify(f, RULES).color;
+    b.innerHTML = '<span class="' + (col === "green" ? "dotg" : col === "yellow" ? "doty" : "dotr") + '">' + SHAPES[col] + "</span> " + esc(q.name);
+    b.onclick = () => showFood(foodFromQuick(q));
+    qg.appendChild(b);
+  }
+
+  $("btnScan").onclick = toggleScan;
+  $("btnLookup").onclick = lookup;
+  $("lookupInput").addEventListener("keydown", (e) => { if (e.key === "Enter") lookup(); });
+  $("btnLog").onclick = addToLog;
+  document.querySelectorAll("[data-ov]").forEach(b => b.onclick = () => { state.override = b.dataset.ov; renderVerdict(); });
+
+  $("viewDate").onchange = renderAll;
+  $("dayPrev").onclick = () => shiftDay(-1);
+  $("dayNext").onclick = () => shiftDay(1);
+  function shiftDay(n) {
+    const [y, m, d] = $("viewDate").value.split("-").map(Number);
+    const dt = new Date(y, m - 1, d); dt.setDate(dt.getDate() + n);
+    $("viewDate").value = dt.getFullYear() + "-" + String(dt.getMonth() + 1).padStart(2, "0") + "-" + String(dt.getDate()).padStart(2, "0");
+    renderAll();
+  }
+
+  $("clientSelect").onchange = (e) => { state.activeClient = Number(e.target.value); renderAll(); };
+  $("btnAddClient").onclick = () => { $("clName").value = ""; $("clGoal").value = "4"; $("clientDlg").showModal(); };
+  $("clCancel").onclick = () => $("clientDlg").close();
+  $("clOk").onclick = () => {
+    const name = $("clName").value.trim(); if (!name) return;
+    const id = Math.max(0, ...state.clients.map(c => c.id)) + 1;
+    state.clients.push({ id, name, goal: Math.max(0, parseInt($("clGoal").value) || 4) });
+    state.activeClient = id;
+    $("clientDlg").close(); renderClients(); renderAll();
+  };
+
+  $("btnCustom").onclick = () => { ["cfName", "cfKcal", "cfServ", "cfFat", "cfSat", "cfAdded", "cfProt"].forEach(i => $(i).value = ""); $("customDlg").showModal(); };
+  $("cfCancel").onclick = () => $("customDlg").close();
+  $("cfOk").onclick = () => {
+    const name = $("cfName").value.trim(); if (!name) return;
+    const num = (id) => { const v = parseFloat($(id).value); return isNaN(v) ? null : v; };
+    const serv = { kcal: num("cfKcal"), fat: num("cfFat"), sat: num("cfSat"), sugars: num("cfAdded"), added: num("cfAdded"), protein: num("cfProt") };
+    $("customDlg").close();
+    showFood({ name, brand: "custom entry", cats: [], isBeverage: false, per100: {}, serv, base: serv, baseLabel: "per serving" + ($("cfServ").value ? " (" + $("cfServ").value + ")" : ""), servingLabel: $("cfServ").value || "1 serving", source: "manual entry", code: "" });
+  };
+
+  $("btnResetRules").onclick = () => { RULES = { ...DEFAULT_RULES }; renderSettings(); toast("Rules reset to defaults"); };
+  $("btnExportCsv").onclick = exportCsv;
+  $("btnExportJson").onclick = exportJson;
+  $("btnImportJson").onclick = () => $("importFile").click();
+  $("importFile").onchange = (e) => { if (e.target.files[0]) importJson(e.target.files[0]); e.target.value = ""; };
+});
+</script>
+</body>
+</html>
