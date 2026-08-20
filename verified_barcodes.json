@@ -1,0 +1,163 @@
+[
+  {
+    "code": "0049000006346",
+    "name": "Coca cola can cokes LG",
+    "brand": "Coca cola",
+    "color": "red",
+    "hint": "Coca-Cola 12oz can"
+  },
+  {
+    "code": "0049000028911",
+    "name": "Diet Coke Soft Drink",
+    "brand": "Coke",
+    "color": "red",
+    "hint": "Diet Coke"
+  },
+  {
+    "code": "0012000161155",
+    "name": "Life Wtr pH balanced",
+    "brand": "Hydration LLC",
+    "color": "green",
+    "hint": "Pepsi"
+  },
+  {
+    "code": "0052000338775",
+    "name": "Lemon-lime thirst quencher, lemon-lime",
+    "brand": "Gatorade",
+    "color": "red",
+    "hint": "Gatorade"
+  },
+  {
+    "code": "0016000275270",
+    "name": "Gmills hny nut cheerios sweetened whl grn oat cereal",
+    "brand": "General Mills",
+    "color": "red",
+    "hint": "Honey Nut Cheerios"
+  },
+  {
+    "code": "0038000391095",
+    "name": "Sweetened corn cereal",
+    "brand": "Kellogg's",
+    "color": "red",
+    "hint": "Froot Loops"
+  },
+  {
+    "code": "0028400064057",
+    "name": "Tostitos Bite Size Tortilla Chips 13 Ounce Plastic Bag",
+    "brand": "",
+    "color": "red",
+    "hint": "Lay's Classic"
+  },
+  {
+    "code": "0044000032029",
+    "name": "oreo cookies shelf",
+    "brand": "Oreo",
+    "color": "red",
+    "hint": "Oreo"
+  },
+  {
+    "code": "0028400090896",
+    "name": "Nacho Cheese",
+    "brand": "Doritos",
+    "color": "red",
+    "hint": "Doritos"
+  },
+  {
+    "code": "0024100106851",
+    "name": "Original Baked Snack Crackers",
+    "brand": "Cheez-It",
+    "color": "red",
+    "hint": "Cheez-It"
+  },
+  {
+    "code": "0014100085478",
+    "name": "Goldfish Cheddar",
+    "brand": "Goldfish",
+    "color": "red",
+    "hint": "Goldfish"
+  },
+  {
+    "code": "0034000002405",
+    "name": "Hershey Milk Chocolate Candy Bar",
+    "brand": "Hershey's",
+    "color": "red",
+    "hint": "Hershey's"
+  },
+  {
+    "code": "0894700010137",
+    "name": "Greek Yogurt Nonfat Plain",
+    "brand": "chobani",
+    "color": "green",
+    "hint": "Chobani Greek nonfat"
+  },
+  {
+    "code": "0051500255162",
+    "name": "Creamy Peanut Butter",
+    "brand": "Jif",
+    "color": "red",
+    "hint": "Jif peanut butter"
+  },
+  {
+    "code": "0037600105002",
+    "name": "Reduced Fat Creamy Peanut Butter",
+    "brand": "Skippy",
+    "color": "red",
+    "hint": "Skippy"
+  },
+  {
+    "code": "0009800895007",
+    "name": "Nutella",
+    "brand": "Nutella",
+    "color": "red",
+    "hint": "Nutella US"
+  },
+  {
+    "code": "0722252100900",
+    "name": "CHOCOLATE CHIP ENERGY BAR",
+    "brand": "CLIF",
+    "color": "red",
+    "hint": "Clif Bar"
+  },
+  {
+    "code": "0051000012616",
+    "name": "Cream Of Mushroom Soup",
+    "brand": "Campbell's",
+    "color": "yellow",
+    "hint": "Campbell's chicken noodle"
+  },
+  {
+    "code": "0013000006408",
+    "name": "Tomato Ketchup",
+    "brand": "Heinz",
+    "color": "red",
+    "hint": "Heinz ketchup"
+  },
+  {
+    "code": "0025293001718",
+    "name": "Unsweet Vanilla Almondmilk, Shelf Stable",
+    "brand": "Silk",
+    "color": "green",
+    "hint": "Silk almond milk"
+  },
+  {
+    "code": "0076840100354",
+    "name": "Chunky Monkey",
+    "brand": "Ben & Jerry's",
+    "color": "red",
+    "hint": "Ben & Jerry's"
+  },
+  {
+    "code": "0018000428434",
+    "name": "Pillsbury Sugar Cookie Dough Value Size",
+    "brand": "",
+    "color": "red",
+    "hint": "Pillsbury"
+  },
+  {
+    "code": "0015400841122",
+    "name": "Frosted brown sugar cinnamon toaster tarts pastries",
+    "brand": "",
+    "color": "red",
+    "hint": "store brand?"
+  }
+]
