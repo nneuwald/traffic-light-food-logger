@@ -15,3 +15,14 @@ desktop.ini
 tests/app.js
 tests/combined_test.js
 tests/fdc_combined.js
+
+# Audit working files (the *_orig.tsv draws are the kept samples)
+tests/audit_big.tsv
+tests/audit_big2.tsv
+tests/audit_big3.tsv
+tests/audit_big4.tsv
+tests/audit_seed23.tsv
+tests/audit_random_results.tsv
+
+# Internal lab document: reproduces the guide's tables, not for the public repo
+Traffic_Light_Rules_App_vs_Guide.docx
