@@ -1,163 +1,266 @@
 [
   {
-    "code": "0049000006346",
-    "name": "Coca cola can cokes LG",
-    "brand": "Coca cola",
-    "color": "red",
-    "hint": "Coca-Cola 12oz can"
-  },
-  {
-    "code": "0049000028911",
-    "name": "Diet Coke Soft Drink",
-    "brand": "Coke",
-    "color": "red",
-    "hint": "Diet Coke"
-  },
-  {
-    "code": "0012000161155",
-    "name": "Life Wtr pH balanced",
-    "brand": "Hydration LLC",
+    "code": "0033383666020",
+    "name": "Baby Carrots",
+    "brand": "Grimmway Farms",
     "color": "green",
-    "hint": "Pepsi"
+    "group": "Vegetables",
+    "hint": "Baby carrots"
   },
   {
-    "code": "0052000338775",
-    "name": "Lemon-lime thirst quencher, lemon-lime",
-    "brand": "Gatorade",
-    "color": "red",
-    "hint": "Gatorade"
-  },
-  {
-    "code": "0016000275270",
-    "name": "Gmills hny nut cheerios sweetened whl grn oat cereal",
-    "brand": "General Mills",
-    "color": "red",
-    "hint": "Honey Nut Cheerios"
-  },
-  {
-    "code": "0038000391095",
-    "name": "Sweetened corn cereal",
-    "brand": "Kellogg's",
-    "color": "red",
-    "hint": "Froot Loops"
-  },
-  {
-    "code": "0028400064057",
-    "name": "Tostitos Bite Size Tortilla Chips 13 Ounce Plastic Bag",
-    "brand": "",
-    "color": "red",
-    "hint": "Lay's Classic"
-  },
-  {
-    "code": "0044000032029",
-    "name": "oreo cookies shelf",
-    "brand": "Oreo",
-    "color": "red",
-    "hint": "Oreo"
-  },
-  {
-    "code": "0028400090896",
-    "name": "Nacho Cheese",
-    "brand": "Doritos",
-    "color": "red",
-    "hint": "Doritos"
-  },
-  {
-    "code": "0024100106851",
-    "name": "Original Baked Snack Crackers",
-    "brand": "Cheez-It",
-    "color": "red",
-    "hint": "Cheez-It"
-  },
-  {
-    "code": "0014100085478",
-    "name": "Goldfish Cheddar",
-    "brand": "Goldfish",
-    "color": "red",
-    "hint": "Goldfish"
-  },
-  {
-    "code": "0034000002405",
-    "name": "Hershey Milk Chocolate Candy Bar",
-    "brand": "Hershey's",
-    "color": "red",
-    "hint": "Hershey's"
-  },
-  {
-    "code": "0894700010137",
-    "name": "Greek Yogurt Nonfat Plain",
-    "brand": "chobani",
+    "code": "0024000162865",
+    "name": "Cut Green Beans",
+    "brand": "Del Monte",
     "color": "green",
-    "hint": "Chobani Greek nonfat"
+    "group": "Vegetables",
+    "hint": "Del Monte cut green beans"
   },
   {
-    "code": "0051500255162",
-    "name": "Creamy Peanut Butter",
-    "brand": "Jif",
-    "color": "red",
-    "hint": "Jif peanut butter"
+    "code": "0027000380406",
+    "name": "Diced Tomatoes",
+    "brand": "Hunts",
+    "color": "green",
+    "group": "Vegetables",
+    "hint": "Hunt's diced tomatoes"
   },
   {
-    "code": "0037600105002",
-    "name": "Reduced Fat Creamy Peanut Butter",
-    "brand": "Skippy",
-    "color": "red",
-    "hint": "Skippy"
-  },
-  {
-    "code": "0009800895007",
-    "name": "Nutella",
-    "brand": "Nutella",
-    "color": "red",
-    "hint": "Nutella US"
-  },
-  {
-    "code": "0722252100900",
-    "name": "CHOCOLATE CHIP ENERGY BAR",
-    "brand": "CLIF",
-    "color": "red",
-    "hint": "Clif Bar"
-  },
-  {
-    "code": "0051000012616",
-    "name": "Cream Of Mushroom Soup",
-    "brand": "Campbell's",
+    "code": "0076808006575",
+    "name": "Barilla, organic, spaghetti pasta",
+    "brand": "Barilla, Barilla G & R F.Lli S.P.A.",
     "color": "yellow",
-    "hint": "Campbell's chicken noodle"
+    "group": "Grains",
+    "hint": "Barilla spaghetti"
   },
   {
-    "code": "0013000006408",
-    "name": "Tomato Ketchup",
-    "brand": "Heinz",
-    "color": "red",
-    "hint": "Heinz ketchup"
+    "code": "0054800423347",
+    "name": "Ready Rice Whole Grain Brown",
+    "brand": "Ben's Original",
+    "color": "yellow",
+    "group": "Grains",
+    "hint": "Ben's Original brown rice"
   },
   {
-    "code": "0025293001718",
-    "name": "Unsweet Vanilla Almondmilk, Shelf Stable",
-    "brand": "Silk",
-    "color": "green",
-    "hint": "Silk almond milk"
+    "code": "7633434018803",
+    "name": "Bush’s black beans",
+    "brand": "Bush's",
+    "color": "yellow",
+    "group": "Eggs, beans & meat substitutes",
+    "hint": "Bush's black beans"
+  },
+  {
+    "code": "0003625341118",
+    "name": "Cheerios",
+    "brand": "Cheerios",
+    "color": "yellow",
+    "group": "Cold cereal",
+    "hint": "Cheerios"
+  },
+  {
+    "code": "0099482476519",
+    "name": "Plain greek nonfat yogurt, plain",
+    "brand": "",
+    "color": "yellow",
+    "group": "Milk, yogurt & other dairy",
+    "hint": "Chobani plain nonfat greek"
+  },
+  {
+    "code": "0013764027053",
+    "name": "Organic Bread 21 Whole Grains and Seeds",
+    "brand": "Dave's Killer Bread",
+    "color": "yellow",
+    "group": "Grains",
+    "hint": "Dave's Killer Bread"
+  },
+  {
+    "code": "0038900004736",
+    "name": "PINEAPPLE CHUNKS",
+    "brand": "Dole",
+    "color": "yellow",
+    "group": "Fruit",
+    "hint": "Dole pineapple chunks"
+  },
+  {
+    "code": "0089544083016",
+    "name": "Total All Natural Nonfat Plain Greek Strained Yogurt",
+    "brand": "FAGE",
+    "color": "yellow",
+    "group": "Milk, yogurt & other dairy",
+    "hint": "FAGE Total 0% plain"
+  },
+  {
+    "code": "0020000174808",
+    "name": "Green Giant Peas",
+    "brand": "Green Giant",
+    "color": "yellow",
+    "group": "Starchy vegetables",
+    "hint": "Green Giant peas"
+  },
+  {
+    "code": "0737312008300",
+    "name": "Mission Flour Tortillas",
+    "brand": "Mission",
+    "color": "yellow",
+    "group": "Grains",
+    "hint": "Mission flour tortillas"
+  },
+  {
+    "code": "0014800000207",
+    "name": "Motts applesauce",
+    "brand": "Mott's",
+    "color": "yellow",
+    "group": "Fruit",
+    "hint": "Mott's applesauce"
+  },
+  {
+    "code": "0072250914765",
+    "name": "Nature's Own, Specialty Honey Wheat Bread",
+    "brand": "Flowers Foods  Inc.",
+    "color": "yellow",
+    "group": "Grains",
+    "hint": "Nature's Own honey wheat bread"
+  },
+  {
+    "code": "0004656700801",
+    "name": "Old fashioned oats, old fashioned",
+    "brand": "",
+    "color": "yellow",
+    "group": "Grains",
+    "hint": "Quaker old fashioned oats"
+  },
+  {
+    "code": "0025293003842",
+    "name": "Unsweetened Almondmilk",
+    "brand": "Silk, Wwf Operating Company",
+    "color": "yellow",
+    "group": "Milk, yogurt & other dairy",
+    "hint": "Silk unsweetened almondmilk"
+  },
+  {
+    "code": "0080000221209",
+    "name": "Starkist, chunk light tuna in water",
+    "brand": "Starkist",
+    "color": "yellow",
+    "group": "Meat & seafood",
+    "hint": "StarKist chunk light tuna"
+  },
+  {
+    "code": "0054100000606",
+    "name": "Kosher Dill Spears",
+    "brand": "vlasic",
+    "color": "yellow",
+    "group": "Condiments, dressings & ingredients",
+    "hint": "Vlasic kosher dill spears"
   },
   {
     "code": "0076840100354",
     "name": "Chunky Monkey",
     "brand": "Ben & Jerry's",
     "color": "red",
-    "hint": "Ben & Jerry's"
+    "group": "Fats, oils, sweets & others",
+    "hint": "Ben & Jerry's Chunky Monkey"
   },
   {
-    "code": "0018000428434",
-    "name": "Pillsbury Sugar Cookie Dough Value Size",
-    "brand": "",
+    "code": "0049000006346",
+    "name": "Coca cola can cokes LG",
+    "brand": "Coca cola",
     "color": "red",
-    "hint": "Pillsbury"
+    "group": "Fats, oils, sweets & others",
+    "hint": "Coca-Cola"
   },
   {
-    "code": "0015400841122",
-    "name": "Frosted brown sugar cinnamon toaster tarts pastries",
-    "brand": "",
+    "code": "0073420516208",
+    "name": "Cottage Cheese Pure & Natural",
+    "brand": "Daisy",
     "color": "red",
-    "hint": "store brand?"
+    "group": "Cheese",
+    "hint": "Daisy cottage cheese"
+  },
+  {
+    "code": "0049000028911",
+    "name": "Diet Coke Soft Drink",
+    "brand": "Coke",
+    "color": "red",
+    "group": "Fats, oils, sweets & others",
+    "hint": "Diet Coke"
+  },
+  {
+    "code": "0028400090896",
+    "name": "Nacho Cheese",
+    "brand": "Doritos",
+    "color": "red",
+    "group": "Fats, oils, sweets & others",
+    "hint": "Doritos nacho cheese"
+  },
+  {
+    "code": "0038000391095",
+    "name": "Sweetened corn cereal",
+    "brand": "Kellogg's",
+    "color": "red",
+    "group": "Cold cereal",
+    "hint": "Frosted Flakes"
+  },
+  {
+    "code": "0052000338775",
+    "name": "Lemon-lime thirst quencher, lemon-lime",
+    "brand": "Gatorade",
+    "color": "red",
+    "group": "Fats, oils, sweets & others",
+    "hint": "Gatorade lemon-lime"
+  },
+  {
+    "code": "0034000002405",
+    "name": "Hershey Milk Chocolate Candy Bar",
+    "brand": "Hershey's",
+    "color": "red",
+    "group": "Fats, oils, sweets & others",
+    "hint": "Hershey's milk chocolate"
+  },
+  {
+    "code": "0016000275270",
+    "name": "Gmills hny nut cheerios sweetened whl grn oat cereal",
+    "brand": "General Mills",
+    "color": "red",
+    "group": "Cold cereal",
+    "hint": "Honey Nut Cheerios"
+  },
+  {
+    "code": "0044000032029",
+    "name": "oreo cookies shelf",
+    "brand": "Oreo, Nabisco",
+    "color": "red",
+    "group": "Fats, oils, sweets & others",
+    "hint": "Oreo"
+  },
+  {
+    "code": "0051000121141",
+    "name": "Chicken Broth",
+    "brand": "Swanson",
+    "color": "red",
+    "group": "Condiments, dressings & ingredients",
+    "hint": "Swanson chicken broth"
+  },
+  {
+    "code": "0049000027624",
+    "name": "Purified Water",
+    "brand": "Dasani",
+    "color": "free",
+    "group": "Water, plain tea/coffee, seasonings",
+    "hint": "Dasani purified water"
+  },
+  {
+    "code": "0012000161155",
+    "name": "Life Wtr pH balanced",
+    "brand": "Hydration LLC, LFE Water",
+    "color": "free",
+    "group": "Water, plain tea/coffee, seasonings",
+    "hint": "LifeWtr"
+  },
+  {
+    "code": "0075720000814",
+    "name": "poland spring",
+    "brand": "Poland Spring",
+    "color": "free",
+    "group": "Water, plain tea/coffee, seasonings",
+    "hint": "Poland Spring water"
   }
 ]
