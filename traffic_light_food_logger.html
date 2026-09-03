@@ -227,7 +227,7 @@
     <div class="scanrow">
       <button class="primary grow" id="btnScan">📷 Scan barcode</button>
       <button class="grow" id="btnCustom">✎ Custom food</button>
-      <button class="grow" id="btnStartDish">🍽 Build a dish</button>
+      <button class="grow" id="btnStartDish">🍽 Combination food</button>
     </div>
     <div class="scanrow">
       <input type="search" class="grow" id="lookupInput" placeholder="Barcode number or food name…" inputmode="search">
@@ -267,7 +267,7 @@
 
     <div class="combo-ask" id="comboAsk" hidden>
       <div class="q">Does one serving hold a full serving of a red food?</div>
-      <div class="hint">The guide has no calorie range for a mixed dish. It asks this one question instead (p.8). Count cheese, fatty or processed meat, anything fried, and regular dressings or sauces; several small amounts can add up to one serving.</div>
+      <div class="hint">The guide has no calorie range for a combination food. It asks this one question instead (p.8). Count cheese, fatty or processed meat, anything fried, and regular dressings or sauces; several small amounts can add up to one serving.</div>
       <div class="btns">
         <button class="small" data-ask="red">⬣ Yes, it does → RED</button>
         <button class="small" data-ask="yellow">▲ No, it does not → YELLOW</button>
@@ -286,19 +286,19 @@
     <div class="log-actions">
       <input type="date" id="logDate" aria-label="Log date" style="max-width:160px">
       <button class="primary" id="btnLog">Add to log</button>
-      <button id="btnAddToDish" hidden>＋ Add to dish</button>
+      <button id="btnAddToDish" hidden>＋ Add as a part</button>
     </div>
   </section>
 
   <!-- DISH BUILDER -->
   <section class="card" id="dishCard" hidden>
-    <h2>Building a dish</h2>
-    <input type="text" id="dishName" placeholder="Name this dish, e.g. turkey sandwich">
-    <div class="hint">The guide gives a mixed dish no calorie range. Log its parts and it applies the p.8 rule: the dish is RED once the red parts add up to one full serving of a red food, which several red foods can make between them. Look each part up above, then press “Add to dish”.</div>
+    <h2>Combination food</h2>
+    <input type="text" id="dishName" placeholder="Name it, e.g. turkey sandwich">
+    <div class="hint">The guide gives a combination food no calorie range of its own. Log its parts and the app applies the p.8 rule: it is RED once the red parts add up to one full serving of a red food, which several red foods can make between them. Look each part up above, then press “Add as a part”.</div>
     <div id="dishParts"></div>
     <div class="dish-total" id="dishTotal"></div>
     <div class="log-actions">
-      <button class="primary" id="btnLogDish">Add dish to log</button>
+      <button class="primary" id="btnLogDish">Add to log</button>
       <button id="btnSaveRecipe">Save as recipe</button>
       <button id="btnCancelDish">Cancel</button>
     </div>
@@ -328,7 +328,7 @@
       <span><span class="doty">▲</span> Yellow: slow</span>
       <span><span class="dotr">⬣</span> Red: whoa</span>
       <span><span class="dotf">○</span> No colour (water, plain tea/coffee)</span>
-      <span><span class="dotv">◆</span> Mixed dish: needs a choice</span>
+      <span><span class="dotv">◆</span> Combination food: needs a choice</span>
     </div>
   </section>
 
@@ -654,7 +654,7 @@ function decomposeCombo(f, rules) {
   const list = Array.isArray(f.ingredients) ? f.ingredients : [];
   const servG = (typeof f.servQtyG === "number" && f.servQtyG > 0) ? f.servQtyG : null;
   const usable = list.filter(i => i && i.text && typeof i.pct === "number" && i.pct > 0);
-  // a mixed dish is not served in 6 g, and one ingredient covering the whole pack
+  // a combination food is not served in 6 g, and one ingredient covering the whole pack
   // is a single food rather than a recipe
   if (!servG || servG < 40 || usable.length < 2) return null;
   if (usable.some(i => i.pct >= 85)) return null;
@@ -1362,7 +1362,7 @@ function renderGroupSelect(res) {
 }
 
 // ---------- building a dish from its parts (FRG p.8) ----------
-// The guide has no calorie range for a mixed dish, only the rule that its red
+// The guide has no calorie range for a combination food, only the rule that its red
 // parts decide it. Answering that from memory is the hard part, so the clinician
 // logs the parts and the app does the arithmetic and shows its working.
 function startDish(name) {
@@ -1383,7 +1383,7 @@ function addCurrentToDish() {
   state.dish.parts.push({ name: f.name, group: res.group || null, groupLabel: res.groupLabel,
     color: color, servings: 1, kcalPerServing: perServing, servLabel: (g && g.serv) || "1 serving" });
   renderDish();
-  toast("Added to the dish");
+  toast("Added as a part");
 }
 function dishVerdict(dish) {
   const parts = (dish && dish.parts) || [];
@@ -1402,7 +1402,7 @@ function renderDish() {
   const wrap = $("dishParts");
   wrap.innerHTML = "";
   if (!state.dish.parts.length)
-    wrap.innerHTML = '<div class="empty">No parts yet. Look up a food above and press Add to dish.</div>';
+    wrap.innerHTML = '<div class="empty">No parts yet. Look up a food above and press “Add as a part”.</div>';
   state.dish.parts.forEach((p, i) => {
     const div = document.createElement("div");
     div.className = "dish-part";
@@ -1427,7 +1427,7 @@ function renderDish() {
     "<b>" + SHAPES[v.color] + " " + LABELS[v.color] + "</b> &middot; red parts add up to <b>" + v.redServings +
     "</b> serving" + (v.redServings === 1 ? "" : "s") + ", " + (over ? "which reaches" : "short of") + " the " + v.limit + " it takes" +
     " &middot; " + v.kcal + " cal in total" +
-    '<div class="hint">The FRG gives a mixed dish no range of its own. It is RED once the red parts add up to a full serving of a red food, which can be several red foods together (p.8).</div>';
+    '<div class="hint">The FRG gives a combination food no range of its own. It is RED once the red parts add up to a full serving of a red food, which can be several red foods together (p.8).</div>';
 }
 function renderRecipes() {
   const wrap = $("recipeList");
@@ -1436,7 +1436,7 @@ function renderRecipes() {
   if (!state.recipes.length) return;
   const lbl = document.createElement("span");
   lbl.className = "lbl";
-  lbl.textContent = "Saved dishes:";
+  lbl.textContent = "Saved recipes:";
   wrap.appendChild(lbl);
   state.recipes.forEach((r) => {
     const b = document.createElement("button");
@@ -1454,7 +1454,7 @@ function renderRecipes() {
 function logDish() {
   if (!state.dish || !state.dish.parts.length) { toast("Add some parts first"); return; }
   const v = dishVerdict(state.dish);
-  const name = ($("dishName").value || "").trim() || "Mixed dish";
+  const name = ($("dishName").value || "").trim() || "Combination food";
   const d = new Date();
   state.log.push({
     id: state.nextId++, clientId: state.activeClient,
@@ -1474,7 +1474,7 @@ function logDish() {
 function saveRecipe() {
   if (!state.dish || !state.dish.parts.length) { toast("Add some parts first"); return; }
   const name = ($("dishName").value || "").trim();
-  if (!name) { toast("Give the dish a name first"); return; }
+  if (!name) { toast("Give it a name first"); return; }
   const entry = { name: name, parts: state.dish.parts.map(p => Object.assign({}, p)) };
   const at = state.recipes.findIndex(r => r.name.toLowerCase() === name.toLowerCase());
   if (at >= 0) state.recipes[at] = entry; else state.recipes.push(entry);
@@ -1522,7 +1522,7 @@ function renderDay() {
   const pending = counts.review || 0;
   const note = $("dayNote");
   note.hidden = !pending;
-  note.textContent = pending ? '◆ ' + pending + ' mixed dish' + (pending > 1 ? 'es still need' : ' still needs') +
+  note.textContent = pending ? '◆ ' + pending + ' combination food' + (pending > 1 ? 's still need' : ' still needs') +
     ' a colour: open it and answer the red-serving question, or set the colour by hand.' : "";
   const wrap = $("dayLog");
   wrap.innerHTML = "";
@@ -1627,7 +1627,7 @@ function renderSettings() {
     g.appendChild(lab); g.appendChild(inp);
   };
   row("rule_redPerDay", "Red servings allowed per day (FRG: 2)", RULES.redPerDay, v => { RULES.redPerDay = v; });
-  row("rule_comboRedServings", "Mixed dish: red at this many red servings (FRG p.8: 1)", RULES.comboRedServings,
+  row("rule_comboRedServings", "Combination food: red at this many red servings (FRG p.8: 1)", RULES.comboRedServings,
       v => { RULES.comboRedServings = v; renderDish(); }, "0.5");
   for (const k of GROUP_ORDER) {
     const r = RULES[k];
