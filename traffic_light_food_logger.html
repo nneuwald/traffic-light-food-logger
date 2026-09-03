@@ -113,6 +113,7 @@
   .badge.yellow { background: var(--warn-tint); color: var(--warn-text); }
   .badge.red    { background: var(--crit-tint); color: var(--crit-text); }
   .badge.free   { background: var(--page); color: var(--ink-2); border: 1px solid var(--border); }
+  .badge.review { background: var(--page); color: var(--ink-2); border: 1px dashed var(--ink-muted); }
   .reasons { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
   .reason-chip {
     font-size: 12px; color: var(--ink-2);
@@ -125,6 +126,11 @@
   .ntile { background: var(--page); border: 1px solid var(--border); border-radius: 10px; padding: 8px; text-align: center; }
   .ntile .v { font-size: 16px; font-weight: 700; }
   .ntile .l { font-size: 11px; color: var(--ink-muted); }
+  .combo-ask { margin-top: 12px; padding: 10px 12px; border: 1px dashed var(--ink-muted); border-radius: 10px; background: var(--page); }
+  .combo-ask .q { font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
+  .combo-ask .hint { font-size: 12.5px; color: var(--ink-muted); }
+  .combo-ask .btns { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .day-note { font-size: 12.5px; color: var(--ink-muted); margin-top: 8px; }
   .override-row { margin-top: 12px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .override-row .lbl { font-size: 12.5px; color: var(--ink-muted); }
   .override-row select { width: auto; flex: 1; min-width: 200px; padding: 6px 10px; font-size: 13.5px; }
@@ -136,7 +142,7 @@
   .tile { background: var(--page); border: 1px solid var(--border); border-radius: 10px; padding: 10px 8px; text-align: center; }
   .tile .v { font-size: 22px; font-weight: 700; }
   .tile .l { font-size: 11.5px; color: var(--ink-muted); display: flex; align-items: center; justify-content: center; gap: 4px; }
-  .dotg { color: var(--good); } .doty { color: var(--warn); } .dotr { color: var(--crit); } .dotf { color: var(--ink-muted); }
+  .dotg { color: var(--good); } .doty { color: var(--warn); } .dotr { color: var(--crit); } .dotf { color: var(--ink-muted); } .dotv { color: var(--ink-2); }
 
   /* log list */
   .log-item {
@@ -145,7 +151,7 @@
   }
   .log-item:last-child { border-bottom: none; }
   .log-item .mark { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; }
-  .log-item .mark.g { color: var(--good); } .log-item .mark.y { color: var(--warn); } .log-item .mark.r { color: var(--crit); } .log-item .mark.f { color: var(--ink-muted); }
+  .log-item .mark.g { color: var(--good); } .log-item .mark.y { color: var(--warn); } .log-item .mark.r { color: var(--crit); } .log-item .mark.f { color: var(--ink-muted); } .log-item .mark.v { color: var(--ink-2); }
   .log-item .info { flex: 1; min-width: 0; }
   .log-item .n { font-size: 14.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .log-item .d { font-size: 12.5px; color: var(--ink-muted); }
@@ -246,6 +252,15 @@
       <div class="ntile"><div class="v" id="nvProtein">–</div><div class="l">protein g</div></div>
     </div>
 
+    <div class="combo-ask" id="comboAsk" hidden>
+      <div class="q">Does one serving hold a full serving of a red food?</div>
+      <div class="hint">The guide has no calorie range for a mixed dish. It asks this one question instead (p.8). Count cheese, fatty or processed meat, anything fried, and regular dressings or sauces; several small amounts can add up to one serving.</div>
+      <div class="btns">
+        <button class="small" data-ask="red">⬣ Yes, it does → RED</button>
+        <button class="small" data-ask="yellow">▲ No, it does not → YELLOW</button>
+      </div>
+    </div>
+
     <div class="override-row">
       <span class="lbl">Override color:</span>
       <button class="small" data-ov="green">● Green</button>
@@ -269,6 +284,7 @@
       <button class="small" id="dayNext" aria-label="Next day">›</button>
     </div>
     <div class="tiles" id="dayTiles"></div>
+    <div class="day-note" id="dayNote" hidden></div>
     <div id="dayLog"></div>
   </section>
 
@@ -282,6 +298,7 @@
       <span><span class="doty">▲</span> Yellow: slow</span>
       <span><span class="dotr">⬣</span> Red: whoa</span>
       <span><span class="dotf">○</span> No colour (water, plain tea/coffee)</span>
+      <span><span class="dotv">◆</span> Mixed dish: needs a choice</span>
     </div>
   </section>
 
@@ -413,8 +430,9 @@ const todayStr = () => { const d = new Date(); return d.getFullYear() + "-" + St
 const fmt1 = (v) => (v == null || isNaN(v)) ? "–" : (Math.round(v * 10) / 10).toString();
 const fmt0 = (v) => (v == null || isNaN(v)) ? "–" : String(Math.round(v));
 function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2600); }
-const SHAPES = { green: "●", yellow: "▲", red: "⬣", free: "○" };
-const LABELS = { green: "GREEN", yellow: "YELLOW", red: "RED", free: "NO COLOUR" };
+const SHAPES = { green: "●", yellow: "▲", red: "⬣", free: "○", review: "◆" };
+const MARK = { green: "g", yellow: "y", red: "r", free: "f", review: "v" };
+const LABELS = { green: "GREEN", yellow: "YELLOW", red: "RED", free: "NO COLOUR", review: "NEEDS A CHOICE" };
 
 // ---------- classification engine (Epstein Traffic Light, FRG 2012) ----------
 // OFF tags look like "en:skimmed-milks": a language prefix plus a hyphenated
@@ -515,6 +533,137 @@ function labelServ(f, range) {
   const q = f && typeof f.servQtyG === "number" ? f.servQtyG : null;
   return (range && q != null && q >= range[0] && q <= range[1]) ? q : null;
 }
+
+// ---------- combination foods (FRG p.8) ----------
+// The guide gives combination foods no calorie range. It gives a rule instead: a
+// dish is RED if it holds one full serving of a RED food, and that serving "can be
+// made up of 1 type of RED food or many RED foods". So the app takes the dish
+// apart, colours each component with this same engine, and adds up the red
+// servings. Open Food Facts publishes an ingredient list with an estimated
+// percentage for each ingredient; about half of combination foods carry one.
+//
+// Those percentages are inferred from ingredient order rather than declared on the
+// label, so the verdict is always shown with its arithmetic and can be overridden.
+// Deciding whether a component is itself RED needs its calories, which the
+// ingredient list does not carry, so these are USDA values per 100 g for the
+// ingredients that dominate US packaged dishes. Editing one changes only how
+// combination foods are judged.
+const INGREDIENT_KCAL = [
+  [["water", "ice", "brine"], 0], [["salt", "sea salt", "citric acid", "baking soda", "vinegar"], 0],
+  [["yeast"], 105], [["baking powder"], 53], [["starch", "modified food starch", "cornstarch"], 381],
+  [["flour", "wheat flour", "enriched flour", "semolina", "masa", "cornmeal", "corn meal", "oat flour"], 364],
+  [["dough", "crust", "pizza crust"], 300], [["breadcrumbs", "bread crumbs", "croutons"], 395],
+  [["bread", "bun", "buns", "tortilla", "tortillas", "pita"], 275], [["pasta", "macaroni", "spaghetti", "noodles", "noodle"], 371],
+  [["rice"], 360], [["oats", "oat"], 389], [["quinoa"], 368], [["potato", "potatoes"], 77], [["corn"], 86],
+  [["sugar", "brown sugar", "dextrose", "fructose", "sucrose", "cane sugar"], 387],
+  [["corn syrup", "syrup", "molasses", "honey", "agave"], 290],
+  [["oil", "vegetable oil", "soybean oil", "canola oil", "olive oil", "palm oil", "sunflower oil", "corn oil", "shortening"], 884],
+  [["butter"], 717], [["margarine"], 717], [["lard", "tallow"], 902], [["cream", "heavy cream"], 340],
+  [["cheese"], 350], [["mozzarella", "mozzarella cheese"], 300], [["cheddar", "cheddar cheese"], 403],
+  [["parmesan", "romano", "asiago"], 420], [["cream cheese"], 342], [["ricotta"], 174], [["feta"], 264],
+  [["american cheese", "processed cheese", "cheese sauce"], 375], [["provolone", "swiss cheese", "monterey jack"], 360],
+  [["milk", "whole milk"], 61], [["nonfat milk", "skim milk", "milk powder", "nonfat dry milk"], 45],
+  [["whey", "whey protein"], 353], [["yogurt"], 61], [["buttermilk"], 40], [["sour cream"], 198],
+  [["pepperoni"], 504], [["salami", "chorizo"], 336], [["sausage", "bratwurst"], 300], [["bacon"], 541],
+  [["ham", "prosciutto"], 145], [["beef", "ground beef", "steak"], 250], [["pork"], 242],
+  [["chicken", "chicken breast"], 165], [["turkey"], 150], [["meatball", "meatballs"], 280],
+  [["tuna"], 116], [["salmon"], 208], [["shrimp"], 99], [["fish", "cod", "pollock"], 120], [["anchovy", "anchovies"], 210],
+  [["egg", "eggs", "whole eggs"], 143], [["egg white", "egg whites"], 52], [["egg yolk", "egg yolks"], 322],
+  [["tomato", "tomatoes"], 18], [["tomato paste"], 82], [["tomato sauce", "tomato puree", "marinara"], 33],
+  [["onion", "onions"], 40], [["garlic"], 149], [["pepper", "peppers", "bell pepper", "jalapeno"], 22],
+  [["mushroom", "mushrooms"], 22], [["spinach", "kale", "lettuce", "greens"], 23], [["carrot", "carrots"], 41],
+  [["celery", "cucumber", "zucchini", "cabbage"], 18], [["broccoli", "cauliflower"], 34], [["peas"], 81],
+  [["olives", "olive"], 115], [["pickle", "pickles", "relish"], 12], [["salsa"], 29], [["avocado", "guacamole"], 160],
+  [["beans", "black beans", "pinto beans", "kidney beans"], 130], [["chickpeas", "garbanzo"], 164],
+  [["lentils"], 116], [["refried beans"], 90], [["tofu", "soy protein", "textured vegetable protein"], 90],
+  [["peanut", "peanuts"], 567], [["peanut butter"], 588], [["almond", "almonds"], 579], [["cashew", "cashews"], 553],
+  [["walnut", "walnuts", "pecan", "pecans"], 654], [["coconut"], 354], [["sesame", "sunflower seeds"], 580],
+  [["mayonnaise", "mayo"], 680], [["ketchup"], 100], [["mustard"], 66], [["dressing", "ranch"], 420],
+  [["gravy"], 50], [["soy sauce"], 53], [["barbecue sauce", "bbq sauce", "teriyaki"], 172], [["hot sauce"], 20],
+  [["chocolate", "chocolate chips"], 500], [["cocoa", "cocoa powder"], 228], [["caramel", "fudge", "frosting"], 400],
+  [["spice", "spices", "seasoning", "herbs", "oregano", "basil", "paprika", "garlic powder", "onion powder"], 250],
+  [["sauce"], 80], [["salad"], 150], [["blend", "topping", "filling", "mix"], 220], [["dough", "batter"], 300],
+  [["natural flavor", "natural flavors", "artificial flavor", "color", "coloring", "lecithin", "gum", "enzyme",
+    "preservative", "calcium propionate", "sodium benzoate", "vitamin", "niacin", "iron", "folic acid", "riboflavin", "thiamine"], 0],
+];
+function ingredientKcal(text) {
+  const w = textWords(text);
+  if (!w.length) return null;
+  const last = w[w.length - 1];
+  let best = null, bestLen = 0, headBest = null, headLen = 0;
+  for (const [names, kcal] of INGREDIENT_KCAL) {
+    for (const n of names) {
+      const nw = textWords(n);
+      if (!hasWord(w, n)) continue;
+      if (nw.length >= bestLen) { best = kcal; bestLen = nw.length; }
+      // a match that reaches the head noun describes the food itself, not a flavouring
+      if (nw.indexOf(last) !== -1 && nw.length >= headLen) { headBest = kcal; headLen = nw.length; }
+    }
+  }
+  return headBest != null ? headBest : best;
+}
+// one serving of a red food, in grams, for the groups whose colour never depends
+// on calories (the guide's fats/oils/sweets serving is a teaspoon of oil or an
+// ounce of chips; juice is 8 fl oz)
+const RED_SERVING_G = { sweets: 15, juice: 240, combo: 100, free: 100 };
+// A headline component named on the front of the pack has to appear in the
+// ingredient list. Open Food Facts sometimes parses a list badly, flattening a
+// sub-recipe so that a "Cheese pizza" ends up with no cheese in it at all, and
+// the arithmetic would then be confidently wrong.
+const HEADLINE = ["cheese", "pepperoni", "sausage", "bacon", "beef", "chicken", "turkey", "ham",
+                  "tuna", "salmon", "mayonnaise", "mayo", "cream", "chocolate", "butter", "ranch", "alfredo"];
+function decomposeCombo(f, rules) {
+  const R = rules || RULES;
+  const list = Array.isArray(f.ingredients) ? f.ingredients : [];
+  const servG = (typeof f.servQtyG === "number" && f.servQtyG > 0) ? f.servQtyG : null;
+  const usable = list.filter(i => i && i.text && typeof i.pct === "number" && i.pct > 0);
+  // a mixed dish is not served in 6 g, and one ingredient covering the whole pack
+  // is a single food rather than a recipe
+  if (!servG || servG < 40 || usable.length < 2) return null;
+  if (usable.some(i => i.pct >= 85)) return null;
+  const nameWords = textWords(f.name), listText = usable.map(i => String(i.text).toLowerCase()).join(" | ");
+  for (const hw of HEADLINE)
+    if (hasWord(nameWords, hw) && listText.indexOf(hw) === -1) return null;
+  for (const i of usable) {
+    const iw = textWords(i.text);
+    if (i.pct >= 40 && iw.length >= 2 && iw.filter(x => nameWords.indexOf(x) !== -1).length / iw.length >= 0.6) return null;
+  }
+
+  let priced = 0, redServings = 0, traces = 0;
+  const reds = [];
+  for (const i of usable) {
+    const kcal100 = ingredientKcal(i.text);
+    if (kcal100 == null) continue;
+    priced += i.pct;
+    const grams = servG * i.pct / 100;
+    const sub = classify({ name: i.text, cats: [], per100: { kcal: kcal100 }, serv: {} }, R);
+    if (sub.color !== "red") continue;
+    const sg = sub.servG || (R[sub.group] && R[sub.group].servG) || RED_SERVING_G[sub.group] || 15;
+    const frac = grams / sg;
+    redServings += frac;
+    if (frac >= 0.1) reds.push(titleWord(i.text) + " " + fmt0(grams) + " g, " + frac.toFixed(1) + " of a serving");
+    else traces++;
+  }
+  // too little of the dish recognised to trust the arithmetic
+  if (priced < 60) return null;
+
+  // decide on the same figure the clinician reads, so a displayed 1.0 is never treated as 0.99
+  const shown = Number(redServings.toFixed(1));
+  const total = shown >= 0.05 ? shown.toFixed(1) : "0";
+  const traceText = traces + " trace amount" + (traces > 1 ? "s" : "");
+  const listed = reds.length ? reds.join("; ") + (traces ? ", plus " + traceText : "")
+                             : (traces ? traceText : "none");
+  if (shown >= 1)
+    return { color: "red", decided: true, reasons: [
+      "Combination food: red because it holds a full serving of red food (FRG p.8)",
+      "Red components in one " + fmt0(servG) + " g serving: " + listed + " → " + total + " red servings, and 1 is enough",
+      "From the ingredient percentages Open Food Facts estimates, so check it against the package"] };
+  return { color: "yellow", decided: true, reasons: [
+    "Combination food: no full serving of a red food in it, so it is judged by its parts (FRG p.8)",
+    "Red components in one " + fmt0(servG) + " g serving: " + listed + " → " + total + " red servings, and it takes 1 to make the dish red",
+    "From the ingredient percentages Open Food Facts estimates, so check it against the package"] };
+}
+function titleWord(s) { const t = String(s || "").toLowerCase().trim(); return t.charAt(0).toUpperCase() + t.slice(1); }
 
 // Decide the FRG food group from OFF tags, the product name and (for USDA) the
 // category string. Order matters: the specific and the always-red come first.
@@ -683,9 +832,11 @@ function detectGroup(f) {
        !word("veggie", "vegan", "patty", "patties", "ground", "bun", "buns", "roll", "rolls", "bread", "seasoning", "dill", "pickle", "pickles", "relish"))))
     return R("combo", "Combination food: red if it holds a full serving of any red food, otherwise judge by its parts");
   // 6b. jams, syrups and honey: red, but the guide files them as ingredients at 1 Tbsp (p.75)
-  if (!grainy && !sweetWord && !cerealish && !cannedFruit &&
-      !cat("breads", "biscuits", "cakes", "yogurts", "nuts", "peanuts", "trail-mixes", "salty-snacks", "candies", "confectioneries", "canned-fruits") &&
-      !word("peanut", "peanuts", "nut", "nuts", "trail mix", "roasted", "jelly bean", "jelly beans", "candy", "candies") &&
+  if (!grainy && !sweetWord && !cerealish && !cannedFruit && !proteinTagged &&
+      !cat("breads", "biscuits", "cakes", "yogurts", "nuts", "peanuts", "trail-mixes", "salty-snacks", "candies", "confectioneries", "canned-fruits",
+           "sandwiches", "meals", "prepared-meals", "meats") &&
+      !word("peanut", "peanuts", "nut", "nuts", "trail mix", "roasted", "jelly bean", "jelly beans", "candy", "candies",
+            "turkey", "chicken", "ham", "beef", "pork", "sandwich", "wrap", "bacon") &&
       (cat("jams", "honeys", "syrups", "marmalades", "fruit-preserves") ||
        word("jam", "jelly", "preserves", "marmalade", "honey", "maple syrup", "pancake syrup", "molasses", "corn syrup", "chocolate syrup", "caramel topping")))
     return R("condiment", "Jams, syrups and honey are red ingredients in the FRG, judged at 1 Tbsp (p.75)", 15);
@@ -765,6 +916,7 @@ function detectGroup(f) {
       word("reddi wip") ||
       cword("sauces", "gravies") ||
       (word("mustard") && !word("greens", "spinach")) ||
+      word("tomato paste", "tomato puree", "tomato concentrate") ||
       (word("ranch") && (cat("salad-dressings", "dressings", "condiments", "sauces", "dips") || word("dressing", "dip", "sauce"))) ||
       word("ketchup", "catsup", "salsa", "dressing", "vinaigrette", "relish", "pickle", "pickles", "capers", "vinegar",
            "gravy", "hummus", "dip", "guacamole", "hot sauce", "soy sauce", "barbecue sauce", "bbq sauce", "teriyaki", "worcestershire",
@@ -859,7 +1011,13 @@ function classify(f, rules, groupOverride) {
   }
   if (g.free) { reasons.push(det.group === group ? det.why : g.label + ": no Traffic Light colour"); return done("free"); }
   if (g.alwaysRed) { reasons.push(det.group === group ? det.why : g.label + ": always red in the FRG"); return done("red"); }
-  if (g.review) { reasons.push(det.group === group ? det.why : g.label + ": red if it holds a full serving of any red food, otherwise judge by its parts"); return done("yellow"); }
+  if (g.review) {
+    const d = decomposeCombo(f, R);
+    if (d) { for (const r of d.reasons) reasons.push(r); return done(d.color); }
+    reasons.push("Combination food: the FRG gives it no calorie range (p.8). It is RED if it holds a full serving of any red food.");
+    reasons.push("No usable ingredient list, so the app cannot take it apart. Answer the question below.");
+    return done("review");
+  }
 
   reasons.push(det.group === group && det.why ? det.why : g.label);
   servG = (det.group === group && det.servG) || g.servG;
@@ -893,7 +1051,7 @@ function classify(f, rules, groupOverride) {
 }
 
 // ---------- Open Food Facts lookup ----------
-const OFF_FIELDS = "code,product_name,brands,serving_size,serving_quantity,nutriments,categories_tags,nutrition_data_per,ingredients_text,additives_tags";
+const OFF_FIELDS = "code,product_name,brands,serving_size,serving_quantity,nutriments,categories_tags,nutrition_data_per,ingredients_text,ingredients,additives_tags";
 async function offByBarcode(code) {
   const variants = [code];
   const digits = code.replace(/\D/g, "");
@@ -951,6 +1109,7 @@ function foodFromOFF(p) {
     name: p.product_name || "Unnamed product", brand: p.brands || "",
     cats, isBeverage, per100, serv, base, baseLabel, servingLabel,
     servQtyG: servQty > 0 ? servQty : null,
+    ingredients: (p.ingredients || []).map(i => ({ text: i.text, pct: (typeof i.percent === "number" ? i.percent : i.percent_estimate) })),
     sweetened: looksArtificiallySweetened(p.ingredients_text, p.additives_tags),
     source: "Open Food Facts", code: p.code || "",
   };
@@ -1128,6 +1287,7 @@ function renderVerdict() {
   badge.className = "badge " + color;
   badge.innerHTML = '<span class="shape" aria-hidden="true">' + SHAPES[color] + "</span>" + LABELS[color] + (state.override ? " (manual)" : "");
   renderGroupSelect(res);
+  $("comboAsk").hidden = !(res.color === "review" && !state.override);
   const rWrap = $("fReasons");
   rWrap.innerHTML = "";
   for (const r of f.reasons) {
@@ -1183,7 +1343,7 @@ function activeLog() { return state.log.filter(e => e.clientId === state.activeC
 function renderDay() {
   const date = $("viewDate").value;
   const entries = activeLog().filter(e => e.date === date);
-  const counts = { green: 0, yellow: 0, red: 0, free: 0 };
+  const counts = { green: 0, yellow: 0, red: 0, free: 0, review: 0 };
   let kcal = 0;
   for (const e of entries) { counts[e.color] = (counts[e.color] || 0) + 1; kcal += e.kcal || 0; }
   $("dayTiles").innerHTML =
@@ -1191,6 +1351,11 @@ function renderDay() {
     tile(counts.yellow, '<span class="doty">▲</span> yellow') +
     tile(counts.red, '<span class="dotr">⬣</span> red' + (counts.red > RULES.redPerDay ? ' (over ' + RULES.redPerDay + ')' : '')) +
     tile(kcal, "kcal");
+  const pending = counts.review || 0;
+  const note = $("dayNote");
+  note.hidden = !pending;
+  note.textContent = pending ? '◆ ' + pending + ' mixed dish' + (pending > 1 ? 'es still need' : ' still needs') +
+    ' a colour: open it and answer the red-serving question, or set the colour by hand.' : "";
   const wrap = $("dayLog");
   wrap.innerHTML = "";
   if (!entries.length) { wrap.innerHTML = '<div class="empty">Nothing logged this day yet.</div>'; return; }
@@ -1198,7 +1363,7 @@ function renderDay() {
     const div = document.createElement("div");
     div.className = "log-item";
     div.innerHTML =
-      '<span class="mark ' + e.color[0] + '" title="' + LABELS[e.color] + '">' + SHAPES[e.color] + "</span>" +
+      '<span class="mark ' + (MARK[e.color] || "y") + '" title="' + LABELS[e.color] + '">' + SHAPES[e.color] + "</span>" +
       '<div class="info"><div class="n">' + esc(e.name) + (e.overridden ? " ✎" : "") + "</div>" +
       '<div class="d">' + esc(e.portion) + " · " + e.time + "</div></div>" +
       '<span class="kcal">' + (e.kcal != null ? e.kcal + " kcal" : "") + "</span>" +
@@ -1435,7 +1600,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const b = document.createElement("button");
     const f = foodFromQuick(q);
     const col = classify(f, RULES).color;
-    b.innerHTML = '<span class="' + (col === "green" ? "dotg" : col === "yellow" ? "doty" : col === "free" ? "dotf" : "dotr") + '">' + SHAPES[col] + "</span> " + esc(q.name);
+    const swatch = { green: "dotg", yellow: "doty", red: "dotr", free: "dotf", review: "dotv" }[col] || "doty";
+    b.innerHTML = '<span class="' + swatch + '">' + SHAPES[col] + "</span> " + esc(q.name);
     b.onclick = () => showFood(foodFromQuick(q));
     qg.appendChild(b);
   }
@@ -1445,6 +1611,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("lookupInput").addEventListener("keydown", (e) => { if (e.key === "Enter") lookup(); });
   $("btnLog").onclick = addToLog;
   document.querySelectorAll("[data-ov]").forEach(b => b.onclick = () => { state.override = b.dataset.ov; renderVerdict(); });
+  document.querySelectorAll("[data-ask]").forEach(b => b.onclick = () => { state.override = b.dataset.ask; renderVerdict(); });
   $("groupSelect").onchange = (e) => { state.groupOverride = e.target.value || null; state.override = ""; renderVerdict(); };
 
   $("viewDate").onchange = renderAll;
