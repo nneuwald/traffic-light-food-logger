@@ -104,14 +104,6 @@
     "hint": "Mission flour tortillas"
   },
   {
-    "code": "0014800000207",
-    "name": "Motts applesauce",
-    "brand": "Mott's",
-    "color": "yellow",
-    "group": "Fruit",
-    "hint": "Mott's applesauce"
-  },
-  {
     "code": "0072250914765",
     "name": "Nature's Own, Specialty Honey Wheat Bread",
     "brand": "Flowers Foods  Inc.",
@@ -222,6 +214,14 @@
     "color": "red",
     "group": "Cold cereal",
     "hint": "Honey Nut Cheerios"
+  },
+  {
+    "code": "0014800000207",
+    "name": "Motts applesauce",
+    "brand": "Mott's",
+    "color": "red",
+    "group": "Fruit",
+    "hint": "Mott's applesauce"
   },
   {
     "code": "0044000032029",

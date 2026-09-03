@@ -391,7 +391,7 @@ const DEFAULT_RULES = {
   cheese:    { label: "Cheese",                              yellow: 83,  servG: 28,  serv: "1 oz" },
   dairy:     { label: "Milk, yogurt & other dairy",          yellow: 135, servG: 245, serv: "1 cup" },
   meat:      { label: "Meat & seafood",                      yellow: 158, servG: 85,  serv: "3 oz" },
-  protein:   { label: "Eggs, beans & meat substitutes",      yellow: 120, servG: 125, serv: "1/2 cup, 1 egg or 1 patty" },
+  protein:   { label: "Eggs, beans & meat substitutes",      yellow: 120, servG: 90,  serv: "1/2 cup, 1 egg or 1 patty" },
   nuts:      { label: "Nuts & seeds",                        yellow: 68,  servG: 28,  serv: "1 oz" },
   sweets:    { label: "Fats, oils, sweets & others",         alwaysRed: true },
   soupBroth: { label: "Soup: broth-based & chowder",         yellow: 186, servG: 245, serv: "1 cup" },
@@ -446,6 +446,15 @@ function tagsLookLikeBeverage(cats) {
 // simple plural tolerance, so "carrot" finds "Carrots, raw" but "pea" never
 // finds "peanuts".
 function textWords(s) { return String(s || "").toLowerCase().split(/[^a-z0-9']+/).filter(Boolean); }
+// The guide makes every artificially sweetened drink red (p.2). Open Food Facts
+// exposes sweeteners as E-number additive tags and in the ingredient list; USDA
+// Branded records carry an ingredients string.
+const SWEETENER_ADDITIVES = ["e950", "e951", "e952", "e954", "e955", "e957", "e959", "e960", "e961", "e962", "e969"];
+const SWEETENER_RE = /\b(sucralose|aspartame|acesulfame|ace-k|saccharin|stevia|steviol|rebaudioside|reb\s?a|monk\s?fruit|luo\s?han|erythritol|neotame|advantame|cyclamate|splenda)\b/i;
+function looksArtificiallySweetened(ingredients, additives) {
+  if ((additives || []).some(a => SWEETENER_ADDITIVES.some(e => String(a).toLowerCase().replace(/^[a-z]{2,3}:/, "").startsWith(e)))) return true;
+  return SWEETENER_RE.test(String(ingredients || ""));
+}
 function sameWord(a, b) {
   if (a === b) return true;
   if (!a || !b) return false;
@@ -461,7 +470,7 @@ function hasWord(w, ...needles) {
   });
 }
 const FDC_FRUIT_WORDS = ["apple", "applesauce", "apricot", "avocado", "banana", "berry", "berries", "blackberry", "blackberries",
-  "blueberry", "blueberries", "cantaloupe", "cherry", "cherries", "clementine", "cranberry", "cranberries", "fig", "fruit",
+  "blueberry", "blueberries", "cantaloupe", "cherry", "cherries", "clementine", "cranberry", "cranberries", "dates", "fig", "fruit",
   "grape", "grapefruit", "guava", "honeydew", "kiwi", "lemon", "lime", "lychee", "mandarin", "mango", "melon", "nectarine",
   "orange", "papaya", "peach", "peaches", "pear", "persimmon", "pineapple", "plum", "pomegranate", "raspberry", "raspberries",
   "strawberry", "strawberries", "tangerine", "watermelon"];
@@ -479,17 +488,32 @@ const FDC_NOT_PRODUCE = ["pie", "cake", "cobbler", "tart", "bread", "muffin", "c
   "roll", "bar", "bars", "syrup", "nectar", "dried", "leather", "snacks"];
 const fdcWords = textWords;
 // Gram estimate for the FRG serving where it differs from the group default.
+// Entries are [words, grams, labelRange?]. When the guide's serving is the unit
+// as sold ("1 bar", "1 patty", the yogurt cup: 6 oz, 5.3 oz, 4 oz) the label's
+// own serving weight is used if it falls inside labelRange, else the estimate.
 const SERV_OVERRIDES = [
   [["cottage cheese"], 113], [["ricotta"], 62], [["cream cheese"], 29],
-  [["yogurt", "yoghurt", "skyr", "kefir"], 170], [["sour cream"], 30],
+  [["yogurt", "yoghurt", "skyr"], 170, [80, 300]], [["kefir"], 245],
+  // sour cream: the guide prints fat free yellow and light/regular red (p.35, p.38), which only the 1/2-cup serving reproduces
+  [["sour cream"], 115],
   [["peanut butter", "almond butter", "cashew butter", "nut butter", "tahini", "sunflower butter"], 32],
-  [["egg", "eggs"], 50], [["tofu", "tempeh", "patty", "patties", "veggie burger", "links", "nuggets"], 85], [["edamame"], 78],
+  [["egg", "eggs"], 50], [["tofu", "tempeh"], 85], [["patty", "patties", "veggie burger", "links", "nuggets"], 85, [40, 150]], [["edamame"], 78],
+  // beans in sauce are denser than drained beans: the guide's 1/2 cup of baked beans weighs about 127 g
+  [["baked beans", "refried beans", "pork and beans", "beans in sauce"], 127],
   [["pickle", "pickles", "spear"], 35], [["salsa", "hummus", "dip", "guacamole"], 30], [["gravy"], 60],
-  [["broth", "stock", "bouillon"], 245], [["hot dog", "frankfurter", "wiener"], 50],
+  [["whipped cream", "reddi wip", "whipped topping"], 3],   // aerosol whipped cream: 1 Tbsp weighs about 3 g (FRG 13 cal, p.73)
+  [["cocoa powder", "baking cocoa"], 5], [["gnocchi"], 68],
+  [["dates", "date"], 24],   // 1 medjool or 3 deglet noor: the guide's yellow serving (p.21)
+  [["broth", "stock", "bouillon"], 245],
+  // hot dogs and frankfurters have no override: the guide judges every lunchmeat and sausage at 3 oz (p.44, p.52-53)
 ];
-function servOverride(w) {
-  for (const [needles, g] of SERV_OVERRIDES) if (hasWord(w, ...needles)) return g;
+function servOverride(w, f) {
+  for (const [needles, g, range] of SERV_OVERRIDES) if (hasWord(w, ...needles)) return labelServ(f, range) || g;
   return null;
+}
+function labelServ(f, range) {
+  const q = f && typeof f.servQtyG === "number" ? f.servQtyG : null;
+  return (range && q != null && q >= range[0] && q <= range[1]) ? q : null;
 }
 
 // Decide the FRG food group from OFF tags, the product name and (for USDA) the
@@ -498,7 +522,7 @@ function detectGroup(f) {
   // OFF umbrella tags (plant-based-foods-and-beverages, cereals-and-potatoes,
   // fruits-and-vegetables-based-foods, chips-and-fries ...) describe the
   // taxonomy, not the food, so they never decide a group.
-  const cats = (f.cats || []).filter(c => !/(based-foods|foods-and-beverages|and-potatoes|and-their-products|chips-and-fries|beverages-preparations|and-crackers|and-cakes)$/
+  const cats = (f.cats || []).filter(c => !/(based-foods|foods-and-beverages|and-potatoes|and-their-products|chips-and-fries|beverages-preparations|and-quiches)$/
     .test(String(c).toLowerCase().replace(/^[a-z]{2,3}:/, "")));
   const w = textWords(f.name);
   const wc = textWords(f.usdaCategory);
@@ -506,156 +530,311 @@ function detectGroup(f) {
   const sug = (f.per100 && typeof f.per100.sugars === "number") ? f.per100.sugars : null;
   const bev = !!f.isBeverage;
   const cat = (...n) => hasCat(cats, ...n);
+  const rawCat = (...n) => hasCat(f.cats || [], ...n);   // umbrella tags kept, for guards that need them
   const word = (...n) => hasWord(w, ...n);
   const cword = (...n) => hasWord(wc, ...n);
-  const R = (group, why, servG) => ({ group, why, servG: servG || servOverride(w) || null });
+  const R = (group, why, servG) => ({ group, why, servG: servG || servOverride(w, f) || null });
+  // canned fruit "in juice" or "in heavy syrup" is fruit at 1/2 cup (FRG p.21-23), not juice and not a sweet
+  const fruitWord = cat("fruits", "fruit", "canned-fruits", "applesauce", "compotes", "fruit-cups") || hasWord(w, ...FDC_FRUIT_WORDS);
+  const juicy = word("juice") && !word("in juice", "own juice", "juice pack", "100% juice", "fruit juice", "pear juice", "pineapple juice", "white grape juice");   // a drink, not the pack liquid
+  const cannedFruit = fruitWord && !bev && !cat("fruit-juices", "juices", "nectars", "dried-fruits", "dried-products") &&
+                      !word("dried", "dehydrated") &&
+                      (cat("canned-fruits", "fruits-in-syrup", "fruits-in-juice") || !juicy &&
+                       (
+                       word("in juice", "own juice", "juice pack", "natural juice", "chunks", "slices", "halves", "tidbits", "crushed", "cocktail", "fruit cup", "fruit cups", "applesauce", "canned") ||
+                        word("in syrup", "heavy syrup", "light syrup", "extra light syrup", "syrup pack")));
+  // a name that says it is a sweet (oatmeal cookies, cinnamon rolls) overrides grain-shaped words later on
+  const sweetWord = word("cookie", "cookies", "brownie", "brownies", "cupcake", "cupcakes", "pie", "pies", "donut", "donuts", "doughnut", "doughnuts",
+                         "pastry", "pastries", "candy", "candies", "cinnamon roll", "cinnamon rolls", "sweet roll", "sweet rolls", "danish", "cake", "cakes", "treats",
+                         "pudding", "puddings", "custard", "cobbler", "trifle") &&
+                    !word("rice cake", "rice cakes", "pancake", "pancakes", "crab cake", "fish cake", "corn cake", "corn cakes");
+  // A grain-shaped product keeps its grain identity when a stray word from another group appears in the
+  // name: "cinnamon raisin bagel" is not dried fruit, "Cape Cod popcorn" is not cod, "basmati rice with
+  // bell peppers" is not a vegetable. Chips and crisps are excluded because the guide files them as snacks.
+  const grainy = !sweetWord && !word("chips", "crisps", "tortilla chips", "corn chips") &&
+                 (cat("breads", "bagels", "tortillas", "pastas", "rices", "cereals", "crackers", "pretzels", "pretzel", "popcorn", "waffles", "pancakes") ||
+                  word("bread", "bagel", "bagels", "tortilla", "tortillas", "cereal", "granola", "crackers", "cracker", "pretzel", "pretzels", "popcorn",
+                       "waffle", "waffles", "pancake", "pancakes", "muffin", "muffins", "oats", "oatmeal", "pasta", "noodle", "noodles", "rice", "quinoa", "couscous", "grits"));
+  // Likewise a product the database files as meat, fish or a meat substitute keeps that identity when the
+  // name carries a sauce, oil or drink word: "sardines in tomato sauce", "tuna with olive oil", "beer bratwurst".
+  const proteinTagged = cat("meats", "prepared-meats", "poultry", "fishes", "seafood", "sausages", "hot-dogs", "canned-fish", "canned-fishes",
+                            "tunas", "salmons", "sardines", "deli-meats", "lunch-meats", "cold-cuts", "hams", "jerky", "tofu", "tempeh", "meat-alternatives", "meat-substitutes");
+  //    "tuna in vegetable oil", "artichoke hearts in oil": the oil is the pack liquid, not the food
+  const inOil = word("in oil", "in vegetable oil", "in olive oil", "in soybean oil", "in canola oil", "in sunflower oil", "packed in oil", "packed in olive oil");
+  const frozenDessert = (word("frozen") && word("yogurt", "yoghurt", "custard")) ||
+                        word("frozen yogurt", "frozen yoghurt", "froyo", "frozen dessert", "ice cream", "popsicle", "ice pop", "italian ice", "sherbet", "sorbet", "gelato");
+  //    plain beans in a can are tagged "meals" by Open Food Facts; they stay in the protein group (p.41)
+  //    (peanuts are legumes to Open Food Facts but nuts to the guide, p.54-55)
+  const legumey = (cat("legumes", "pulses", "legume-seeds", "canned-legumes", "baked-beans-in-tomato-sauce", "beans", "lentils", "chickpeas") ||
+                   word("baked beans", "refried beans", "black beans", "kidney beans", "pinto beans", "navy beans", "chickpeas", "lentils")) &&
+                  !cat("peanuts", "nuts", "nut-butters", "peanut-butter", "peanut-butters") && !word("peanut", "peanuts");
 
-  // 1. drinks the guide puts in Fats/Oils/Sweets: red, diet versions included (FRG p.2, p.59-60)
-  if (cat("sodas", "soft-drinks", "carbonated-drinks", "energy-drinks", "sports-drinks", "isotonic-drinks", "alcoholic-beverages",
-          "beers", "wines", "spirits", "iced-teas", "lemonades", "hot-chocolate", "cocoa-drinks", "sweetened-beverages",
-          "artificially-sweetened-beverages", "diet-beverages", "fruit-drinks", "flavoured-waters", "flavored-waters") ||
-      word("soda", "cola", "energy drink", "sports drink", "lemonade", "beer", "wine", "liquor", "hot cocoa", "hot chocolate",
-           "kool aid", "punch", "sweet tea", "iced tea", "gatorade", "powerade", "red bull", "monster") ||
-      (bev && word("diet", "zero", "sugar free")))
-    return R("sweets", "Soda, sports, energy and sweetened drinks are red in the FRG, diet versions included");
-  // 2. no colour: water, plain tea and coffee, seasonings (FRG p.7)
-  if (cat("waters", "spring-waters", "mineral-waters", "teas", "coffees") || (bev && word("water", "tea", "coffee")) || word("sparkling water", "seltzer")) {
-    if ((k == null || k <= 5) && (sug == null || sug < 1)) return R("free", "Water and plain tea or coffee have no Traffic Light colour");
-    return R("sweets", "Sweetened drink: red in the FRG");
+  // 1. drinks the guide puts in Fats/Oils/Sweets: red, diet versions included (FRG p.2, p.59-60).
+  //    Zero-calorie flavoured waters (Propel, Vitaminwater Zero, Crystal Light) sit in the guide's
+  //    sports-drink list, and any drink carrying an artificial sweetener is red on p.2.
+  if ((cat("sodas", "soft-drinks", "energy-drinks", "sports-drinks", "isotonic-drinks", "alcoholic-beverages",
+           "beers", "wines", "spirits", "lemonades", "hot-chocolate", "cocoa-drinks", "sweetened-beverages",
+           "artificially-sweetened-beverages", "diet-beverages", "fruit-drinks", "meal-replacements") && !cat("waters", "fruit-juices")) ||
+      (cat("carbonated-drinks") && !cat("waters", "carbonated-waters", "sparkling-waters")) ||
+      cat("energy-drinks", "sports-drinks", "sodas") ||
+      (!proteinTagged && !grainy && (
+        (word("soda") && !word("club soda", "soda water", "baking soda")) ||
+        word("cola", "energy drink", "sports drink", "lemonade", "beer", "wine", "liquor", "hot cocoa", "hot chocolate",
+             "kool aid", "punch", "sweet tea", "gatorade", "powerade", "red bull", "monster", "propel", "vitaminwater", "vitamin water",
+             "crystal light", "mio", "sparkling ice", "enhanced water", "water enhancer",
+             "slim fast", "slimfast", "instant breakfast", "protein shake", "meal replacement", "muscle milk", "premier protein"))) ||
+      (bev && (word("diet", "zero", "sugar free", "shake", "ensure", "boost") || f.sweetened)))
+    return R("sweets", f.sweetened && !word("soda", "cola", "diet", "zero", "sugar free")
+      ? "Artificially sweetened drink: red in the FRG, whatever the calories (p.2)"
+      : "Soda, sports, energy and sweetened drinks are red in the FRG, diet versions included");
+  // 2. no colour: water, plain (nothing added) tea and coffee, seasonings (FRG p.7); anything sweetened is red.
+  //    Essenced sparkling waters (LaCroix, bubly) with no sugar and no sweetener count as water.
+  if (cat("waters", "spring-waters", "mineral-waters", "carbonated-waters", "sparkling-waters", "flavoured-waters", "flavored-waters", "teas", "coffees") ||
+      (bev && word("water", "tea", "coffee")) ||
+      word("sparkling water", "seltzer", "club soda", "soda water", "spring water", "purified water", "mineral water", "distilled water",
+           "perrier", "pellegrino", "evian", "fiji", "dasani", "aquafina", "smartwater", "poland spring", "lacroix", "la croix", "bubly",
+           "topo chico", "essentia", "voss", "deer park", "ice mountain", "arrowhead", "pure life", "zephyrhills", "ozarka")) {
+    if ((k == null || k <= 5) && (sug == null || sug < 1) && !f.sweetened) return R("free", "Water and plain tea or coffee have no Traffic Light colour");
+    return R("sweets", f.sweetened ? "Artificially sweetened drink: red in the FRG, whatever the calories (p.2)" : "Sweetened drink: red in the FRG");
   }
-  if (cat("spices", "herbs", "salts", "seasonings") || cword("spices and herbs") || word("spice", "spices", "seasoning", "seasonings", "salt"))
+  //    A seasoning is a whole jar of spice, not any food whose name happens to contain "salt" or "herbs"
+  //    ("tuna in water and sea salt", "rice medley with herb seasoning", "chili oil" are not seasonings).
+  if ((cat("spices", "herbs", "salts", "seasonings", "spice-blends") || cword("spices and herbs") ||
+       (word("spice", "spices", "seasoning", "seasonings", "salt") && w.length <= 3)) &&
+      !proteinTagged && !grainy && !legumey && !word("oil", "sauce", "dressing", "butter", "mix", "chips", "snack", "snacks", "beans") &&
+      (k == null || k <= 400))
     return R("free", "Spices, herbs and salt have no Traffic Light colour");
   // 3. vegetable juice is judged as a vegetable at 8 fl oz (FRG p.16-17); fruit juice and dried fruit are red (p.24)
   if (cat("vegetable-juices", "tomato-juices") || word("vegetable juice", "tomato juice", "v8"))
     return R("veg", "Vegetable juice: judged on the vegetable range at 8 fl oz", 240);
-  if (cat("fruit-juices", "juices", "nectars", "smoothies", "dried-fruits", "raisins", "dried-apricots", "prunes", "dates") ||
-      word("juice", "nectar", "smoothie", "raisins", "raisin", "prunes", "craisins") ||
-      (word("dried", "dehydrated") && (cat("fruits", "fruit") || hasWord(w, ...FDC_FRUIT_WORDS))))
+  //    lemon, lime and clam juice are cooking ingredients on the guide's condiment page (p.73), not juices
+  if (word("lemon juice", "lime juice", "clam juice"))
+    return R("condiment", "Lemon, lime and clam juice are ingredients in the FRG, judged at 1 Tbsp", 15);
+  //    dates are listed as fresh fruit, yellow (p.21), so they are not in the dried-fruit list; Raisin Bran is a cereal, not a dried fruit
+  const cerealish = cat("breakfast-cereals", "granolas", "mueslis", "cereal-flakes", "porridge", "porridges") || word("cereal", "cereals", "bran", "granola", "muesli", "oatmeal");
+  //    (whole pitted dates are sold as "dried fruit" but the guide lists them under fresh fruit, yellow, p.21)
+  const wholeDates = word("dates", "date") && !word("chopped", "diced", "rolls", "roll", "bar", "bars", "bites", "balls", "sugar", "syrup", "paste");
+  if (!cerealish && !wholeDates && !grainy && !word("agave", "agave nectar") &&
+      !rawCat("biscuits-and-cakes", "cakes", "biscuits", "pastries") &&
+      !cat("nuts", "peanuts", "trail-mixes") && !word("peanut", "peanuts", "trail mix") && (
+      (cat("fruit-juices", "juices", "nectars", "smoothies", "dried-fruits", "raisins", "dried-apricots", "prunes") && !cannedFruit) ||
+      (word("juice") && !cannedFruit) || word("nectar", "smoothie", "raisins", "raisin", "prunes", "craisins") ||
+      (word("dried", "dehydrated") && (cat("fruits", "fruit") || hasWord(w, ...FDC_FRUIT_WORDS)))))
     return R("juice", "All fruit juice and dried fruit is red in the FRG");
-  // 4. granola and cereal bars are grains (FRG p.27-28); cold cereal has its own sugar rule (p.77)
+  // 4. granola and cereal bars are grains, judged as 1 bar (FRG p.27-28); hot cereal is a grain at 1/2 cup cooked or
+  //    1 packet (p.28); cold cereal has its own sugar rule (p.77)
   if (cat("cereal-bars", "granola-bars", "snack-bars", "energy-bars") || word("granola bar", "cereal bar", "breakfast bar", "nutri grain", "clif"))
-    return R("grain", "Cereal and granola bars are grains in the FRG", 28);
+    return R("grain", "Cereal and granola bars are grains in the FRG, judged as 1 bar", labelServ(f, [20, 80]) || 28);
+  if (!sweetWord && (cat("porridge", "porridges", "oatmeals") || word("oatmeal", "hot cereal", "porridge", "grits", "cream of wheat", "farina", "instant oats", "steel cut oats", "rolled oats")))
+    return R("grain", word("instant", "packet", "packets", "cup", "cups")
+      ? "Instant oatmeal is a grain in the FRG, judged as 1 packet"
+      : "Hot cereal is a grain in the FRG, judged at 1 oz dry (1/2 cup cooked)",
+      word("instant", "packet", "packets", "cup", "cups") ? (labelServ(f, [25, 70]) || 43) : (k != null && k < 220 ? 117 : 28));
   if (cat("breakfast-cereals", "granolas", "mueslis", "cereal-flakes", "puffed-cereals") || cword("breakfast cereals") ||
       word("cereal", "cheerios", "chex", "krispies", "corn flakes", "frosted flakes", "bran flakes", "froot loops", "fruit loops",
            "pebbles", "cocoa puffs", "granola", "muesli", "mini wheats", "shredded wheat", "raisin bran", "kix", "trix",
            "lucky charms", "special k", "wheaties", "grape nuts", "honey bunches", "life cereal", "cinnamon toast crunch", "cap'n crunch"))
     return R("cereal", "Cold cereal: calories and the 25% sugar rule both apply");
   // 5. sauces the guide files under vegetables and condiments
-  if (cat("tomato-sauces", "pasta-sauces", "pizza-sauces", "marinara") || word("tomato sauce", "pasta sauce", "pizza sauce", "marinara", "spaghetti sauce"))
+  //    (the sauce has to be the product: "sardines in tomato sauce" is fish, "mozzarella sticks with marinara" is a combination food)
+  if ((cat("tomato-sauces", "pasta-sauces", "pizza-sauces", "marinara") || word("tomato sauce", "pasta sauce", "pizza sauce", "marinara", "spaghetti sauce")) &&
+      !proteinTagged && !cat("cheeses", "canned-fishes", "meals") &&
+      !cat("ketchup", "ketchups", "barbecue-sauces", "hot-sauces", "salsas") && !word("ketchup", "catsup", "barbecue", "bbq", "salsa", "hot sauce", "cocktail sauce"))
     return R("veg", "Tomato and pasta sauces sit in the vegetable group at 1/4 cup", 60);
   if (cat("french-fries", "fries", "frozen-fries", "hash-browns") || word("fries", "french fries", "hash browns", "tater tots", "potato wedges"))
     return R("starchy", "Fried potatoes are starchy vegetables in the FRG, judged at 3 oz", 85);
   // 10. soups (1 cup); broth and stock are ingredients in the FRG (p.73, p.75)
-  if (cat("broths", "stocks", "bouillon") || word("broth", "stock", "bouillon", "consomme"))
+  //     (a product tagged "soups" whose name says soup is a soup, even if Open Food Facts also tags it bouillon)
+  if ((cat("broths", "stocks", "bouillon") || word("broth", "stock", "bouillon", "consomme")) && !word("soup", "soups", "chowder", "ramen", "noodle", "noodles"))
     return R("condiment", "Broth and stock are ingredients in the FRG, judged at 1 cup", 245);
-  if (cat("soups", "chowders", "chilis", "stews", "ramen", "instant-noodles") || word("soup", "chowder", "bisque", "chili", "gumbo", "stew", "ramen", "cup noodles", "instant lunch")) {
+  //     "chili" the dish, not chili the flavour ("spicy thai chili seasoned tuna", "sweet chili sauce")
+  const chiliDish = word("chili") && !word("seasoned", "flavored", "flavoured", "sauce", "powder", "pepper", "peppers", "flakes", "lime", "sweet chili", "chili crisp", "chili oil",
+                                           "tuna", "chicken", "salmon", "shrimp", "peanut", "peanuts", "nut", "nuts", "snack", "snacks", "chips", "crisps");
+  //     a dry noodle or rice product tagged "soups" is the noodle, not the soup
+  if (!cat("frozen-vegetables", "fresh-vegetables") &&
+      (((cat("soups", "chowders", "chilis", "stews", "ramen", "instant-noodles") && !(grainy && k != null && k >= 250)) ||
+       chiliDish || word("soup", "chowder", "bisque", "gumbo", "stew", "ramen", "cup noodles", "instant lunch")))) {
     if (word("chili", "lentil", "lentils", "bean", "beans", "gumbo", "minestrone", "split pea", "black bean", "pea soup"))
       return R("soupChili", "Chili, bean, lentil and gumbo soups are judged at 1 cup in the FRG");
     return R("soupBroth", "Broth-based soups and chowders are judged at 1 cup in the FRG");
   }
   // 6. combination foods: the guide gives no range, only the rule that one red serving makes the dish red (p.8)
-  if (cat("pizzas", "sandwiches", "burritos", "tacos", "lasagnes", "prepared-meals", "frozen-meals", "meals", "ready-meals", "casseroles", "pot-pies", "sushi") ||
+  //    a "meals" tag alone does not make plain rice, pasta, bread or a canned vegetable a combination food,
+  //    and an ice cream sandwich is a sweet, not a sandwich
+  const plainStaple = cat("rices", "pastas", "noodles", "breads", "buns", "rolls", "tortillas", "cereals",
+                          "vegetables", "canned-vegetables", "frozen-vegetables", "fermented-vegetables", "fruits", "canned-fruits",
+                          "coleslaw", "slaws", "pickles", "pickled-vegetables") &&
+                      !word("meal", "dinner", "entree", "kit", "with");
+  const frozenSweet = cat("ice-creams", "frozen-desserts", "desserts", "biscuits-and-cakes", "cakes") || word("ice cream", "cookie", "cookies", "wafer", "wafers");
+  const legumeStaple = legumey && !cat("pizzas", "sandwiches", "burritos", "tacos", "lasagnes", "pot-pies", "casseroles");
+  if (!legumeStaple && !frozenSweet && (
+      (cat("pizzas", "sandwiches", "burritos", "tacos", "lasagnes", "prepared-meals", "frozen-meals", "meals", "ready-meals", "casseroles", "pot-pies", "sushi") &&
+       !plainStaple && !(grainy && k != null && k >= 250)) ||
       cword("fast foods", "meals, entrees", "restaurant foods") ||
-      word("pizza", "sandwich", "burrito", "taco", "lasagna", "lasagne", "casserole", "pot pie", "enchilada", "quesadilla",
-           "mac cheese", "mac and cheese", "macaroni and cheese", "macaroni cheese", "hot pocket", "corn dog", "sushi", "wrap", "dinner", "entree", "bowl") ||
-      (word("burger", "cheeseburger", "hamburger") && !word("veggie", "vegan", "patty", "patties", "ground")))
+      word("mozzarella sticks", "cheese sticks", "cheese curds") ||
+      (word("sandwich", "sandwiches") && !cat("pickles", "condiments", "canned-vegetables") &&
+       !word("cracker", "crackers", "cookie", "cookies", "ice cream", "pickle", "pickles")) ||
+      word("pizza", "burrito", "lasagna", "lasagne", "casserole", "pot pie", "enchilada", "quesadilla",
+           "mac cheese", "mac and cheese", "macaroni and cheese", "macaroni cheese", "hot pocket", "hot pockets", "uncrustables", "lunchables",
+           "corn dog", "sushi", "dinner", "entree", "bowl") ||
+      (word("wrap", "wraps") && !cat("tortillas", "breads") && !grainy) ||
+      (word("taco", "tacos") && !cat("tortillas", "breads") && !word("tortilla", "tortillas", "shell", "shells", "seasoning", "sauce", "kit", "chips")) ||
+      (word("burger", "cheeseburger", "hamburger") && !cat("pickles", "condiments", "canned-vegetables") &&
+       !word("veggie", "vegan", "patty", "patties", "ground", "bun", "buns", "roll", "rolls", "bread", "seasoning", "dill", "pickle", "pickles", "relish"))))
     return R("combo", "Combination food: red if it holds a full serving of any red food, otherwise judge by its parts");
+  // 6b. jams, syrups and honey: red, but the guide files them as ingredients at 1 Tbsp (p.75)
+  if (!grainy && !sweetWord && !cerealish && !cannedFruit &&
+      !cat("breads", "biscuits", "cakes", "yogurts", "nuts", "peanuts", "trail-mixes", "salty-snacks", "candies", "confectioneries", "canned-fruits") &&
+      !word("peanut", "peanuts", "nut", "nuts", "trail mix", "roasted", "jelly bean", "jelly beans", "candy", "candies") &&
+      (cat("jams", "honeys", "syrups", "marmalades", "fruit-preserves") ||
+       word("jam", "jelly", "preserves", "marmalade", "honey", "maple syrup", "pancake syrup", "molasses", "corn syrup", "chocolate syrup", "caramel topping")))
+    return R("condiment", "Jams, syrups and honey are red ingredients in the FRG, judged at 1 Tbsp (p.75)", 15);
   // 7. Fats, Oils, Sweets & Others: always red (FRG p.59-66)
-  const grainy = cat("breads", "bagels", "tortillas", "pastas", "rices", "cereals", "crackers", "pretzels") ||
-                 word("bread", "bagel", "bagels", "tortilla", "tortillas", "cereal", "granola", "crackers", "muffin", "muffins", "oats", "oatmeal", "pasta", "rice");
-  const dairyish = cat("milks", "yogurts", "kefirs", "skyr", "dairies", "fermented-milk-products", "plant-based-milk-alternatives") ||
-                   (word("milk", "yogurt", "yoghurt", "kefir") && !word("milk chocolate", "chocolate bar", "candy", "candies"));
+  const dairyish = !frozenDessert &&
+                   (cat("milks", "yogurts", "kefirs", "skyr", "dairies", "fermented-milk-products", "plant-based-milk-alternatives") ||
+                    (word("milk", "yogurt", "yoghurt", "kefir") && !word("milk chocolate", "chocolate bar", "candy", "candies")));
   if (cat("candies", "chocolates", "confectioneries", "cakes", "cookies", "biscuits", "pastries", "viennoiseries", "pies", "desserts",
           "dairy-desserts", "ice-creams", "ice-cream", "frozen-desserts", "puddings", "donuts", "doughnuts", "sweet-spreads",
           "chocolate-spreads", "hazelnut-spreads", "jams", "honeys", "syrups", "sugars", "toaster-pastries", "marshmallows",
           "gelatin-desserts", "crisps", "potato-crisps", "potato-chips", "tortilla-chips", "corn-chips", "cheese-puffs",
           "pork-rinds", "trail-mixes", "butters", "margarines", "oils", "vegetable-oils", "olive-oils", "mayonnaises", "lards",
           "creams", "coffee-creamers", "bacon", "fruit-snacks", "sugary-snacks", "salty-snacks", "sweet-snacks", "olives") &&
-      !cat("yogurts", "kefirs", "skyr", "crackers", "pretzels", "popcorn", "nut-butters", "peanut-butter", "breakfast-cereals"))
+      !cat("yogurts", "kefirs", "skyr", "sour-creams", "whipped-creams", "crackers", "pretzels", "pretzel", "popcorn", "nut-butters", "peanut-butter", "breakfast-cereals",
+           "canned-fruits", "fruits-in-syrup", "waffles", "pancakes") &&
+      !(proteinTagged && !cat("bacon")) &&
+      !grainy && !cannedFruit &&
+      !(word("coconut milk", "coconut cream") && !cat("puddings", "desserts", "dairy-desserts", "frozen-desserts", "ice-creams")) &&
+      !word("whipped cream", "reddi wip", "cocoa powder", "baking cocoa", "sour cream", "cottage cheese", "cream cheese"))
     return R("sweets", "Fats, oils, sweets and salty snacks are always red in the FRG");
   if (cword("sweets", "fats and oils") || (cword("snacks") && !word("cracker", "crackers", "pretzel", "pretzels", "popcorn", "rice cake", "rice cakes")))
     return R("sweets", "Fats, oils, sweets and salty snacks are always red in the FRG");
-  if (!grainy && (
-      (word("chocolate", "cocoa") && !dairyish) ||
+  //    artificial sweeteners are on the guide's red ingredients list (p.75), as the diet-drink rule on p.2 implies
+  if (word("sweetener", "sweeteners", "splenda", "stevia", "truvia", "sweet'n low", "sweet n low", "saccharin", "sucralose", "aspartame", "monk fruit") ||
+      (word("equal") && !word("equal exchange")))
+    return R("sweets", "Artificial sweeteners are red in the FRG (p.75)");
+  //    a yogurt or milk stays dairy however its flavour is named ("salted caramel creme yogurt", "chocolate milk")
+  if (!grainy && !cannedFruit && !dairyish && !cat("salad-dressings", "dressings", "fresh-vegetables", "frozen-vegetables", "canned-vegetables") &&
+      !word("dressing", "vinaigrette") && (
+      (word("chocolate", "cocoa") && !word("cocoa powder", "baking cocoa", "unsweetened cocoa")) ||
       (word("cake", "cakes") && !word("rice cake", "rice cakes", "crab cake", "fish cake", "pancake")) ||
       (word("butter") && !word("peanut butter", "almond butter", "nut butter", "cashew butter", "sunflower butter", "butter beans")) ||
+      (word("bacon") && !word("canadian bacon", "canadian style bacon", "back bacon", "sausage", "links", "patties", "burger")) ||
+      frozenDessert ||
       word("candy", "candies", "cookie", "cookies", "cupcake", "brownie", "brownies", "donut", "doughnut", "pie", "pastry", "pastries",
-           "danish", "ice cream", "sherbet", "sorbet", "gelato", "pudding", "custard", "chips", "cheetos", "doritos", "fritos", "pringles",
-           "pork rinds", "trail mix", "margarine", "shortening", "lard", "mayonnaise", "mayo", "bacon", "syrup", "honey", "jam", "jelly",
+           "danish", "pudding", "custard", "gelatin", "jello", "jell-o", "chips", "cheetos", "doritos", "fritos", "pringles",
+           "pork rinds", "trail mix", "margarine", "shortening", "lard", "mayonnaise", "mayo", "miracle whip", "syrup", "honey", "jam", "jelly",
            "preserves", "frosting", "icing", "fudge", "toffee", "caramel", "marshmallow", "marshmallows", "gummy", "gummies", "licorice",
            "lollipop", "pop tart", "pop tarts", "toaster pastry", "fruit snacks", "fruit roll", "creamer", "half and half", "whipped topping",
-           "olives", "olive oil", "vegetable oil", "canola oil", "cooking oil", "nutella", "twinkies", "oreo", "snickers", "skittles",
-           "m&m's", "reese's", "kit kat", "hershey", "hershey's", "dessert", "desserts")))
+           "cool whip", "nutella", "twinkies", "oreo", "snickers", "skittles",
+           "m&m's", "reese's", "kit kat", "hershey", "hershey's", "dessert", "desserts") ||
+      // "olives" would otherwise match "olive oil", because word matching tolerates plurals
+      (word("olives") && !word("olive oil") && !proteinTagged) ||
+      (!inOil && !proteinTagged && word("olive oil", "vegetable oil", "canola oil", "cooking oil", "soybean oil", "sunflower oil", "coconut oil", "avocado oil"))))
     return R("sweets", "Fats, oils, sweets and salty snacks are always red in the FRG");
+  // 7b. canned coconut milk and coconut cream are cooking ingredients (FRG p.75, 1 Tbsp, red); the drinkable kind is dairy below
+  if (word("coconut milk", "coconut cream") && (cat("plant-based-creams", "creams-for-cooking", "canned-foods") || (k != null && k >= 100)))
+    return R("condiment", "Canned coconut milk is an ingredient in the FRG, judged at 1 Tbsp", 15);
   // 8. cheese (1 oz), then milk, yogurt and the rest of dairy (FRG p.33-40)
   if ((cat("cheeses", "cottage-cheeses", "cream-cheeses", "cheese-spreads", "ricottas") || word("cheese", "cheddar", "mozzarella", "parmesan", "feta", "ricotta", "swiss", "brie", "gouda", "provolone", "string cheese", "cottage cheese")) &&
-      !word("cracker", "crackers", "puffs", "sauce", "sandwich", "mac", "macaroni", "pizza", "dip"))
+      !grainy && !proteinTagged && !cat("salad-dressings", "dressings") &&
+      !word("cracker", "crackers", "puffs", "sauce", "sandwich", "mac", "macaroni", "pizza", "dip", "dressing", "vinaigrette", "chips", "flavored", "flavoured"))
     return R("cheese", "Cheese is judged at 1 oz in the FRG");
   if (dairyish || cat("buttermilks", "evaporated-milks", "condensed-milks", "sour-creams", "dairy-drinks", "almond-milks", "soy-milks", "oat-milks", "rice-milks", "coconut-milks") ||
       word("buttermilk", "sour cream", "eggnog", "almondmilk", "soymilk", "oatmilk", "almond milk", "soy milk", "oat milk", "rice milk", "coconut milk") ||
-      (cword("dairy") && !word("egg", "eggs")))
-    return R("dairy", "Milk, yogurt and plant milks are judged at 1 cup (yogurt at 6 oz) in the FRG", bev ? 245 : null);
+      (cword("dairy") && !word("egg", "eggs"))) {
+    //   "buttermilk ranch dressing" is a dressing, not a dairy food (FRG p.75), but a yogurt
+    //   "with caramel sauce" is still a yogurt, so the database has to agree it is a dressing
+    if (!(word("dressing", "dip", "sauce", "vinaigrette", "gravy") && cat("salad-dressings", "dressings", "condiments", "sauces", "dips")))
+      return R("dairy", "Milk, yogurt and plant milks are judged at 1 cup (yogurt at 6 oz) in the FRG", bev ? 245 : null);
+  }
   // 9. nuts and seeds (1 oz; butters 2 Tbsp) (FRG p.54-55)
-  if (!grainy && (cat("nuts", "nut-butters", "peanut-butter", "seeds", "almonds", "cashews", "walnuts", "pistachios", "peanuts", "coconuts") ||
+  //    Open Food Facts files beans under "legume-seeds"; those are protein, not nuts
+  if (!grainy && !legumey && !cat("meat-alternatives", "meat-analogues", "meat-substitutes", "meals", "prepared-meals") &&
+      !word("salad", "salads", "salad kit", "hummus", "dip", "dips", "guacamole", "pesto", "curry", "coconut milk", "coconut water", "coconut cream") &&
+      (cat("nuts", "nut-butters", "peanut-butter", "seeds", "almonds", "cashews", "walnuts", "pistachios", "peanuts", "coconuts") ||
       cword("nut and seed") ||
       word("nut", "nuts", "almond", "almonds", "cashew", "cashews", "peanut", "peanuts", "walnut", "walnuts", "pecan", "pecans", "pistachio",
            "pistachios", "macadamia", "hazelnut", "hazelnuts", "seeds", "sunflower seeds", "pumpkin seeds", "chia", "flax", "flaxseed", "tahini", "coconut")))
     return R("nuts", "Nuts and seeds are judged at 1 oz in the FRG; nearly all land red");
   // 11. condiments, dressings and ingredients (1 Tbsp) (FRG p.73-76)
-  if (cat("condiments", "ketchups", "mustards", "hot-sauces", "soy-sauces", "barbecue-sauces", "salsas", "relishes", "pickles", "capers",
-          "vinegars", "salad-dressings", "dressings", "gravies", "dips", "hummus", "sauces") ||
+  //     (frozen chopped onions and fresh herbs get a "condiments" tag on Open Food Facts; they are vegetables,
+  //     and a meat or fish packed in a sauce is still the meat: "sardines in tomato sauce", "baked tofu teriyaki")
+  if (!proteinTagged && (
+      (cat("condiments", "ketchup", "ketchups", "mustards", "hot-sauces", "soy-sauces", "barbecue-sauces", "salsas", "relishes", "pickles", "capers",
+           "vinegars", "salad-dressings", "dressings", "gravies", "dips", "hummus", "sauces", "whipped-creams") && !cat("frozen-vegetables", "fresh-vegetables")) ||
+      word("reddi wip") ||
       cword("sauces", "gravies") ||
       (word("mustard") && !word("greens", "spinach")) ||
-      word("ketchup", "catsup", "salsa", "dressing", "vinaigrette", "ranch", "relish", "pickle", "pickles", "capers", "vinegar",
+      (word("ranch") && (cat("salad-dressings", "dressings", "condiments", "sauces", "dips") || word("dressing", "dip", "sauce"))) ||
+      word("ketchup", "catsup", "salsa", "dressing", "vinaigrette", "relish", "pickle", "pickles", "capers", "vinegar",
            "gravy", "hummus", "dip", "guacamole", "hot sauce", "soy sauce", "barbecue sauce", "bbq sauce", "teriyaki", "worcestershire",
-           "steak sauce", "tartar sauce", "cocktail sauce", "sauce", "whipped cream", "sweetener", "cooking spray"))
+           "steak sauce", "tartar sauce", "cocktail sauce", "fish sauce", "oyster sauce", "taco sauce", "chili sauce", "sauce", "horseradish",
+           "miso", "au jus", "whipped cream", "cocoa powder", "baking cocoa", "cooking spray")))
     return R("condiment", "Condiments and dressings are judged at 1 Tbsp in the FRG");
   // 12. produce: green beans before legumes; starchy before other vegetables (FRG p.12-20)
-  if (cat("green-beans", "snap-beans", "string-beans") || word("green bean", "green beans", "snap beans", "string beans", "snow peas", "snap peas", "pea pods", "sugar snap"))
+  if (cat("green-beans", "snap-beans", "string-beans", "wax-beans") || word("green bean", "green beans", "wax bean", "wax beans", "snap beans", "string beans", "snow peas", "snap peas", "pea pods", "sugar snap"))
     return R("veg", "Green beans and pea pods are vegetables in the FRG");
-  if ((cat("potatoes", "sweet-potatoes", "corn", "sweet-corn", "peas", "green-peas", "beets", "parsnips", "pumpkins", "winter-squashes", "plantains", "cassava") ||
-       word(...STARCHY_WORDS)) && !word("tortilla", "tortillas", "chips", "bread", "muffin", "starch", "meal", "dog", "flour"))
+  if (!grainy && (cat("potatoes", "sweet-potatoes", "corn", "sweet-corn", "peas", "green-peas", "beets", "parsnips", "pumpkins", "winter-squashes", "plantains", "cassava") ||
+       word(...STARCHY_WORDS)) &&
+      !word("blackeye", "blackeyed", "black eyed", "cowpea", "cowpeas", "split pea", "split peas", "chickpeas", "lentils") &&
+      !word("tortilla", "tortillas", "tostada", "tostadas", "gnocchi", "chips", "bread", "muffin", "starch", "meal", "dog", "flour"))
     return R("starchy", "Starchy vegetables are never green in the FRG; yellow up to 120 cal per 1/2 cup");
   // 13. meat & seafood (3 oz), then eggs, beans and substitutes (FRG p.41-58)
-  if ((cat("meats", "poultry", "fishes", "seafood", "beef", "pork", "chicken", "turkey", "lamb", "deli-meats", "lunch-meats", "cold-cuts",
-           "sausages", "hot-dogs", "jerky", "canned-fish", "tunas", "salmons", "shrimps", "hams") ||
-       cword("beef", "pork", "poultry", "finfish", "shellfish", "sausages", "luncheon", "lamb, veal") ||
+  //     a meat tag settles it; a meat word alone does not, or "Cape Cod popcorn" becomes cod (p.47)
+  const meatTag = cat("meats", "prepared-meats", "poultry", "fishes", "seafood", "beef", "pork", "chicken", "turkey", "lamb", "deli-meats", "lunch-meats", "cold-cuts",
+                      "sausages", "hot-dogs", "jerky", "canned-fish", "canned-fishes", "tunas", "salmons", "sardines", "shrimps", "hams");
+  const meatWord = cword("beef", "pork", "poultry", "finfish", "shellfish", "sausages", "luncheon", "lamb, veal") ||
        word("beef", "steak", "pork", "ham", "chicken", "turkey", "lamb", "veal", "venison", "bison", "duck", "fish", "seafood", "shrimp",
             "salmon", "tuna", "cod", "tilapia", "halibut", "trout", "sardines", "anchovies", "crab", "lobster", "scallops", "clams",
-            "oysters", "mussels", "jerky", "hot dog", "hot dogs", "frankfurter", "bologna", "salami", "pepperoni", "sausage", "meatball",
-            "meatballs", "nuggets", "tenders", "wings", "deli", "lunch meat", "luncheon", "pastrami", "prosciutto", "meat", "liver")) &&
-      !word("bun", "buns", "bread", "broth", "stock", "noodle", "noodles", "soup"))
+            "oysters", "mussels", "jerky", "hot dog", "hot dogs", "frankfurter", "bologna", "salami", "pepperoni", "sausage", "bratwurst", "meatball",
+            "meatballs", "nuggets", "tenders", "wings", "deli", "lunch meat", "luncheon", "pastrami", "prosciutto", "canadian bacon", "back bacon", "meat", "liver");
+  //     Open Food Facts tags baked tofu as both "meats" and "tofu"; the guide files it with meat substitutes (p.45)
+  if ((meatTag || (!grainy && meatWord)) && !cat("tofu", "tempeh", "meat-alternatives", "meat-substitutes", "veggie-burgers", "seitan", "eggs") &&
+      !(word("bun", "buns", "bread") && (grainy || cat("breads", "buns", "rolls"))) &&
+      !word("broth", "stock", "noodle", "noodles", "soup", "ravioli", "tortellini"))
     return R("meat", "Meat and seafood are judged at 3 oz in the FRG");
-  if ((cat("eggs", "legumes", "beans", "lentils", "chickpeas", "tofu", "tempeh", "meat-substitutes", "meat-alternatives", "veggie-burgers", "edamame") && !cat("green-beans")) ||
+  if (!grainy && ((cat("eggs", "legumes", "beans", "lentils", "chickpeas", "tofu", "tempeh", "meat-substitutes", "meat-alternatives", "veggie-burgers", "edamame") && !cat("green-beans")) ||
       cword("legume") ||
       (word("egg", "eggs") && !word("noodle", "noodles", "pasta", "roll", "rolls", "bread", "bagel")) ||
       word("beans", "black beans", "kidney beans", "pinto beans", "navy beans", "baked beans", "refried beans", "lentils", "chickpeas",
-           "garbanzo", "tofu", "tempeh", "edamame", "veggie burger", "veggie burgers", "meatless", "seitan", "falafel", "boca", "morningstar"))
+           "garbanzo", "tofu", "tempeh", "edamame", "veggie burger", "veggie burgers", "meatless", "seitan", "falafel", "boca", "morningstar")))
     return R("protein", "Eggs, beans and meat substitutes are judged at 1/2 cup, 1 egg or 1 patty in the FRG");
   // 14. vegetables (1/2 cup; raw leafy greens are light, about 35 g)
-  if (cat("vegetables", "leafy-vegetables", "salads", "tomatoes", "carrots", "mushrooms", "onions", "peppers", "cucumbers", "canned-vegetables", "frozen-vegetables") ||
-      cword("vegetable") || word(...FDC_VEG_WORDS)) {
+  //     "basmati rice with bell peppers" and "vegetable macaroni" are grains, not vegetables
+  if (!grainy && (cat("vegetables", "leafy-vegetables", "salads", "tomatoes", "carrots", "mushrooms", "onions", "peppers", "cucumbers", "canned-vegetables", "frozen-vegetables") ||
+      cword("vegetable") || word(...FDC_VEG_WORDS))) {
     if (bev) return R("veg", "Vegetables: the only group that can be green", 240);
     if (word(...LEAFY_WORDS)) return R("veg", "Vegetables: the only group that can be green (raw leafy greens weigh about 35 g per 1/2 cup)", 35);
     return R("veg", "Vegetables: the only group that can be green");
   }
   // 15. fruit (yellow at most) (FRG p.21-23)
-  if ((cat("fruits", "fruit", "berries", "citrus", "melons", "apples", "bananas", "compotes", "applesauce", "canned-fruits", "frozen-fruits") ||
+  //     canned fruit, applesauce and fruit cups are 1/2 cup in the guide, about 125 g; heavy syrup lands red (p.23)
+  if (cannedFruit || ((cat("canned-fruits", "applesauce", "compotes", "fruit-cups") || (fruitWord && word("applesauce"))) && !hasWord(w, ...FDC_NOT_PRODUCE)))
+    return R("fruit", "Canned fruit and applesauce are judged at 1/2 cup in the FRG; fruit is yellow at most", 125);
+  if ((cat("fruits", "fruit", "berries", "citrus", "melons", "apples", "bananas", "dates", "frozen-fruits") ||
        cword("fruits") || hasWord(w, ...FDC_FRUIT_WORDS)) && !hasWord(w, ...FDC_NOT_PRODUCE))
     return R("fruit", "Fruit is yellow at most in the FRG; only vegetables can be green");
   // 16. grains (1 oz dry; 1/2 cup cooked) (FRG p.26-32)
   if (cat("breads", "bagels", "tortillas", "pastas", "noodles", "rices", "cereals", "oats",
-          "oatmeal", "porridge", "quinoa", "crackers", "pretzels", "rice-cakes", "popcorn", "pancakes", "waffles", "muffins", "rolls",
+          "oatmeal", "porridge", "quinoa", "crackers", "pretzels", "pretzel", "rice-cakes", "popcorn", "pancakes", "waffles", "muffins", "rolls",
           "buns", "croissants", "flours", "stuffing", "doughs", "pizza-doughs", "cereal-grains") ||
       cword("cereal grains", "baked products") ||
       word("bread", "bagel", "bagels", "tortilla", "tortillas", "pita", "naan", "pasta", "spaghetti", "macaroni", "penne", "noodle", "noodles",
            "rice", "oats", "oatmeal", "quinoa", "barley", "couscous", "bulgur", "farro", "cracker", "crackers", "pretzel", "pretzels",
            "rice cake", "rice cakes", "popcorn", "pancake", "pancakes", "waffle", "waffles", "muffin", "muffins", "roll", "rolls", "bun",
-           "buns", "biscuit", "croissant", "flour", "cornmeal", "grits", "stuffing", "pierogi", "pierogies", "goldfish", "cheez it",
-           "triscuit", "wheat thins", "ritz", "saltines", "graham")) {
-    const cooked = k != null && k < 220 && (word("cooked", "ready", "prepared", "rice", "pasta", "noodle", "noodles", "oatmeal", "grits", "quinoa", "barley", "couscous") || cat("rices", "pastas", "noodles"));
-    return R("grain", cooked ? "Grains: cooked rice, pasta and hot cereal are judged at 1/2 cup" : "Grains are judged at 1 oz in the FRG", cooked ? 75 : 28);
+           "buns", "biscuit", "croissant", "flour", "cornmeal", "grits", "stuffing", "pierogi", "pierogies", "ravioli", "tortellini", "gnocchi",
+           "goldfish", "cheez it", "triscuit", "wheat thins", "ritz", "saltines", "graham")) {
+    // filled pasta is sold ready to boil, so the guide's 1/2 cup applies whatever the per-100 g value (p.31)
+    const filled = word("ravioli", "tortellini", "gnocchi", "pierogi", "pierogies");
+    const cooked = filled || (k != null && k < 220 && (word("cooked", "ready", "prepared", "rice", "pasta", "noodle", "noodles", "oatmeal", "grits", "quinoa", "barley", "couscous") || cat("rices", "pastas", "noodles")));
+    return R("grain", cooked ? "Grains: cooked rice, pasta and hot cereal are judged at 1/2 cup" : "Grains are judged at 1 oz in the FRG",
+      cooked ? (servOverride(w, f) || 75) : 28);
   }
+  //     (this is the last resort, so "no colour" needs sugars actually reported as nil, not merely missing)
+  if (bev || cat("beverages", "non-alcoholic-beverages", "plant-based-beverages"))
+    return (k == null || k <= 5) && sug != null && sug < 1 && !f.sweetened
+      ? R("free", "An unflavoured, calorie-free drink has no Traffic Light colour")
+      : R("sweets", "A drink that is not water, plain tea or coffee, milk or juice sits in Fats, Oils, Sweets & Others (p.59)", 240);
   return { group: null, why: "Food group not detected", servG: null };
 }
 
@@ -694,9 +873,11 @@ function classify(f, rules, groupOverride) {
   }
   if (kcalServ == null) { reasons.push("No calorie data, so it cannot be placed in the " + g.label.toLowerCase() + " range"); return done("yellow"); }
 
+  // the guide's lines are whole calories, and labels round to whole calories, so 120.4 is 120 and yellow
+  const kc = Math.round(kcalServ);
   let color;
-  if (g.green != null && kcalServ <= g.green) color = "green";
-  else if (kcalServ <= g.yellow) color = "yellow";
+  if (g.green != null && kc <= g.green) color = "green";
+  else if (kc <= g.yellow) color = "yellow";
   else color = "red";
   reasons.push(basis + " → " + (g.green != null ? "green ≤ " + g.green + ", " : "") + "yellow ≤ " + g.yellow + ", red > " + g.yellow);
 
@@ -712,7 +893,7 @@ function classify(f, rules, groupOverride) {
 }
 
 // ---------- Open Food Facts lookup ----------
-const OFF_FIELDS = "code,product_name,brands,serving_size,serving_quantity,nutriments,categories_tags,nutrition_data_per";
+const OFF_FIELDS = "code,product_name,brands,serving_size,serving_quantity,nutriments,categories_tags,nutrition_data_per,ingredients_text,additives_tags";
 async function offByBarcode(code) {
   const variants = [code];
   const digits = code.replace(/\D/g, "");
@@ -769,6 +950,8 @@ function foodFromOFF(p) {
   return {
     name: p.product_name || "Unnamed product", brand: p.brands || "",
     cats, isBeverage, per100, serv, base, baseLabel, servingLabel,
+    servQtyG: servQty > 0 ? servQty : null,
+    sweetened: looksArtificiallySweetened(p.ingredients_text, p.additives_tags),
     source: "Open Food Facts", code: p.code || "",
   };
   function nz(v, f) { return v == null ? null : v * f; }
@@ -876,6 +1059,8 @@ function foodFromFDC(f) {
     brand: [f.brandName, f.brandOwner].filter(Boolean).join(" · ") || (f.dataType || ""),
     cats: tags, isBeverage, per100, serv: serv || {},
     base: serv || per100, baseLabel, servingLabel,
+    servQtyG: servQty || null,
+    sweetened: looksArtificiallySweetened(f.ingredients, null),
     source: "USDA " + (f.dataType || "FoodData Central"), code: f.gtinUpc || "",
     usdaCategory: f.foodCategory || "",
   };

@@ -36,7 +36,9 @@ const CASES = [
   ['0020000174808', 'Green Giant peas',           'yellow', 'starchy'],
   // --- fruit is yellow at most (p.21-23) ---
   ['0038900004736', 'Dole pineapple chunks',      'yellow', 'fruit'],
-  ['0014800000207', "Mott's applesauce",          'yellow', 'fruit'],
+  // applesauce is 1/2 cup in the FRG (sweetened 84 cal, yellow; p.21). OFF lists Mott's Original at
+  // 86 kcal/100 g, which is 107 per 1/2 cup: over the 90-cal fruit line, so red by the guide's own rule
+  ['0014800000207', "Mott's Original applesauce", 'red',    'fruit'],
   // --- grains at 1 oz, cooked rice at 1/2 cup (p.26-32) ---
   ['0072250914765', "Nature's Own honey wheat",   'yellow', 'grain'],
   ['0013764027053', "Dave's Killer Bread",        'yellow', 'grain'],

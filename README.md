@@ -8,7 +8,7 @@ Works on a phone (camera barcode scanning) or a laptop (type a barcode or search
 
 ## Try it
 
-Open the live link above. `verified_barcodes.csv` lists 33 barcodes confirmed to resolve, spread across all three colors, if you want known-good codes to test with.
+Open the live link above. `verified_barcodes.csv` lists 33 barcodes confirmed to resolve, covering all three colors plus "no colour" water, if you want known-good codes to test with.
 
 For more than casual use, get a free USDA API key at [api.data.gov/signup](https://api.data.gov/signup) and paste it into the app's Settings. The bundled `DEMO_KEY` is limited to roughly 30 lookups per hour.
 
@@ -31,7 +31,7 @@ Every verdict shows its reasons, the food group can be changed, and any colour c
 | `traffic_light_food_logger.html` | The entire app: HTML, CSS, and JavaScript in one file |
 | `index.html` | Redirect so the site root opens the app |
 | `ORIENTATION.md` | Full project orientation: architecture, data sources, thresholds, roadmap |
-| `verified_barcodes.csv` / `.json` | 33 US barcodes confirmed to resolve, with assigned colors and reasons (12 green, 13 yellow, 8 red) |
+| `verified_barcodes.csv` / `.json` | 33 US barcodes confirmed to resolve, with assigned colors and reasons (3 green, 15 yellow, 12 red, 3 no colour) |
 | `screenshots/` | Light mode, dark mode, and USDA-search screenshots |
 | `tests/` | Test harness: four suites covering the classification engine and both API mappers |
 | `fixtures/` | Saved Open Food Facts and USDA responses so the tests run offline |
@@ -40,7 +40,9 @@ See [ORIENTATION.md](ORIENTATION.md) for the full technical writeup.
 
 ## Testing
 
-With Node.js and Python 3 installed, run `tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs four suites against offline fixtures: hand-written classification checks, USDA mapping checks, 43 assertions over saved Open Food Facts responses, and 11 over saved USDA generic-food responses.
+With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs four suites against offline fixtures: 210 hand-written classification checks, 11 USDA mapping checks, 39 assertions over saved Open Food Facts responses, and 17 over saved USDA generic-food responses.
+
+Three internet audits complement them. `node tests/audit_live.js` pulls about 130 named everyday US products and compares each with the guide. `node tests/audit_random.js 400 <seed>` draws products at random across 57 categories. `node tests/audit_analyze.js <file>` then checks every drawn product automatically: each Open Food Facts category implies which food groups a product from it could legitimately take, so anything outside that set is printed for review. `node tests/audit_reclassify.js` re-runs a saved draw offline after a rule change. Across five random draws totalling 1,700 products the classifier now produces no group outside what the category allows.
 
 The two fixture suites matter most. Hand-written cases pass tidy category arrays like `['en:fruits']` straight to `classify()`, which is not what either API actually returns; running real saved responses through the full mapper is what catches category-vocabulary bugs.
 
