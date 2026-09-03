@@ -131,6 +131,14 @@
   .combo-ask .hint { font-size: 12.5px; color: var(--ink-muted); }
   .combo-ask .btns { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
   .day-note { font-size: 12.5px; color: var(--ink-muted); margin-top: 8px; }
+  .dish-part { display: flex; gap: 8px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .dish-part:last-child { border-bottom: none; }
+  .dish-part .info { flex: 1; min-width: 0; }
+  .dish-part .n { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dish-part .d { font-size: 12.5px; color: var(--ink-muted); }
+  .dish-part input { width: 68px; padding: 5px 6px; font-size: 13px; }
+  .dish-total { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: var(--page); border: 1px solid var(--border); font-size: 13.5px; }
+  .recipe-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
   .override-row { margin-top: 12px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .override-row .lbl { font-size: 12.5px; color: var(--ink-muted); }
   .override-row select { width: auto; flex: 1; min-width: 200px; padding: 6px 10px; font-size: 13.5px; }
@@ -150,8 +158,12 @@
     padding: 10px 2px; border-bottom: 1px solid var(--grid);
   }
   .log-item:last-child { border-bottom: none; }
-  .log-item .mark { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; }
-  .log-item .mark.g { color: var(--good); } .log-item .mark.y { color: var(--warn); } .log-item .mark.r { color: var(--crit); } .log-item .mark.f { color: var(--ink-muted); } .log-item .mark.v { color: var(--ink-2); }
+  .log-item .mark, .dish-part .mark { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; }
+  .log-item .mark.g, .dish-part .mark.g { color: var(--good); }
+  .log-item .mark.y, .dish-part .mark.y { color: var(--warn); }
+  .log-item .mark.r, .dish-part .mark.r { color: var(--crit); }
+  .log-item .mark.f, .dish-part .mark.f { color: var(--ink-muted); }
+  .log-item .mark.v, .dish-part .mark.v { color: var(--ink-2); }
   .log-item .info { flex: 1; min-width: 0; }
   .log-item .n { font-size: 14.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .log-item .d { font-size: 12.5px; color: var(--ink-muted); }
@@ -215,6 +227,7 @@
     <div class="scanrow">
       <button class="primary grow" id="btnScan">📷 Scan barcode</button>
       <button class="grow" id="btnCustom">✎ Custom food</button>
+      <button class="grow" id="btnStartDish">🍽 Build a dish</button>
     </div>
     <div class="scanrow">
       <input type="search" class="grow" id="lookupInput" placeholder="Barcode number or food name…" inputmode="search">
@@ -258,6 +271,7 @@
       <div class="btns">
         <button class="small" data-ask="red">⬣ Yes, it does → RED</button>
         <button class="small" data-ask="yellow">▲ No, it does not → YELLOW</button>
+        <button class="small" id="btnBuildFromAsk">🍽 Work it out from the parts</button>
       </div>
     </div>
 
@@ -272,7 +286,23 @@
     <div class="log-actions">
       <input type="date" id="logDate" aria-label="Log date" style="max-width:160px">
       <button class="primary" id="btnLog">Add to log</button>
+      <button id="btnAddToDish" hidden>＋ Add to dish</button>
     </div>
+  </section>
+
+  <!-- DISH BUILDER -->
+  <section class="card" id="dishCard" hidden>
+    <h2>Building a dish</h2>
+    <input type="text" id="dishName" placeholder="Name this dish, e.g. turkey sandwich">
+    <div class="hint">The guide gives a mixed dish no calorie range. Log its parts and it applies the p.8 rule: the dish is RED once the red parts add up to one full serving of a red food, which several red foods can make between them. Look each part up above, then press “Add to dish”.</div>
+    <div id="dishParts"></div>
+    <div class="dish-total" id="dishTotal"></div>
+    <div class="log-actions">
+      <button class="primary" id="btnLogDish">Add dish to log</button>
+      <button id="btnSaveRecipe">Save as recipe</button>
+      <button id="btnCancelDish">Cancel</button>
+    </div>
+    <div class="recipe-chips" id="recipeList"></div>
   </section>
 
   <!-- TODAY -->
@@ -389,6 +419,8 @@ const state = {
   portionMult: 1,
   override: "",
   groupOverride: null,  // clinician-chosen FRG food group, null = auto
+  dish: null,         // {name, parts:[{name, group, groupLabel, color, servings, kcalPerServing, servLabel}]}
+  recipes: [],        // saved dishes, reusable in one tap
 };
 
 const DEFAULT_RULES = {
@@ -402,7 +434,7 @@ const DEFAULT_RULES = {
   veg:       { label: "Vegetables",                          green: 30, yellow: 45, servG: 65,  serv: "1/2 cup" },
   starchy:   { label: "Starchy vegetables",                  yellow: 120, servG: 80,  serv: "1/2 cup" },
   fruit:     { label: "Fruit",                               yellow: 90,  servG: 90,  serv: "1 small piece or 1/2 cup" },
-  juice:     { label: "Fruit juice & dried fruit",           alwaysRed: true },
+  juice:     { label: "Fruit juice & dried fruit",           alwaysRed: true, servG: 240, serv: "8 fl oz or 1/4 cup dried" },
   grain:     { label: "Grains",                              yellow: 120, servG: 28,  serv: "1 oz (1 slice; 1/2 cup cooked)" },
   cereal:    { label: "Cold cereal",                         yellow: 120, sugarPct: 25, servG: 30, serv: "1 cup flakes, 1/2 cup pieces or 1/4 cup granola" },
   cheese:    { label: "Cheese",                              yellow: 83,  servG: 28,  serv: "1 oz" },
@@ -410,13 +442,18 @@ const DEFAULT_RULES = {
   meat:      { label: "Meat & seafood",                      yellow: 158, servG: 85,  serv: "3 oz" },
   protein:   { label: "Eggs, beans & meat substitutes",      yellow: 120, servG: 90,  serv: "1/2 cup, 1 egg or 1 patty" },
   nuts:      { label: "Nuts & seeds",                        yellow: 68,  servG: 28,  serv: "1 oz" },
-  sweets:    { label: "Fats, oils, sweets & others",         alwaysRed: true },
+  sweets:    { label: "Fats, oils, sweets & others",         alwaysRed: true, servG: 15, serv: "about 1 Tbsp, or 1 oz of a snack" },
   soupBroth: { label: "Soup: broth-based & chowder",         yellow: 186, servG: 245, serv: "1 cup" },
   soupChili: { label: "Soup: chili, bean/lentil & gumbo",    yellow: 224, servG: 245, serv: "1 cup" },
   condiment: { label: "Condiments, dressings & ingredients", yellow: 23,  servG: 15,  serv: "1 Tbsp" },
   combo:     { label: "Combination food",                    review: true },
   free:      { label: "Water, plain tea/coffee, seasonings", free: true },
   redPerDay: 2,   // FRG p.3: no more than 2 RED servings a day
+  // FRG p.8: "If a combination food has 1 serving of a RED food in it, then the
+  // combination food is RED. 1 serving of a RED food can be made up of 1 type of
+  // RED food or many RED foods." So the red parts are added up and one serving is
+  // enough. Editable, in case a programme runs a tighter limit.
+  comboRedServings: 1,
 };
 const GROUP_ORDER = ["veg", "starchy", "fruit", "juice", "grain", "cereal", "cheese", "dairy", "meat", "protein", "nuts",
   "sweets", "soupBroth", "soupChili", "condiment", "combo", "free"];
@@ -650,17 +687,18 @@ function decomposeCombo(f, rules) {
   // decide on the same figure the clinician reads, so a displayed 1.0 is never treated as 0.99
   const shown = Number(redServings.toFixed(1));
   const total = shown >= 0.05 ? shown.toFixed(1) : "0";
+  const limit = (typeof R.comboRedServings === "number") ? R.comboRedServings : 0.5;
   const traceText = traces + " trace amount" + (traces > 1 ? "s" : "");
   const listed = reds.length ? reds.join("; ") + (traces ? ", plus " + traceText : "")
                              : (traces ? traceText : "none");
-  if (shown >= 1)
+  if (shown >= limit)
     return { color: "red", decided: true, reasons: [
       "Combination food: red because it holds a full serving of red food (FRG p.8)",
-      "Red components in one " + fmt0(servG) + " g serving: " + listed + " → " + total + " red servings, and 1 is enough",
+      "Red components in one " + fmt0(servG) + " g serving: " + listed + " → " + total + " red servings, and " + limit + " is enough",
       "From the ingredient percentages Open Food Facts estimates, so check it against the package"] };
   return { color: "yellow", decided: true, reasons: [
     "Combination food: no full serving of a red food in it, so it is judged by its parts (FRG p.8)",
-    "Red components in one " + fmt0(servG) + " g serving: " + listed + " → " + total + " red servings, and it takes 1 to make the dish red",
+    "Red components in one " + fmt0(servG) + " g serving: " + listed + " → " + total + " red servings, and it takes " + limit + " to make the dish red",
     "From the ingredient percentages Open Food Facts estimates, so check it against the package"] };
 }
 function titleWord(s) { const t = String(s || "").toLowerCase().trim(); return t.charAt(0).toUpperCase() + t.slice(1); }
@@ -1010,7 +1048,16 @@ function classify(f, rules, groupOverride) {
     return done("yellow");
   }
   if (g.free) { reasons.push(det.group === group ? det.why : g.label + ": no Traffic Light colour"); return done("free"); }
-  if (g.alwaysRed) { reasons.push(det.group === group ? det.why : g.label + ": always red in the FRG"); return done("red"); }
+  if (g.alwaysRed) {
+    reasons.push(det.group === group ? det.why : g.label + ": always red in the FRG");
+    // the colour never depends on the calories here, but the count still has to be shown and
+    // has to carry into a dish total
+    servG = (det.group === group && det.servG) || g.servG || null;
+    if (kcal100 != null && servG) kcalServ = kcal100 * servG / 100;
+    else if (num(s.kcal) != null) kcalServ = num(s.kcal);
+    if (kcalServ != null) reasons.push(fmt0(kcalServ) + " cal per serving (about " + servG + " g, " + g.serv + ")");
+    return done("red");
+  }
   if (g.review) {
     const d = decomposeCombo(f, R);
     if (d) { for (const r of d.reasons) reasons.push(r); return done(d.color); }
@@ -1314,6 +1361,127 @@ function renderGroupSelect(res) {
   sel.value = state.groupOverride || "";
 }
 
+// ---------- building a dish from its parts (FRG p.8) ----------
+// The guide has no calorie range for a mixed dish, only the rule that its red
+// parts decide it. Answering that from memory is the hard part, so the clinician
+// logs the parts and the app does the arithmetic and shows its working.
+function startDish(name) {
+  state.dish = { name: name || "", parts: [] };
+  $("dishName").value = state.dish.name;
+  renderDish();
+  $("dishCard").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function addCurrentToDish() {
+  const f = state.current;
+  if (!f) return;
+  if (!state.dish) startDish(f.name);
+  const res = classify(f, RULES, state.groupOverride);
+  const color = state.override || res.color;
+  const perServing = res.kcalServ != null ? Math.round(res.kcalServ)
+                   : (f.serv && typeof f.serv.kcal === "number" ? Math.round(f.serv.kcal) : null);
+  const g = RULES[res.group];
+  state.dish.parts.push({ name: f.name, group: res.group || null, groupLabel: res.groupLabel,
+    color: color, servings: 1, kcalPerServing: perServing, servLabel: (g && g.serv) || "1 serving" });
+  renderDish();
+  toast("Added to the dish");
+}
+function dishVerdict(dish) {
+  const parts = (dish && dish.parts) || [];
+  const limit = (typeof RULES.comboRedServings === "number") ? RULES.comboRedServings : 0.5;
+  const redServings = parts.filter(p => p.color === "red").reduce((a, p) => a + (Number(p.servings) || 0), 0);
+  const shown = Number(redServings.toFixed(1));
+  const kcal = parts.reduce((a, p) => a + (p.kcalPerServing != null ? p.kcalPerServing * (Number(p.servings) || 0) : 0), 0);
+  return { color: shown >= limit ? "red" : "yellow", redServings: shown, limit: limit, kcal: Math.round(kcal), parts: parts.length };
+}
+function renderDish() {
+  const card = $("dishCard");
+  card.hidden = !state.dish;
+  $("btnAddToDish").hidden = !state.dish;
+  renderRecipes();
+  if (!state.dish) return;
+  const wrap = $("dishParts");
+  wrap.innerHTML = "";
+  if (!state.dish.parts.length)
+    wrap.innerHTML = '<div class="empty">No parts yet. Look up a food above and press Add to dish.</div>';
+  state.dish.parts.forEach((p, i) => {
+    const div = document.createElement("div");
+    div.className = "dish-part";
+    div.innerHTML =
+      '<span class="mark ' + (MARK[p.color] || "y") + '" title="' + LABELS[p.color] + '">' + SHAPES[p.color] + "</span>" +
+      '<div class="info"><div class="n">' + esc(p.name) + "</div>" +
+      '<div class="d">' + esc(p.groupLabel || "no group") + " &middot; 1 serving = " + esc(p.servLabel) +
+      (p.kcalPerServing != null ? " &middot; " + p.kcalPerServing + " cal each" : " &middot; calories unknown") + "</div></div>" +
+      '<input type="number" min="0.5" step="0.5" value="' + p.servings + '" aria-label="Servings">' +
+      '<button class="del" aria-label="Remove part" title="Remove">&#10005;</button>';
+    div.querySelector("input").onchange = (e) => {
+      const v = parseFloat(e.target.value);
+      state.dish.parts[i].servings = (!isNaN(v) && v > 0) ? v : 1;
+      renderDish();
+    };
+    div.querySelector(".del").onclick = () => { state.dish.parts.splice(i, 1); renderDish(); };
+    wrap.appendChild(div);
+  });
+  const v = dishVerdict(state.dish);
+  const over = v.color === "red";
+  $("dishTotal").innerHTML =
+    "<b>" + SHAPES[v.color] + " " + LABELS[v.color] + "</b> &middot; red parts add up to <b>" + v.redServings +
+    "</b> serving" + (v.redServings === 1 ? "" : "s") + ", " + (over ? "which reaches" : "short of") + " the " + v.limit + " it takes" +
+    " &middot; " + v.kcal + " cal in total" +
+    '<div class="hint">The FRG gives a mixed dish no range of its own. It is RED once the red parts add up to a full serving of a red food, which can be several red foods together (p.8).</div>';
+}
+function renderRecipes() {
+  const wrap = $("recipeList");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  if (!state.recipes.length) return;
+  const lbl = document.createElement("span");
+  lbl.className = "lbl";
+  lbl.textContent = "Saved dishes:";
+  wrap.appendChild(lbl);
+  state.recipes.forEach((r) => {
+    const b = document.createElement("button");
+    b.className = "small";
+    b.textContent = r.name + " (" + r.parts.length + ")";
+    b.title = "Load this dish";
+    b.onclick = () => {
+      state.dish = { name: r.name, parts: r.parts.map(p => Object.assign({}, p)) };
+      $("dishName").value = r.name;
+      renderDish();
+    };
+    wrap.appendChild(b);
+  });
+}
+function logDish() {
+  if (!state.dish || !state.dish.parts.length) { toast("Add some parts first"); return; }
+  const v = dishVerdict(state.dish);
+  const name = ($("dishName").value || "").trim() || "Mixed dish";
+  const d = new Date();
+  state.log.push({
+    id: state.nextId++, clientId: state.activeClient,
+    date: $("logDate").value || todayStr(),
+    time: String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"),
+    name: name, brand: "built from " + v.parts + " part" + (v.parts === 1 ? "" : "s"), group: "Combination food",
+    color: v.color, auto: v.color, overridden: false,
+    kcal: v.kcal, fat: null, sugars: null, protein: null,
+    portion: v.redServings + " red serving" + (v.redServings === 1 ? "" : "s"),
+    parts: state.dish.parts.map(p => Object.assign({}, p)),
+  });
+  toast(name + " logged as " + LABELS[v.color]);
+  state.dish = null;
+  renderDish();
+  renderAll();
+}
+function saveRecipe() {
+  if (!state.dish || !state.dish.parts.length) { toast("Add some parts first"); return; }
+  const name = ($("dishName").value || "").trim();
+  if (!name) { toast("Give the dish a name first"); return; }
+  const entry = { name: name, parts: state.dish.parts.map(p => Object.assign({}, p)) };
+  const at = state.recipes.findIndex(r => r.name.toLowerCase() === name.toLowerCase());
+  if (at >= 0) state.recipes[at] = entry; else state.recipes.push(entry);
+  renderRecipes();
+  toast("Saved " + name + " for reuse");
+}
+
 // ---------- logging ----------
 function portionText(m) { return m === 1 ? "1 serving" : m + " × serving"; }
 function addToLog() {
@@ -1452,13 +1620,15 @@ function renderSettings() {
   ki.type = "text"; ki.id = "usdaKeyInput"; ki.value = PREFS.usdaKey; ki.autocomplete = "off"; ki.spellcheck = false;
   ki.onchange = () => { PREFS.usdaKey = ki.value.trim() || "DEMO_KEY"; toast("USDA key updated"); };
   g.appendChild(kl); g.appendChild(ki);
-  const row = (id, text, value, onchange) => {
+  const row = (id, text, value, onchange, step) => {
     const lab = document.createElement("label"); lab.textContent = text; lab.htmlFor = id;
-    const inp = document.createElement("input"); inp.type = "number"; inp.step = "1"; inp.min = "0"; inp.id = id; inp.value = value;
+    const inp = document.createElement("input"); inp.type = "number"; inp.step = step || "1"; inp.min = "0"; inp.id = id; inp.value = value;
     inp.onchange = () => { const v = parseFloat(inp.value); if (!isNaN(v)) { onchange(v); if (state.current) renderVerdict(); renderAll(); } };
     g.appendChild(lab); g.appendChild(inp);
   };
   row("rule_redPerDay", "Red servings allowed per day (FRG: 2)", RULES.redPerDay, v => { RULES.redPerDay = v; });
+  row("rule_comboRedServings", "Mixed dish: red at this many red servings (FRG p.8: 1)", RULES.comboRedServings,
+      v => { RULES.comboRedServings = v; renderDish(); }, "0.5");
   for (const k of GROUP_ORDER) {
     const r = RULES[k];
     if (!r || r.alwaysRed || r.free || r.review) continue;
@@ -1486,7 +1656,7 @@ function exportCsv() {
   download("traffic_light_log.csv", csv, "text/csv");
 }
 function exportJson() {
-  download("traffic_light_backup.json", JSON.stringify({ v: 2, clients: state.clients, activeClient: state.activeClient, log: state.log, nextId: state.nextId, rules: RULES, prefs: PREFS }, null, 2), "application/json");
+  download("traffic_light_backup.json", JSON.stringify({ v: 3, clients: state.clients, activeClient: state.activeClient, log: state.log, nextId: state.nextId, recipes: state.recipes, rules: RULES, prefs: PREFS }, null, 2), "application/json");
 }
 function importJson(file) {
   const rd = new FileReader();
@@ -1497,6 +1667,7 @@ function importJson(file) {
       state.clients = j.clients; state.log = j.log;
       state.nextId = j.nextId || (Math.max(0, ...j.log.map(e => e.id)) + 1);
       state.activeClient = j.activeClient && j.clients.some(c => c.id === j.activeClient) ? j.activeClient : (j.clients[0] && j.clients[0].id);
+      if (Array.isArray(j.recipes)) state.recipes = j.recipes;
       if (j.rules && j.rules.veg) RULES = { ...cloneRules(DEFAULT_RULES), ...j.rules };  // v1 backups carried the old nutrient rules
       if (j.prefs && j.prefs.usdaKey) PREFS.usdaKey = j.prefs.usdaKey;
       renderClients(); renderSettings(); renderAll();
@@ -1613,6 +1784,13 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-ov]").forEach(b => b.onclick = () => { state.override = b.dataset.ov; renderVerdict(); });
   document.querySelectorAll("[data-ask]").forEach(b => b.onclick = () => { state.override = b.dataset.ask; renderVerdict(); });
   $("groupSelect").onchange = (e) => { state.groupOverride = e.target.value || null; state.override = ""; renderVerdict(); };
+  $("btnStartDish").onclick = () => startDish("");
+  $("btnAddToDish").onclick = addCurrentToDish;
+  $("btnBuildFromAsk").onclick = () => startDish(state.current ? state.current.name : "");
+  $("btnLogDish").onclick = logDish;
+  $("btnSaveRecipe").onclick = saveRecipe;
+  $("btnCancelDish").onclick = () => { state.dish = null; renderDish(); };
+  $("dishName").oninput = (e) => { if (state.dish) state.dish.name = e.target.value; };
 
   $("viewDate").onchange = renderAll;
   $("dayPrev").onclick = () => shiftDay(-1);

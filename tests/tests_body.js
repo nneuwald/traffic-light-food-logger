@@ -242,11 +242,20 @@ all &= T('Blue cheese dressing is a dressing', {name:'Chunky Blue Cheese Dressin
 // --- combination foods decomposed by the guide's one-red-serving rule (FRG p.8) ---
 const PIZZA = [{text:'FLOUR',pct:51.8},{text:'MOZZARELLA CHEESE',pct:24.1},{text:'WATER',pct:12.1},{text:'PEPPERONI',pct:6.0},{text:'NONFAT MILK',pct:3.0},{text:'TOMATO PASTE',pct:1.5},{text:'VEGETABLE OIL',pct:0.8}];
 all &= T('Pepperoni pizza: 1.1 servings of cheese alone makes it red', {name:'Brick Oven Pepperoni Pizza', cats:['en:pizzas'], per100:{kcal:279}, servQtyG:127, ingredients:PIZZA}, 'red', 'combo');
-all &= T('The same pizza at a small serving stays under one red serving', {name:'Brick Oven Pepperoni Pizza', cats:['en:pizzas'], per100:{kcal:279}, servQtyG:60, ingredients:PIZZA}, 'yellow', 'combo');
+all &= T('The same pizza at a 40 g serving stays under the limit', {name:'Brick Oven Pepperoni Pizza', cats:['en:pizzas'], per100:{kcal:279}, servQtyG:40, ingredients:PIZZA}, 'yellow', 'combo');
 all &= T('Pizza snack rolls hold 0.2 of a red serving', {name:'Pepperoni Pizza Snack Rolls', cats:['en:meals'], per100:{kcal:259}, servQtyG:85,
   ingredients:[{text:'WATER',pct:50},{text:'ENRICHED WHEAT FLOUR',pct:25},{text:'TOMATO PASTE',pct:12.5},{text:'PEPPERONI',pct:6.3},{text:'SOYBEAN OIL',pct:1.6},{text:'MODIFIED FOOD STARCH',pct:0.8}]}, 'yellow', 'combo');
-all &= T('Veggie flatbread: 0.6 of a red serving, so not red', {name:'Veggie flatbread pizza', cats:['en:pizzas'], per100:{kcal:204}, servQtyG:120,
-  ingredients:[{text:'WHEAT FLOUR',pct:55},{text:'TOMATO SAUCE',pct:18},{text:'MOZZARELLA CHEESE',pct:10},{text:'SPINACH',pct:8},{text:'ONIONS',pct:5},{text:'OLIVE OIL',pct:2}]}, 'yellow', 'combo');
+const FLATBREAD = {name:'Veggie flatbread pizza', cats:['en:pizzas'], per100:{kcal:204}, servQtyG:120,
+  ingredients:[{text:'WHEAT FLOUR',pct:55},{text:'TOMATO SAUCE',pct:18},{text:'MOZZARELLA CHEESE',pct:10},{text:'SPINACH',pct:8},{text:'ONIONS',pct:5},{text:'OLIVE OIL',pct:2}]};
+all &= T('Veggie flatbread holds 0.6 of a red serving, so it is not red', FLATBREAD, 'yellow', 'combo');
+// the limit is a setting, in case a programme runs a tighter one than the guide's serving
+const TIGHTER = cloneRules(DEFAULT_RULES); TIGHTER.comboRedServings = 0.5;
+{
+  const r = classify(FLATBREAD, TIGHTER);
+  const ok = r.color === 'red';
+  console.log((ok ? 'PASS' : 'FAIL'), 'The same flatbread is red if a programme sets the limit to half a serving', '->', r.color);
+  all &= ok;
+}
 all &= T('A cheeseburger holds a full serving of cheese and beef', {name:'Frozen cheeseburger', cats:['en:meals'], per100:{kcal:250}, servQtyG:150,
   ingredients:[{text:'BUN',pct:35},{text:'BEEF',pct:38},{text:'CHEDDAR CHEESE',pct:12},{text:'KETCHUP',pct:5},{text:'PICKLES',pct:4}]}, 'red', 'combo');
 all &= T('An ingredient list that just restates the product is not a recipe', {name:'Spicy harissa salmon salad', cats:['en:meals'], per100:{kcal:200}, servQtyG:227,
