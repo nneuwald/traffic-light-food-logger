@@ -18,7 +18,7 @@ A single-file web app for Traffic Light Diet food logging with clients or patien
 - The guide itself is not in the repository (its copyright page forbids redistribution). A copy lives in Nick's Downloads as `Food and Activity Reference Guide (2) (1).pdf`; `pdftotext -layout` extracts it well enough to search.
 - `.claude/worktrees/` is scratch space that Claude Code creates for side branches. Nothing there is needed; it is safe to ignore or delete once its branch is merged.
 - OneDrive syncs the `.git` folder too. Let sync finish before switching machines, and never edit the same files on two machines at once without committing first; git will otherwise see a mess.
-- The live site at https://nneuwald.github.io/traffic-light-food-logger/ is a separate GitHub remote. Pushing `main` there publishes; until then the public site runs the old (August) rules. See "Status and next steps".
+- The live site at https://nneuwald.github.io/traffic-light-food-logger/ is the `origin` remote (github.com/nneuwald/traffic-light-food-logger). GitHub Pages builds from the root of `main`, so pushing `main` publishes. It is current as of 3 September 2026.
 
 ## What's in this folder
 
@@ -98,7 +98,9 @@ No persistence beyond JSON backup files (the top priority for a production versi
 
 **Audited against the guide itself, 3 September 2026 (afternoon).** The page-6 table matches the app exactly. Reading the food listings turned up these differences, all fixed the same day: hot dogs were judged at 50 g instead of the guide's 3 oz (regular franks came out yellow); dates were filed as dried fruit (red) though the guide lists them as fresh fruit (yellow); sour cream was judged at 2 Tbsp so regular sour cream came out yellow where the guide prints red; Canadian bacon went red with bacon; lemon and lime juice went red as juices; unsweetened iced tea went red as a soft drink; zero-calorie flavoured waters and artificial-sweetener packets came out "no colour" or yellow where the guide has them red; canned fruit in heavy syrup came out yellow because the fruit serving was 90 g rather than the guide's ½ cup; granola bars and yogurt cups were judged at a fixed weight rather than the unit sold. One published colour changed: Mott's Original applesauce is now red (see "Known limits").
 
-**Not yet pushed.** The GitHub Pages site still runs the August nutrient-threshold rules. Push `main` when you are happy with the new behaviour. Before publishing, decide whether reproducing the guide's serving sizes and ranges in a public app needs a word with Dr. Epstein; the guide's page 2 reserves those rights.
+**Published 3 September 2026.** The live site at https://nneuwald.github.io/traffic-light-food-logger/ now runs this engine; GitHub Pages builds from the root of `main`, so a push publishes within a minute or two. Confirm a deploy with `gh api repos/nneuwald/traffic-light-food-logger/pages/builds/latest --jq .status`.
+
+**Still open on the copyright question.** The app embeds the guide's serving sizes and colour ranges, and the guide's page 2 reserves reproduction rights. Publishing has made that public, so it is worth a word with Dr. Epstein. The internal rules document (`Traffic_Light_Rules_App_vs_Guide.docx`, which reproduces the guide's tables most directly) is deliberately kept out of the repository and is git-ignored.
 
 **Small fixes still open** (none change a colour):
 
