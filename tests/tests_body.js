@@ -156,17 +156,17 @@ all &= T('Chicken stock, homemade (red p.75)', {name:'Chicken stock', cats:['en:
 all &= T('Condensed chicken soup tagged bouillon is soup', {name:"Campbell's condensed soup chicken", cats:['en:meals','en:soups','en:bouillon-de-poulet'], per100:{kcal:25}}, 'yellow', 'soupBroth');
 all &= T('Ketchup tagged tomato-sauces is a condiment', {name:'Heinz tomato ketchup', cats:['en:condiments','en:sauces','en:tomato-sauces','en:ketchup'], per100:{kcal:118}}, 'yellow', 'condiment');
 all &= T('Reddi-wip tagged desserts is whipped cream (yellow p.73)', {name:'REDDI WIP Original, 15 OZ', cats:['en:desserts'], per100:{kcal:300}}, 'yellow', 'condiment');
-all &= T('Uncrustables is a combination food', {name:"Uncrustables smucker's peanut butter & grape", cats:['en:frozen-foods','en:breads'], per100:{kcal:328}}, 'yellow', 'combo');
+all &= T('Uncrustables is a combination food', {name:"Uncrustables smucker's peanut butter & grape", cats:['en:frozen-foods','en:breads'], per100:{kcal:328}}, 'review', 'combo');
 // --- cases found by the random Open Food Facts draw of 3 Sep 2026 ---
 all &= T('Hamburger buns are bread, not a burger', {name:'Hawaiian Sweet Hamburger Buns', cats:['en:breads','en:buns'], per100:{kcal:304}}, 'yellow', 'grain');
 all &= T('Ready rice tagged "meals" is a grain', {name:'Whole grain brown rice', cats:['en:cereals-and-potatoes','en:meals','en:rices','en:cooked-rices'], per100:{kcal:76}}, 'yellow', 'grain');
-all &= T('Frozen lasagna tagged "meals" is still a combination food', {name:'Five cheese lasagna', cats:['en:meals','en:frozen-meals','en:pastas'], per100:{kcal:150}}, 'yellow', 'combo');
+all &= T('Frozen lasagna tagged "meals" is still a combination food', {name:'Five cheese lasagna', cats:['en:meals','en:frozen-meals','en:pastas'], per100:{kcal:150}}, 'review', 'combo');
 all &= T('Chili-seasoned tuna is meat, not chili', {name:'Spicy thai chili seasoned tuna', cats:['en:seafood','en:canned-fishes','en:tunas'], per100:{kcal:127}}, 'yellow', 'meat');
 all &= T('Ice cream sandwich is a sweet, not a sandwich', {name:'Tillamook, tillamookies, ice creams sandwiches', cats:['en:desserts','en:frozen-desserts','en:ice-creams','en:ice-cream-sandwiches'], per100:{kcal:292}}, 'red', 'sweets');
 all &= T('Salad kit with pecans is a vegetable', {name:'Pecan and Berry Salad', cats:['en:salads'], per100:{kcal:39}}, 'green', 'veg');
 all &= T('Frozen chopped onions tagged "condiments" are a vegetable', {name:'Chopped Onions', cats:['en:condiments','en:frozen-foods','en:frozen-vegetables','en:onions'], per100:{kcal:29}}, 'green', 'veg');
 all &= T('Street taco tortillas are tortillas', {name:'Street tacos corn tortillas', cats:['en:tortillas'], per100:{kcal:227}}, 'yellow', 'grain');
-all &= T('Beef tacos frozen meal is a combination food', {name:'Beef tacos', cats:['en:frozen-meals'], per100:{kcal:220}}, 'yellow', 'combo');
+all &= T('Beef tacos frozen meal is a combination food', {name:'Beef tacos', cats:['en:frozen-meals'], per100:{kcal:220}}, 'review', 'combo');
 all &= T('Pitted dates tagged "dried-fruits" are still yellow fruit (p.21)', {name:'Premium Pitted Organic Dates, Deglet Noor', cats:['en:dried-fruits','en:dates'], per100:{kcal:275}}, 'yellow', 'fruit');
 all &= T('Date rolls are dried-fruit red',  {name:'Coconut date rolls', cats:['en:dried-fruits'], per100:{kcal:340}}, 'red', 'juice');
 all &= T('Tortilla chips are a salty snack, red (p.65)', {name:'Tortilla Chips', cats:['en:snacks','en:salty-snacks','en:crisps','en:tortilla-chips'], per100:{kcal:464}}, 'red', 'sweets');
@@ -192,7 +192,7 @@ all &= T('Buttermilk ranch dressing is a dressing', {name:'Buttermilk ranch dres
 all &= T('Sauerkraut tagged "meals" is a green vegetable (p.13)', {name:'Cracovia, sauerkraut', cats:['en:canned-foods','en:meals','en:canned-vegetables','en:fermented-vegetables'], per100:{kcal:20}}, 'green', 'veg');
 all &= T('Meat ravioli is a grain (red p.31)', {name:'Jumbo Meat Ravioli', cats:['en:pastas'], per100:{kcal:250}}, 'red', 'grain');
 all &= T('Sandwich crackers are a grain',   {name:'Sandwich crackers', cats:['en:crackers'], per100:{kcal:490}}, 'red', 'grain');
-all &= T('Breaded mozzarella sticks are a combination food', {name:'Mozzarella Sticks With Italian-Seasoned Breading', cats:['en:meals'], per100:{kcal:263}}, 'yellow', 'combo');
+all &= T('Breaded mozzarella sticks are a combination food', {name:'Mozzarella Sticks With Italian-Seasoned Breading', cats:['en:meals'], per100:{kcal:263}}, 'review', 'combo');
 all &= T('Rice pudding is a sweet (red p.64)', {name:'Rice pudding', cats:['en:desserts'], per100:{kcal:124}}, 'red', 'sweets');
 all &= T('Bread pudding is a sweet',        {name:'Apple Brioche Bread Pudding', cats:['en:desserts'], per100:{kcal:291}}, 'red', 'sweets');
 all &= T('Agave nectar is a syrup: a red ingredient (p.75)', {name:'Organic light blue agave nectar', cats:['en:spreads','en:syrups'], per100:{kcal:333}}, 'red', 'condiment');
@@ -213,7 +213,7 @@ all &= T('Hot dog buns are still a grain',  {name:'Hot dog buns', cats:['en:brea
 all &= T('"Egg Ranch, Cage Free Chickens" is a carton of eggs', {name:"Latta's Egg Ranch, Cage Free Chickens", cats:['en:eggs'], per100:{kcal:140}}, 'yellow', 'protein');
 all &= T('Cracked pepper baked beans are not a seasoning', {name:'Cracked pepper baked beans', cats:['en:legumes','en:canned-legumes'], per100:{kcal:115}}, 'red', 'protein');
 all &= T('Wax beans are green beans (p.13)', {name:'Cut Wax Beans', cats:['en:canned-vegetables'], per100:{kcal:17}}, 'green', 'veg');
-all &= T('Tuna and pasta salad is a combination food', {name:'St. dalfour, french bistro, tuna & pasta', cats:['en:salads','en:meals'], per100:{kcal:120}}, 'yellow', 'combo');
+all &= T('Tuna and pasta salad is a combination food', {name:'St. dalfour, french bistro, tuna & pasta', cats:['en:salads','en:meals'], per100:{kcal:120}}, 'review', 'combo');
 all &= T('Plum cake is a sweet, not dried fruit', {name:'Turta dulce cu prune', cats:['en:biscuits-and-cakes'], per100:{kcal:375}}, 'red', 'sweets');
 all &= T('Coconut milk pudding is a dessert (p.64)', {name:'Sun-ripened chia seed, coconut milk and real mango', cats:['en:puddings','en:desserts'], per100:{kcal:94}}, 'red', 'sweets');
 all &= T('Canned coconut milk is still an ingredient', {name:'Unsweetened Coconut Milk', cats:['en:plant-based-creams','en:canned-foods'], per100:{kcal:163}}, 'red', 'condiment');
@@ -228,7 +228,7 @@ all &= T('Pickles sold as "sandwich stuffers" are pickles (p.73)', {name:'Kosher
 all &= T('Canned fruit "in natural juice" is canned fruit', {name:'Fruit, Mix in Natural Juice', cats:['en:canned-fruits'], per100:{kcal:71}}, 'yellow', 'fruit');
 all &= T('An aloe vera drink is a sweetened drink (p.59)', {name:"T'Best, Mango Aloe Vera Drink", cats:['en:beverages','en:plant-based-beverages'], isBeverage:true, per100:{kcal:4}}, 'red', 'sweets');
 all &= T('Shredded coleslaw mix is a vegetable', {name:'Classic coleslaw green cabbage, shredded carrots', cats:['en:snacks','en:meals','en:coleslaw'], per100:{kcal:24}}, 'green', 'veg');
-all &= T('A chickpea pizza is a combination food, not a pie', {name:'Mediterranean chickpeas, spinach and roma tomatoes with feta', cats:['en:meals','en:pizzas-pies-and-quiches','en:pizzas'], per100:{kcal:233}}, 'yellow', 'combo');
+all &= T('A chickpea pizza is a combination food, not a pie', {name:'Mediterranean chickpeas, spinach and roma tomatoes with feta', cats:['en:meals','en:pizzas-pies-and-quiches','en:pizzas'], per100:{kcal:233}}, 'review', 'combo');
 all &= T('A calorie-free unflavoured drink has no colour', {name:'Mineral drinking water', cats:['en:beverages'], isBeverage:true, per100:{kcal:0, sugars:0}}, 'free', 'free');
 // --- cases found by the fourth 400-product random audit (seed 2024) ---
 all &= T('Blackeye peas are legumes, not starchy (p.42)', {name:'Cooked dry blackeye peas', cats:['en:legumes'], per100:{kcal:77}}, 'yellow', 'protein');
@@ -239,11 +239,33 @@ all &= T('Strawberry preserves are a red ingredient (p.75)', {name:'Spartan, pre
 all &= T('Honey is a red ingredient (p.75)', {name:'Pure clover honey', cats:['en:honeys'], per100:{kcal:304}}, 'red', 'condiment');
 all &= T('Jelly beans are candy, not jelly',  {name:'Jelly beans', cats:['en:candies'], per100:{kcal:367}}, 'red', 'sweets');
 all &= T('Blue cheese dressing is a dressing', {name:'Chunky Blue Cheese Dressing', cats:['en:salad-dressings'], per100:{kcal:433}}, 'red', 'condiment');
+// --- combination foods decomposed by the guide's one-red-serving rule (FRG p.8) ---
+const PIZZA = [{text:'FLOUR',pct:51.8},{text:'MOZZARELLA CHEESE',pct:24.1},{text:'WATER',pct:12.1},{text:'PEPPERONI',pct:6.0},{text:'NONFAT MILK',pct:3.0},{text:'TOMATO PASTE',pct:1.5},{text:'VEGETABLE OIL',pct:0.8}];
+all &= T('Pepperoni pizza: 1.1 servings of cheese alone makes it red', {name:'Brick Oven Pepperoni Pizza', cats:['en:pizzas'], per100:{kcal:279}, servQtyG:127, ingredients:PIZZA}, 'red', 'combo');
+all &= T('The same pizza at a small serving stays under one red serving', {name:'Brick Oven Pepperoni Pizza', cats:['en:pizzas'], per100:{kcal:279}, servQtyG:60, ingredients:PIZZA}, 'yellow', 'combo');
+all &= T('Pizza snack rolls hold 0.2 of a red serving', {name:'Pepperoni Pizza Snack Rolls', cats:['en:meals'], per100:{kcal:259}, servQtyG:85,
+  ingredients:[{text:'WATER',pct:50},{text:'ENRICHED WHEAT FLOUR',pct:25},{text:'TOMATO PASTE',pct:12.5},{text:'PEPPERONI',pct:6.3},{text:'SOYBEAN OIL',pct:1.6},{text:'MODIFIED FOOD STARCH',pct:0.8}]}, 'yellow', 'combo');
+all &= T('Veggie flatbread: 0.6 of a red serving, so not red', {name:'Veggie flatbread pizza', cats:['en:pizzas'], per100:{kcal:204}, servQtyG:120,
+  ingredients:[{text:'WHEAT FLOUR',pct:55},{text:'TOMATO SAUCE',pct:18},{text:'MOZZARELLA CHEESE',pct:10},{text:'SPINACH',pct:8},{text:'ONIONS',pct:5},{text:'OLIVE OIL',pct:2}]}, 'yellow', 'combo');
+all &= T('A cheeseburger holds a full serving of cheese and beef', {name:'Frozen cheeseburger', cats:['en:meals'], per100:{kcal:250}, servQtyG:150,
+  ingredients:[{text:'BUN',pct:35},{text:'BEEF',pct:38},{text:'CHEDDAR CHEESE',pct:12},{text:'KETCHUP',pct:5},{text:'PICKLES',pct:4}]}, 'red', 'combo');
+all &= T('An ingredient list that just restates the product is not a recipe', {name:'Spicy harissa salmon salad', cats:['en:meals'], per100:{kcal:200}, servQtyG:227,
+  ingredients:[{text:'HARISSA SALMON SALAD',pct:52},{text:'WATER',pct:20}]}, 'review', 'combo');
+all &= T('A "Cheese pizza" whose ingredients list no cheese is not trusted', {name:'Cheese pizza', cats:['en:pizzas'], per100:{kcal:226}, servQtyG:147,
+  ingredients:[{text:'Crust',pct:52},{text:'malted barley flour',pct:24},{text:'niacin',pct:12},{text:'water',pct:0.4}]}, 'review', 'combo');
+all &= T('A 6 g serving is too small to be a mixed dish', {name:'Mozzarella sticks with marinara', cats:['en:meals'], per100:{kcal:290}, servQtyG:6,
+  ingredients:[{text:'MOZZARELLA CHEESE',pct:40},{text:'WHEAT FLOUR',pct:30}]}, 'review', 'combo');
+all &= T('Tomato basil sauce is a sauce, not basil', {name:'Margherita pizza', cats:['en:pizzas'], per100:{kcal:230}, servQtyG:154,
+  ingredients:[{text:'WHEAT FLOUR',pct:45},{text:'TOMATO BASIL SAUCE',pct:20},{text:'MOZZARELLA',pct:18},{text:'WATER',pct:10}]}, 'red', 'combo');
+all &= T('Ingredients without a serving size cannot be decomposed', {name:'Cheese pizza', cats:['en:pizzas'], per100:{kcal:226},
+  ingredients:[{text:'FLOUR',pct:50},{text:'MOZZARELLA CHEESE',pct:30}]}, 'review', 'combo');
+all &= T('Mostly unrecognised ingredients fall back to the question', {name:'Mystery frozen dinner', cats:['en:meals'], per100:{kcal:200}, servQtyG:200,
+  ingredients:[{text:'SECRET RECIPE COMPONENT',pct:70},{text:'FLOUR',pct:20}]}, 'review', 'combo');
 all &= T('Dried apricots are dried fruit, red (p.24)', {name:'Premium Dried Apricots', cats:['en:canned-fruits','en:dried-fruits','en:fruits-in-syrup'], per100:{kcal:275}}, 'red', 'juice');
 all &= T('Mustard spinach is a vegetable', {name:'Mustard spinach, raw', cats:[], usdaCategory:'Vegetables and Vegetable Products', per100:{kcal:22}}, 'green', 'veg');
 
 // --- combination foods and the clinician's own entries ---
-all &= T('Pepperoni pizza (review)',      {name:'Pepperoni pizza', cats:['en:pizzas'], per100:{kcal:280}}, 'yellow', 'combo');
+all &= T('Pepperoni pizza with no ingredient list asks the question', {name:'Pepperoni pizza', cats:['en:pizzas'], per100:{kcal:280}}, 'review', 'combo');
 all &= T('Custom: veggie soup, group given', {name:'Homemade veggie soup', cats:[], per100:{}, serv:{kcal:80}}, 'yellow', 'soupBroth', 'soupBroth');
 all &= T('Custom: fudge, group given',    {name:'Grandma\'s fudge', cats:[], per100:{}, serv:{kcal:120}}, 'red', 'sweets', 'sweets');
 all &= T('Custom: cereal 40% sugar, group given', {name:'Mystery cereal', cats:[], per100:{}, serv:{kcal:110, sugars:11}}, 'red', 'cereal', 'cereal');

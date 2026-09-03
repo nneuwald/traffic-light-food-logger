@@ -21,6 +21,7 @@ Lookups hit Open Food Facts first, then USDA FoodData Central as a fallback. Cla
 1. **Find the food group.** Vegetables, starchy vegetables, fruit, juice & dried fruit, grains, cold cereal, cheese, other dairy, meat & seafood, eggs/beans/meat substitutes, nuts, fats/oils/sweets, two soup groups, condiments, combination foods, or "no colour" (water, plain tea and coffee, seasonings). The app reads the group from Open Food Facts category tags, the product name, and the USDA category; the clinician can change it with one dropdown.
 2. **Take the calories in one Traffic Light serving** and read the colour off the group's range (guide p.6). Only vegetables can be green (≤ 30 cal per ½ cup). Everything else is yellow up to its group's cap and red above it.
 3. **Apply the guide's absolutes.** Fruit juice, dried fruit and the whole fats/oils/sweets group are always red, diet soda included. Water, plain tea and coffee carry no colour. Cold cereal is also red when more than 25% of its calories come from sugar.
+4. **Take mixed dishes apart.** The guide gives combination foods no calorie range. It says a dish is red if it holds one full serving of a red food, and that serving can be made up of several red foods together (p.8). Where the database publishes ingredient percentages, the app splits the dish, colours each component with the same engine, adds up the red servings and shows the arithmetic. Where it cannot, it asks that one question instead of guessing, and the dish is never counted as yellow until someone answers.
 
 Every verdict shows its reasons, the food group can be changed, and any colour can be overridden per item. Serving sizes are gram estimates of the guide's household servings; they and every threshold are editable in Settings. The guide allows no more than 2 red servings a day, so a new client's weekly budget defaults to 14.
 
@@ -40,7 +41,7 @@ See [ORIENTATION.md](ORIENTATION.md) for the full technical writeup.
 
 ## Testing
 
-With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs four suites against offline fixtures: 210 hand-written classification checks, 11 USDA mapping checks, 39 assertions over saved Open Food Facts responses, and 17 over saved USDA generic-food responses.
+With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs four suites against offline fixtures: 221 hand-written classification checks, 11 USDA mapping checks, 39 assertions over saved Open Food Facts responses, and 17 over saved USDA generic-food responses.
 
 Three internet audits complement them. `node tests/audit_live.js` pulls about 130 named everyday US products and compares each with the guide. `node tests/audit_random.js 400 <seed>` draws products at random across 57 categories. `node tests/audit_analyze.js <file>` then checks every drawn product automatically: each Open Food Facts category implies which food groups a product from it could legitimately take, so anything outside that set is printed for review. `node tests/audit_reclassify.js` re-runs a saved draw offline after a rule change. Across five random draws totalling 1,700 products the classifier now produces no group outside what the category allows.
 
