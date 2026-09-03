@@ -1,24 +1,34 @@
-barcode,product,brand,app_color
-0049000006346,Coca cola can cokes LG,Coca cola,red
-0049000028911,Diet Coke Soft Drink,Coke,red
-0012000161155,Life Wtr pH balanced,Hydration LLC,green
-0052000338775,"Lemon-lime thirst quencher, lemon-lime",Gatorade,red
-0016000275270,Gmills hny nut cheerios sweetened whl grn oat cereal,General Mills,red
-0038000391095,Sweetened corn cereal,Kellogg's,red
-0028400064057,Tostitos Bite Size Tortilla Chips 13 Ounce Plastic Bag,,red
-0044000032029,oreo cookies shelf,Oreo,red
-0028400090896,Nacho Cheese,Doritos,red
-0024100106851,Original Baked Snack Crackers,Cheez-It,red
-0014100085478,Goldfish Cheddar,Goldfish,red
-0034000002405,Hershey Milk Chocolate Candy Bar,Hershey's,red
-0894700010137,Greek Yogurt Nonfat Plain,chobani,green
-0051500255162,Creamy Peanut Butter,Jif,red
-0037600105002,Reduced Fat Creamy Peanut Butter,Skippy,red
-0009800895007,Nutella,Nutella,red
-0722252100900,CHOCOLATE CHIP ENERGY BAR,CLIF,red
-0051000012616,Cream Of Mushroom Soup,Campbell's,yellow
-0013000006408,Tomato Ketchup,Heinz,red
-0025293001718,"Unsweet Vanilla Almondmilk, Shelf Stable",Silk,green
-0076840100354,Chunky Monkey,Ben & Jerry's,red
-0018000428434,Pillsbury Sugar Cookie Dough Value Size,,red
-0015400841122,Frosted brown sugar cinnamon toaster tarts pastries,,red
+"barcode","product","brand","app_color","food_group","why","common_name"
+"0033383666020","Baby Carrots","Grimmway Farms","green","Vegetables","Vegetables: the only group that can be green","Baby carrots"
+"0024000162865","Cut Green Beans","Del Monte","green","Vegetables","Green beans and pea pods are vegetables in the FRG","Del Monte cut green beans"
+"0027000380406","Diced Tomatoes","Hunts","green","Vegetables","Vegetables: the only group that can be green","Hunt's diced tomatoes"
+"0076808006575","Barilla, organic, spaghetti pasta","Barilla, Barilla G & R F.Lli S.P.A.","yellow","Grains","Grains are judged at 1 oz in the FRG","Barilla spaghetti"
+"0054800423347","Ready Rice Whole Grain Brown","Ben's Original","yellow","Grains","Grains: cooked rice, pasta and hot cereal are judged at 1/2 cup","Ben's Original brown rice"
+"7633434018803","Bush’s black beans","Bush's","yellow","Eggs, beans & meat substitutes","Eggs, beans and meat substitutes are judged at 1/2 cup, 1 egg or 1 patty in the FRG","Bush's black beans"
+"0003625341118","Cheerios","Cheerios","yellow","Cold cereal","Cold cereal: calories and the 25% sugar rule both apply","Cheerios"
+"0099482476519","Plain greek nonfat yogurt, plain","","yellow","Milk, yogurt & other dairy","Milk, yogurt and plant milks are judged at 1 cup (yogurt at 6 oz) in the FRG","Chobani plain nonfat greek"
+"0013764027053","Organic Bread 21 Whole Grains and Seeds","Dave's Killer Bread","yellow","Grains","Grains are judged at 1 oz in the FRG","Dave's Killer Bread"
+"0038900004736","PINEAPPLE CHUNKS","Dole","yellow","Fruit","Fruit is yellow at most in the FRG; only vegetables can be green","Dole pineapple chunks"
+"0089544083016","Total All Natural Nonfat Plain Greek Strained Yogurt","FAGE","yellow","Milk, yogurt & other dairy","Milk, yogurt and plant milks are judged at 1 cup (yogurt at 6 oz) in the FRG","FAGE Total 0% plain"
+"0020000174808","Green Giant Peas","Green Giant","yellow","Starchy vegetables","Starchy vegetables are never green in the FRG; yellow up to 120 cal per 1/2 cup","Green Giant peas"
+"0737312008300","Mission Flour Tortillas","Mission","yellow","Grains","Grains are judged at 1 oz in the FRG","Mission flour tortillas"
+"0014800000207","Motts applesauce","Mott's","yellow","Fruit","Fruit is yellow at most in the FRG; only vegetables can be green","Mott's applesauce"
+"0072250914765","Nature's Own, Specialty Honey Wheat Bread","Flowers Foods  Inc.","yellow","Grains","Grains are judged at 1 oz in the FRG","Nature's Own honey wheat bread"
+"0004656700801","Old fashioned oats, old fashioned","","yellow","Grains","Grains are judged at 1 oz in the FRG","Quaker old fashioned oats"
+"0025293003842","Unsweetened Almondmilk","Silk, Wwf Operating Company","yellow","Milk, yogurt & other dairy","Milk, yogurt and plant milks are judged at 1 cup (yogurt at 6 oz) in the FRG","Silk unsweetened almondmilk"
+"0080000221209","Starkist, chunk light tuna in water","Starkist","yellow","Meat & seafood","Meat and seafood are judged at 3 oz in the FRG","StarKist chunk light tuna"
+"0054100000606","Kosher Dill Spears","vlasic","yellow","Condiments, dressings & ingredients","Condiments and dressings are judged at 1 Tbsp in the FRG","Vlasic kosher dill spears"
+"0076840100354","Chunky Monkey","Ben & Jerry's","red","Fats, oils, sweets & others","Fats, oils, sweets and salty snacks are always red in the FRG","Ben & Jerry's Chunky Monkey"
+"0049000006346","Coca cola can cokes LG","Coca cola","red","Fats, oils, sweets & others","Soda, sports, energy and sweetened drinks are red in the FRG, diet versions included","Coca-Cola"
+"0073420516208","Cottage Cheese Pure & Natural","Daisy","red","Cheese","Cheese is judged at 1 oz in the FRG","Daisy cottage cheese"
+"0049000028911","Diet Coke Soft Drink","Coke","red","Fats, oils, sweets & others","Soda, sports, energy and sweetened drinks are red in the FRG, diet versions included","Diet Coke"
+"0028400090896","Nacho Cheese","Doritos","red","Fats, oils, sweets & others","Fats, oils, sweets and salty snacks are always red in the FRG","Doritos nacho cheese"
+"0038000391095","Sweetened corn cereal","Kellogg's","red","Cold cereal","Cold cereal: calories and the 25% sugar rule both apply","Frosted Flakes"
+"0052000338775","Lemon-lime thirst quencher, lemon-lime","Gatorade","red","Fats, oils, sweets & others","Soda, sports, energy and sweetened drinks are red in the FRG, diet versions included","Gatorade lemon-lime"
+"0034000002405","Hershey Milk Chocolate Candy Bar","Hershey's","red","Fats, oils, sweets & others","Fats, oils, sweets and salty snacks are always red in the FRG","Hershey's milk chocolate"
+"0016000275270","Gmills hny nut cheerios sweetened whl grn oat cereal","General Mills","red","Cold cereal","Cold cereal: calories and the 25% sugar rule both apply","Honey Nut Cheerios"
+"0044000032029","oreo cookies shelf","Oreo, Nabisco","red","Fats, oils, sweets & others","Fats, oils, sweets and salty snacks are always red in the FRG","Oreo"
+"0051000121141","Chicken Broth","Swanson","red","Condiments, dressings & ingredients","Broth and stock are ingredients in the FRG, judged at 1 cup","Swanson chicken broth"
+"0049000027624","Purified Water","Dasani","free","Water, plain tea/coffee, seasonings","Water and plain tea or coffee have no Traffic Light colour","Dasani purified water"
+"0012000161155","Life Wtr pH balanced","Hydration LLC, LFE Water","free","Water, plain tea/coffee, seasonings","Water and plain tea or coffee have no Traffic Light colour","LifeWtr"
+"0075720000814","poland spring","Poland Spring","free","Water, plain tea/coffee, seasonings","Water and plain tea or coffee have no Traffic Light colour","Poland Spring water"

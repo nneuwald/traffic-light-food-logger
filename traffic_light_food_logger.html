@@ -112,6 +112,7 @@
   .badge.green  { background: var(--good-tint); color: var(--good-text); }
   .badge.yellow { background: var(--warn-tint); color: var(--warn-text); }
   .badge.red    { background: var(--crit-tint); color: var(--crit-text); }
+  .badge.free   { background: var(--page); color: var(--ink-2); border: 1px solid var(--border); }
   .reasons { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
   .reason-chip {
     font-size: 12px; color: var(--ink-2);
@@ -126,6 +127,7 @@
   .ntile .l { font-size: 11px; color: var(--ink-muted); }
   .override-row { margin-top: 12px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
   .override-row .lbl { font-size: 12.5px; color: var(--ink-muted); }
+  .override-row select { width: auto; flex: 1; min-width: 200px; padding: 6px 10px; font-size: 13.5px; }
   .log-actions { display: flex; gap: 8px; margin-top: 14px; }
   .log-actions .primary { flex: 1; }
 
@@ -134,7 +136,7 @@
   .tile { background: var(--page); border: 1px solid var(--border); border-radius: 10px; padding: 10px 8px; text-align: center; }
   .tile .v { font-size: 22px; font-weight: 700; }
   .tile .l { font-size: 11.5px; color: var(--ink-muted); display: flex; align-items: center; justify-content: center; gap: 4px; }
-  .dotg { color: var(--good); } .doty { color: var(--warn); } .dotr { color: var(--crit); }
+  .dotg { color: var(--good); } .doty { color: var(--warn); } .dotr { color: var(--crit); } .dotf { color: var(--ink-muted); }
 
   /* log list */
   .log-item {
@@ -143,7 +145,7 @@
   }
   .log-item:last-child { border-bottom: none; }
   .log-item .mark { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; }
-  .log-item .mark.g { color: var(--good); } .log-item .mark.y { color: var(--warn); } .log-item .mark.r { color: var(--crit); }
+  .log-item .mark.g { color: var(--good); } .log-item .mark.y { color: var(--warn); } .log-item .mark.r { color: var(--crit); } .log-item .mark.f { color: var(--ink-muted); }
   .log-item .info { flex: 1; min-width: 0; }
   .log-item .n { font-size: 14.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .log-item .d { font-size: 12.5px; color: var(--ink-muted); }
@@ -227,6 +229,10 @@
       <span class="badge" id="fBadge"></span>
     </div>
     <div class="reasons" id="fReasons"></div>
+    <div class="override-row">
+      <span class="lbl">Food group:</span>
+      <select id="groupSelect" aria-label="Food group used for the colour"></select>
+    </div>
 
     <div class="portion-row" id="portionRow" role="group" aria-label="Portion size">
       <span class="hint" style="margin:0 4px 0 0">Portion:</span>
@@ -275,6 +281,7 @@
       <span><span class="dotg">●</span> Green: go</span>
       <span><span class="doty">▲</span> Yellow: slow</span>
       <span><span class="dotr">⬣</span> Red: whoa</span>
+      <span><span class="dotf">○</span> No colour (water, plain tea/coffee)</span>
     </div>
   </section>
 
@@ -297,17 +304,20 @@
         <input type="file" id="importFile" accept=".json" hidden>
       </div>
       <p class="hint" style="margin-top:10px">
-        Color rules follow Epstein's Traffic Light (Stoplight) Diet approach: green = low-calorie
-        foods eaten freely (most fruits &amp; vegetables), yellow = staple foods eaten in sensible
-        portions, red = foods high in added sugar or fat, or sugary drinks, tracked against a weekly
-        red-food budget. Thresholds above are editable so you can match your program's protocol.
-        Every classification shows its reasons and can be overridden per item.
+        Colours follow Epstein's Traffic Light Diet as set out in The Food &amp; Activity Reference Guide (2012):
+        each food group has a calorie range per serving and only vegetables can be green. Fruit juice, dried
+        fruit and everything in the fats, oils and sweets group are always red; water, plain tea and coffee
+        carry no colour. Cold cereal is also red when more than 25% of its calories come from sugar. The guide
+        allows no more than 2 red servings a day. Serving sizes above are gram estimates of the guide's household
+        servings and are editable. Every classification shows its reasons, the food group can be changed, and
+        any colour can be overridden per item.
       </p>
     </details>
   </section>
 
   <p class="footer-note">
     ⚠️ Prototype for professional use alongside clinical judgment; not medical advice.
+    Colours follow the Traffic Light Diet Food Reference Guide (Epstein, 2012); where a product is listed in the guide, the guide wins.
     Data lives in this open page only: use <b>Backup (JSON)</b> to save and <b>Restore</b> to reload.
     Nutrition data from USDA FoodData Central and Open Food Facts; branded records are label-deep, so verify against the package when accuracy matters.
   </p>
@@ -316,14 +326,13 @@
 <!-- Custom food dialog -->
 <dialog id="customDlg">
   <b>Custom food</b>
+  <p class="hint" style="margin-top:4px">Pick the food group and enter the calories in one Traffic Light serving (the Food Reference Guide lists serving sizes). The colour follows the guide's range for that group.</p>
   <div class="dlg-grid">
     <div class="full"><label>Name</label><input type="text" id="cfName" placeholder="e.g., Homemade veggie soup"></div>
+    <div class="full"><label>Food group</label><select id="cfGroup"></select></div>
     <div><label>Calories / serving</label><input type="number" id="cfKcal" min="0" inputmode="numeric"></div>
-    <div><label>Serving size (label)</label><input type="text" id="cfServ" placeholder="1 cup"></div>
-    <div><label>Total fat g / serving</label><input type="number" id="cfFat" min="0" step="0.1" inputmode="decimal"></div>
-    <div><label>Sat. fat g / serving</label><input type="number" id="cfSat" min="0" step="0.1" inputmode="decimal"></div>
-    <div><label>Added sugar g / serving</label><input type="number" id="cfAdded" min="0" step="0.1" inputmode="decimal"></div>
-    <div><label>Protein g / serving</label><input type="number" id="cfProt" min="0" step="0.1" inputmode="decimal"></div>
+    <div><label>Serving (as eaten)</label><input type="text" id="cfServ" placeholder="1 cup"></div>
+    <div class="full"><label>Sugars g / serving (cold cereal rule only)</label><input type="number" id="cfSugar" min="0" step="0.1" inputmode="decimal"></div>
   </div>
   <div class="dlg-actions">
     <button id="cfCancel">Cancel</button>
@@ -336,7 +345,7 @@
   <b>New client</b>
   <div class="dlg-grid">
     <div class="full"><label>Name or initials</label><input type="text" id="clName" placeholder="e.g., J.R."></div>
-    <div class="full"><label>Weekly red-food budget</label><input type="number" id="clGoal" min="0" value="4" inputmode="numeric"></div>
+    <div class="full"><label>Weekly red-food budget (FRG: 2 a day, so 14)</label><input type="number" id="clGoal" min="0" value="14" inputmode="numeric"></div>
   </div>
   <div class="dlg-actions">
     <button id="clCancel">Cancel</button>
@@ -350,129 +359,356 @@
 "use strict";
 /* ============================================================
    Traffic Light Food Logger - single-file prototype
-   Barcode → Open Food Facts lookup → Epstein-style color coding
+   Barcode → Open Food Facts / USDA lookup → Traffic Light Diet colour (Epstein FRG 2012)
    ============================================================ */
 
 // ---------- state (in-memory; persisted only via JSON backup) ----------
 const state = {
-  clients: [{ id: 1, name: "Demo client", goal: 4 }],
+  clients: [{ id: 1, name: "Demo client", goal: 14 }],
   activeClient: 1,
   log: [],            // {id, clientId, date:'YYYY-MM-DD', time, name, brand, color, auto, overridden, kcal, fat, sugars, protein, portion}
   nextId: 1,
   current: null,      // currently displayed food
   portionMult: 1,
   override: "",
+  groupOverride: null,  // clinician-chosen FRG food group, null = auto
 };
 
 const DEFAULT_RULES = {
-  greenKcal100: 45,      // ≤ kcal/100g → green (very low calorie density)
-  greenProduceKcal100: 100, // fruits/veg category green cap
-  redAdded100: 10,       // added sugar g/100g → red
-  redAddedServ: 8,       // added sugar g/serving → red (fallback)
-  redFat100: 17,         // total fat g/100g → red
-  redFatServ: 10,        // fat g/serving → red (fallback)
-  redSat100: 8,          // sat fat g/100g → red
-  redSatServ: 5,         // sat fat g/serving → red (fallback)
-  redKcal100: 400,       // calorie density → red (unless protein-rich)
-  proteinSpare100: 15,   // protein g/100g that spares the calorie-density rule
-  bevSugar100: 5,        // beverage sugars g/100ml → red
-  bevGreenKcal100: 20,   // beverage kcal/100ml → green if ≤
+  // Epstein, The Food & Activity Reference Guide (2012), p.6. One rule: find the
+  // food group, take the calories in one Traffic Light serving, read the colour
+  // off the group's range. Only vegetables can be green. Juice, dried fruit and
+  // the whole Fats/Oils/Sweets group are red whatever the calories. Water, plain
+  // tea/coffee and seasonings carry no colour. Cold cereal adds the one nutrient
+  // rule in the guide: red when more than 25% of calories come from sugar.
+  // servG is this app's gram estimate of the guide's household serving.
+  veg:       { label: "Vegetables",                          green: 30, yellow: 45, servG: 65,  serv: "1/2 cup" },
+  starchy:   { label: "Starchy vegetables",                  yellow: 120, servG: 80,  serv: "1/2 cup" },
+  fruit:     { label: "Fruit",                               yellow: 90,  servG: 90,  serv: "1 small piece or 1/2 cup" },
+  juice:     { label: "Fruit juice & dried fruit",           alwaysRed: true },
+  grain:     { label: "Grains",                              yellow: 120, servG: 28,  serv: "1 oz (1 slice; 1/2 cup cooked)" },
+  cereal:    { label: "Cold cereal",                         yellow: 120, sugarPct: 25, servG: 30, serv: "1 cup flakes, 1/2 cup pieces or 1/4 cup granola" },
+  cheese:    { label: "Cheese",                              yellow: 83,  servG: 28,  serv: "1 oz" },
+  dairy:     { label: "Milk, yogurt & other dairy",          yellow: 135, servG: 245, serv: "1 cup" },
+  meat:      { label: "Meat & seafood",                      yellow: 158, servG: 85,  serv: "3 oz" },
+  protein:   { label: "Eggs, beans & meat substitutes",      yellow: 120, servG: 125, serv: "1/2 cup, 1 egg or 1 patty" },
+  nuts:      { label: "Nuts & seeds",                        yellow: 68,  servG: 28,  serv: "1 oz" },
+  sweets:    { label: "Fats, oils, sweets & others",         alwaysRed: true },
+  soupBroth: { label: "Soup: broth-based & chowder",         yellow: 186, servG: 245, serv: "1 cup" },
+  soupChili: { label: "Soup: chili, bean/lentil & gumbo",    yellow: 224, servG: 245, serv: "1 cup" },
+  condiment: { label: "Condiments, dressings & ingredients", yellow: 23,  servG: 15,  serv: "1 Tbsp" },
+  combo:     { label: "Combination food",                    review: true },
+  free:      { label: "Water, plain tea/coffee, seasonings", free: true },
+  redPerDay: 2,   // FRG p.3: no more than 2 RED servings a day
 };
-let RULES = { ...DEFAULT_RULES };
+const GROUP_ORDER = ["veg", "starchy", "fruit", "juice", "grain", "cereal", "cheese", "dairy", "meat", "protein", "nuts",
+  "sweets", "soupBroth", "soupChili", "condiment", "combo", "free"];
+function cloneRules(r) { return JSON.parse(JSON.stringify(r)); }
+let RULES = cloneRules(DEFAULT_RULES);
 const PREFS = { usdaKey: "DEMO_KEY" };  // free personal key: https://api.data.gov/signup
 
 // ---------- helpers ----------
 const $ = (id) => document.getElementById(id);
 const todayStr = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
 const fmt1 = (v) => (v == null || isNaN(v)) ? "–" : (Math.round(v * 10) / 10).toString();
+const fmt0 = (v) => (v == null || isNaN(v)) ? "–" : String(Math.round(v));
 function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2600); }
-const SHAPES = { green: "●", yellow: "▲", red: "⬣" };
-const LABELS = { green: "GREEN", yellow: "YELLOW", red: "RED" };
+const SHAPES = { green: "●", yellow: "▲", red: "⬣", free: "○" };
+const LABELS = { green: "GREEN", yellow: "YELLOW", red: "RED", free: "NO COLOUR" };
 
-// ---------- classification engine (Epstein Traffic Light style) ----------
+// ---------- classification engine (Epstein Traffic Light, FRG 2012) ----------
+// OFF tags look like "en:skimmed-milks": a language prefix plus a hyphenated
+// phrase. Match whole words, never substrings - "en:unsweetened-beverages"
+// must not read as "sweetened-beverages", the same way "chocolate" must not
+// read as "cola".
+function tagWords(c) { return String(c).toLowerCase().replace(/^[a-z]{2,3}:/, "").split(/[-\s]+/); }
 function hasCat(cats, ...needles) {
-  return cats.some(c => needles.some(n => c.includes(n)));
+  return (cats || []).some(c => {
+    const w = tagWords(c);
+    return needles.some(n => {
+      const nw = String(n).toLowerCase().split(/[-\s]+/);
+      return w.some((_, i) => nw.every((x, j) => w[i + j] === x));
+    });
+  });
 }
-function classify(f, rules) {
-  // f: {name, cats[], per100:{kcal,fat,sat,sugars,added,protein}, serv:{kcal,fat,sat,sugars,added,protein}, isBeverage}
-  const R = rules, p = f.per100 || {}, s = f.serv || {};
-  const cats = f.cats || [];
+// "plant-based-foods-and-beverages" is OFF's umbrella tag for anything plant
+// derived - bread, peas and pasta all carry it - so it can never be a drink
+// signal on its own. Real drinks carry a beverage word in their own right.
+const BEV_WORDS = ["beverages", "waters", "juices", "sodas", "milks", "nectars", "smoothies", "drinks"];
+function tagsLookLikeBeverage(cats) {
+  return (cats || []).some(c => {
+    const t = String(c).toLowerCase().replace(/^[a-z]{2,3}:/, "");
+    if (/foods-and-beverages$/.test(t)) return false;
+    return tagWords(c).some(w => BEV_WORDS.includes(w));
+  });
+}
+// Free-text matching on product names and USDA descriptions: whole words with
+// simple plural tolerance, so "carrot" finds "Carrots, raw" but "pea" never
+// finds "peanuts".
+function textWords(s) { return String(s || "").toLowerCase().split(/[^a-z0-9']+/).filter(Boolean); }
+function sameWord(a, b) {
+  if (a === b) return true;
+  if (!a || !b) return false;
+  if (a === b + "s" || b === a + "s" || a === b + "es" || b === a + "es") return true;
+  if (b.slice(-1) === "y" && a === b.slice(0, -1) + "ies") return true;
+  if (a.slice(-1) === "y" && b === a.slice(0, -1) + "ies") return true;
+  return false;
+}
+function hasWord(w, ...needles) {
+  return needles.some(n => {
+    const nw = textWords(n);
+    return nw.length > 0 && w.some((_, i) => nw.every((x, j) => sameWord(w[i + j], x)));
+  });
+}
+const FDC_FRUIT_WORDS = ["apple", "applesauce", "apricot", "avocado", "banana", "berry", "berries", "blackberry", "blackberries",
+  "blueberry", "blueberries", "cantaloupe", "cherry", "cherries", "clementine", "cranberry", "cranberries", "fig", "fruit",
+  "grape", "grapefruit", "guava", "honeydew", "kiwi", "lemon", "lime", "lychee", "mandarin", "mango", "melon", "nectarine",
+  "orange", "papaya", "peach", "peaches", "pear", "persimmon", "pineapple", "plum", "pomegranate", "raspberry", "raspberries",
+  "strawberry", "strawberries", "tangerine", "watermelon"];
+const FDC_VEG_WORDS = ["artichoke", "arugula", "asparagus", "bok choy", "broccoli", "brussels sprout", "cabbage", "carrot",
+  "cauliflower", "celery", "chard", "collard", "cucumber", "eggplant", "endive", "escarole", "green bean", "greens", "kale",
+  "leek", "lettuce", "mushroom", "okra", "onion", "pepper", "radish", "romaine", "salad", "sauerkraut", "scallion", "spinach",
+  "sprouts", "squash", "tomato", "tomatoes", "turnip", "vegetable", "vegetables", "watercress", "zucchini"];
+const LEAFY_WORDS = ["arugula", "bok choy", "cabbage", "chard", "collard", "endive", "escarole", "greens", "kale", "lettuce",
+  "romaine", "salad", "spinach", "sprouts", "watercress"];
+const STARCHY_WORDS = ["potato", "potatoes", "sweet potato", "yam", "corn", "peas", "beet", "beets", "parsnip", "pumpkin",
+  "butternut", "acorn squash", "hubbard", "winter squash", "plantain", "cassava", "yucca", "taro", "jicama", "mixed vegetables",
+  "succotash", "fries", "french fries", "hash browns", "tater tots", "hominy"];
+const FDC_NOT_PRODUCE = ["pie", "cake", "cobbler", "tart", "bread", "muffin", "cookie", "juice", "drink", "smoothie", "chip",
+  "chips", "fries", "fried", "candied", "glazed", "pudding", "cream", "sauce", "soup", "casserole", "pizza", "jam", "jelly",
+  "roll", "bar", "bars", "syrup", "nectar", "dried", "leather", "snacks"];
+const fdcWords = textWords;
+// Gram estimate for the FRG serving where it differs from the group default.
+const SERV_OVERRIDES = [
+  [["cottage cheese"], 113], [["ricotta"], 62], [["cream cheese"], 29],
+  [["yogurt", "yoghurt", "skyr", "kefir"], 170], [["sour cream"], 30],
+  [["peanut butter", "almond butter", "cashew butter", "nut butter", "tahini", "sunflower butter"], 32],
+  [["egg", "eggs"], 50], [["tofu", "tempeh", "patty", "patties", "veggie burger", "links", "nuggets"], 85], [["edamame"], 78],
+  [["pickle", "pickles", "spear"], 35], [["salsa", "hummus", "dip", "guacamole"], 30], [["gravy"], 60],
+  [["broth", "stock", "bouillon"], 245], [["hot dog", "frankfurter", "wiener"], 50],
+];
+function servOverride(w) {
+  for (const [needles, g] of SERV_OVERRIDES) if (hasWord(w, ...needles)) return g;
+  return null;
+}
+
+// Decide the FRG food group from OFF tags, the product name and (for USDA) the
+// category string. Order matters: the specific and the always-red come first.
+function detectGroup(f) {
+  // OFF umbrella tags (plant-based-foods-and-beverages, cereals-and-potatoes,
+  // fruits-and-vegetables-based-foods, chips-and-fries ...) describe the
+  // taxonomy, not the food, so they never decide a group.
+  const cats = (f.cats || []).filter(c => !/(based-foods|foods-and-beverages|and-potatoes|and-their-products|chips-and-fries|beverages-preparations|and-crackers|and-cakes)$/
+    .test(String(c).toLowerCase().replace(/^[a-z]{2,3}:/, "")));
+  const w = textWords(f.name);
+  const wc = textWords(f.usdaCategory);
+  const k = (f.per100 && typeof f.per100.kcal === "number") ? f.per100.kcal : null;
+  const sug = (f.per100 && typeof f.per100.sugars === "number") ? f.per100.sugars : null;
+  const bev = !!f.isBeverage;
+  const cat = (...n) => hasCat(cats, ...n);
+  const word = (...n) => hasWord(w, ...n);
+  const cword = (...n) => hasWord(wc, ...n);
+  const R = (group, why, servG) => ({ group, why, servG: servG || servOverride(w) || null });
+
+  // 1. drinks the guide puts in Fats/Oils/Sweets: red, diet versions included (FRG p.2, p.59-60)
+  if (cat("sodas", "soft-drinks", "carbonated-drinks", "energy-drinks", "sports-drinks", "isotonic-drinks", "alcoholic-beverages",
+          "beers", "wines", "spirits", "iced-teas", "lemonades", "hot-chocolate", "cocoa-drinks", "sweetened-beverages",
+          "artificially-sweetened-beverages", "diet-beverages", "fruit-drinks", "flavoured-waters", "flavored-waters") ||
+      word("soda", "cola", "energy drink", "sports drink", "lemonade", "beer", "wine", "liquor", "hot cocoa", "hot chocolate",
+           "kool aid", "punch", "sweet tea", "iced tea", "gatorade", "powerade", "red bull", "monster") ||
+      (bev && word("diet", "zero", "sugar free")))
+    return R("sweets", "Soda, sports, energy and sweetened drinks are red in the FRG, diet versions included");
+  // 2. no colour: water, plain tea and coffee, seasonings (FRG p.7)
+  if (cat("waters", "spring-waters", "mineral-waters", "teas", "coffees") || (bev && word("water", "tea", "coffee")) || word("sparkling water", "seltzer")) {
+    if ((k == null || k <= 5) && (sug == null || sug < 1)) return R("free", "Water and plain tea or coffee have no Traffic Light colour");
+    return R("sweets", "Sweetened drink: red in the FRG");
+  }
+  if (cat("spices", "herbs", "salts", "seasonings") || cword("spices and herbs") || word("spice", "spices", "seasoning", "seasonings", "salt"))
+    return R("free", "Spices, herbs and salt have no Traffic Light colour");
+  // 3. vegetable juice is judged as a vegetable at 8 fl oz (FRG p.16-17); fruit juice and dried fruit are red (p.24)
+  if (cat("vegetable-juices", "tomato-juices") || word("vegetable juice", "tomato juice", "v8"))
+    return R("veg", "Vegetable juice: judged on the vegetable range at 8 fl oz", 240);
+  if (cat("fruit-juices", "juices", "nectars", "smoothies", "dried-fruits", "raisins", "dried-apricots", "prunes", "dates") ||
+      word("juice", "nectar", "smoothie", "raisins", "raisin", "prunes", "craisins") ||
+      (word("dried", "dehydrated") && (cat("fruits", "fruit") || hasWord(w, ...FDC_FRUIT_WORDS))))
+    return R("juice", "All fruit juice and dried fruit is red in the FRG");
+  // 4. granola and cereal bars are grains (FRG p.27-28); cold cereal has its own sugar rule (p.77)
+  if (cat("cereal-bars", "granola-bars", "snack-bars", "energy-bars") || word("granola bar", "cereal bar", "breakfast bar", "nutri grain", "clif"))
+    return R("grain", "Cereal and granola bars are grains in the FRG", 28);
+  if (cat("breakfast-cereals", "granolas", "mueslis", "cereal-flakes", "puffed-cereals") || cword("breakfast cereals") ||
+      word("cereal", "cheerios", "chex", "krispies", "corn flakes", "frosted flakes", "bran flakes", "froot loops", "fruit loops",
+           "pebbles", "cocoa puffs", "granola", "muesli", "mini wheats", "shredded wheat", "raisin bran", "kix", "trix",
+           "lucky charms", "special k", "wheaties", "grape nuts", "honey bunches", "life cereal", "cinnamon toast crunch", "cap'n crunch"))
+    return R("cereal", "Cold cereal: calories and the 25% sugar rule both apply");
+  // 5. sauces the guide files under vegetables and condiments
+  if (cat("tomato-sauces", "pasta-sauces", "pizza-sauces", "marinara") || word("tomato sauce", "pasta sauce", "pizza sauce", "marinara", "spaghetti sauce"))
+    return R("veg", "Tomato and pasta sauces sit in the vegetable group at 1/4 cup", 60);
+  if (cat("french-fries", "fries", "frozen-fries", "hash-browns") || word("fries", "french fries", "hash browns", "tater tots", "potato wedges"))
+    return R("starchy", "Fried potatoes are starchy vegetables in the FRG, judged at 3 oz", 85);
+  // 10. soups (1 cup); broth and stock are ingredients in the FRG (p.73, p.75)
+  if (cat("broths", "stocks", "bouillon") || word("broth", "stock", "bouillon", "consomme"))
+    return R("condiment", "Broth and stock are ingredients in the FRG, judged at 1 cup", 245);
+  if (cat("soups", "chowders", "chilis", "stews", "ramen", "instant-noodles") || word("soup", "chowder", "bisque", "chili", "gumbo", "stew", "ramen", "cup noodles", "instant lunch")) {
+    if (word("chili", "lentil", "lentils", "bean", "beans", "gumbo", "minestrone", "split pea", "black bean", "pea soup"))
+      return R("soupChili", "Chili, bean, lentil and gumbo soups are judged at 1 cup in the FRG");
+    return R("soupBroth", "Broth-based soups and chowders are judged at 1 cup in the FRG");
+  }
+  // 6. combination foods: the guide gives no range, only the rule that one red serving makes the dish red (p.8)
+  if (cat("pizzas", "sandwiches", "burritos", "tacos", "lasagnes", "prepared-meals", "frozen-meals", "meals", "ready-meals", "casseroles", "pot-pies", "sushi") ||
+      cword("fast foods", "meals, entrees", "restaurant foods") ||
+      word("pizza", "sandwich", "burrito", "taco", "lasagna", "lasagne", "casserole", "pot pie", "enchilada", "quesadilla",
+           "mac cheese", "mac and cheese", "macaroni and cheese", "macaroni cheese", "hot pocket", "corn dog", "sushi", "wrap", "dinner", "entree", "bowl") ||
+      (word("burger", "cheeseburger", "hamburger") && !word("veggie", "vegan", "patty", "patties", "ground")))
+    return R("combo", "Combination food: red if it holds a full serving of any red food, otherwise judge by its parts");
+  // 7. Fats, Oils, Sweets & Others: always red (FRG p.59-66)
+  const grainy = cat("breads", "bagels", "tortillas", "pastas", "rices", "cereals", "crackers", "pretzels") ||
+                 word("bread", "bagel", "bagels", "tortilla", "tortillas", "cereal", "granola", "crackers", "muffin", "muffins", "oats", "oatmeal", "pasta", "rice");
+  const dairyish = cat("milks", "yogurts", "kefirs", "skyr", "dairies", "fermented-milk-products", "plant-based-milk-alternatives") ||
+                   (word("milk", "yogurt", "yoghurt", "kefir") && !word("milk chocolate", "chocolate bar", "candy", "candies"));
+  if (cat("candies", "chocolates", "confectioneries", "cakes", "cookies", "biscuits", "pastries", "viennoiseries", "pies", "desserts",
+          "dairy-desserts", "ice-creams", "ice-cream", "frozen-desserts", "puddings", "donuts", "doughnuts", "sweet-spreads",
+          "chocolate-spreads", "hazelnut-spreads", "jams", "honeys", "syrups", "sugars", "toaster-pastries", "marshmallows",
+          "gelatin-desserts", "crisps", "potato-crisps", "potato-chips", "tortilla-chips", "corn-chips", "cheese-puffs",
+          "pork-rinds", "trail-mixes", "butters", "margarines", "oils", "vegetable-oils", "olive-oils", "mayonnaises", "lards",
+          "creams", "coffee-creamers", "bacon", "fruit-snacks", "sugary-snacks", "salty-snacks", "sweet-snacks", "olives") &&
+      !cat("yogurts", "kefirs", "skyr", "crackers", "pretzels", "popcorn", "nut-butters", "peanut-butter", "breakfast-cereals"))
+    return R("sweets", "Fats, oils, sweets and salty snacks are always red in the FRG");
+  if (cword("sweets", "fats and oils") || (cword("snacks") && !word("cracker", "crackers", "pretzel", "pretzels", "popcorn", "rice cake", "rice cakes")))
+    return R("sweets", "Fats, oils, sweets and salty snacks are always red in the FRG");
+  if (!grainy && (
+      (word("chocolate", "cocoa") && !dairyish) ||
+      (word("cake", "cakes") && !word("rice cake", "rice cakes", "crab cake", "fish cake", "pancake")) ||
+      (word("butter") && !word("peanut butter", "almond butter", "nut butter", "cashew butter", "sunflower butter", "butter beans")) ||
+      word("candy", "candies", "cookie", "cookies", "cupcake", "brownie", "brownies", "donut", "doughnut", "pie", "pastry", "pastries",
+           "danish", "ice cream", "sherbet", "sorbet", "gelato", "pudding", "custard", "chips", "cheetos", "doritos", "fritos", "pringles",
+           "pork rinds", "trail mix", "margarine", "shortening", "lard", "mayonnaise", "mayo", "bacon", "syrup", "honey", "jam", "jelly",
+           "preserves", "frosting", "icing", "fudge", "toffee", "caramel", "marshmallow", "marshmallows", "gummy", "gummies", "licorice",
+           "lollipop", "pop tart", "pop tarts", "toaster pastry", "fruit snacks", "fruit roll", "creamer", "half and half", "whipped topping",
+           "olives", "olive oil", "vegetable oil", "canola oil", "cooking oil", "nutella", "twinkies", "oreo", "snickers", "skittles",
+           "m&m's", "reese's", "kit kat", "hershey", "hershey's", "dessert", "desserts")))
+    return R("sweets", "Fats, oils, sweets and salty snacks are always red in the FRG");
+  // 8. cheese (1 oz), then milk, yogurt and the rest of dairy (FRG p.33-40)
+  if ((cat("cheeses", "cottage-cheeses", "cream-cheeses", "cheese-spreads", "ricottas") || word("cheese", "cheddar", "mozzarella", "parmesan", "feta", "ricotta", "swiss", "brie", "gouda", "provolone", "string cheese", "cottage cheese")) &&
+      !word("cracker", "crackers", "puffs", "sauce", "sandwich", "mac", "macaroni", "pizza", "dip"))
+    return R("cheese", "Cheese is judged at 1 oz in the FRG");
+  if (dairyish || cat("buttermilks", "evaporated-milks", "condensed-milks", "sour-creams", "dairy-drinks", "almond-milks", "soy-milks", "oat-milks", "rice-milks", "coconut-milks") ||
+      word("buttermilk", "sour cream", "eggnog", "almondmilk", "soymilk", "oatmilk", "almond milk", "soy milk", "oat milk", "rice milk", "coconut milk") ||
+      (cword("dairy") && !word("egg", "eggs")))
+    return R("dairy", "Milk, yogurt and plant milks are judged at 1 cup (yogurt at 6 oz) in the FRG", bev ? 245 : null);
+  // 9. nuts and seeds (1 oz; butters 2 Tbsp) (FRG p.54-55)
+  if (!grainy && (cat("nuts", "nut-butters", "peanut-butter", "seeds", "almonds", "cashews", "walnuts", "pistachios", "peanuts", "coconuts") ||
+      cword("nut and seed") ||
+      word("nut", "nuts", "almond", "almonds", "cashew", "cashews", "peanut", "peanuts", "walnut", "walnuts", "pecan", "pecans", "pistachio",
+           "pistachios", "macadamia", "hazelnut", "hazelnuts", "seeds", "sunflower seeds", "pumpkin seeds", "chia", "flax", "flaxseed", "tahini", "coconut")))
+    return R("nuts", "Nuts and seeds are judged at 1 oz in the FRG; nearly all land red");
+  // 11. condiments, dressings and ingredients (1 Tbsp) (FRG p.73-76)
+  if (cat("condiments", "ketchups", "mustards", "hot-sauces", "soy-sauces", "barbecue-sauces", "salsas", "relishes", "pickles", "capers",
+          "vinegars", "salad-dressings", "dressings", "gravies", "dips", "hummus", "sauces") ||
+      cword("sauces", "gravies") ||
+      (word("mustard") && !word("greens", "spinach")) ||
+      word("ketchup", "catsup", "salsa", "dressing", "vinaigrette", "ranch", "relish", "pickle", "pickles", "capers", "vinegar",
+           "gravy", "hummus", "dip", "guacamole", "hot sauce", "soy sauce", "barbecue sauce", "bbq sauce", "teriyaki", "worcestershire",
+           "steak sauce", "tartar sauce", "cocktail sauce", "sauce", "whipped cream", "sweetener", "cooking spray"))
+    return R("condiment", "Condiments and dressings are judged at 1 Tbsp in the FRG");
+  // 12. produce: green beans before legumes; starchy before other vegetables (FRG p.12-20)
+  if (cat("green-beans", "snap-beans", "string-beans") || word("green bean", "green beans", "snap beans", "string beans", "snow peas", "snap peas", "pea pods", "sugar snap"))
+    return R("veg", "Green beans and pea pods are vegetables in the FRG");
+  if ((cat("potatoes", "sweet-potatoes", "corn", "sweet-corn", "peas", "green-peas", "beets", "parsnips", "pumpkins", "winter-squashes", "plantains", "cassava") ||
+       word(...STARCHY_WORDS)) && !word("tortilla", "tortillas", "chips", "bread", "muffin", "starch", "meal", "dog", "flour"))
+    return R("starchy", "Starchy vegetables are never green in the FRG; yellow up to 120 cal per 1/2 cup");
+  // 13. meat & seafood (3 oz), then eggs, beans and substitutes (FRG p.41-58)
+  if ((cat("meats", "poultry", "fishes", "seafood", "beef", "pork", "chicken", "turkey", "lamb", "deli-meats", "lunch-meats", "cold-cuts",
+           "sausages", "hot-dogs", "jerky", "canned-fish", "tunas", "salmons", "shrimps", "hams") ||
+       cword("beef", "pork", "poultry", "finfish", "shellfish", "sausages", "luncheon", "lamb, veal") ||
+       word("beef", "steak", "pork", "ham", "chicken", "turkey", "lamb", "veal", "venison", "bison", "duck", "fish", "seafood", "shrimp",
+            "salmon", "tuna", "cod", "tilapia", "halibut", "trout", "sardines", "anchovies", "crab", "lobster", "scallops", "clams",
+            "oysters", "mussels", "jerky", "hot dog", "hot dogs", "frankfurter", "bologna", "salami", "pepperoni", "sausage", "meatball",
+            "meatballs", "nuggets", "tenders", "wings", "deli", "lunch meat", "luncheon", "pastrami", "prosciutto", "meat", "liver")) &&
+      !word("bun", "buns", "bread", "broth", "stock", "noodle", "noodles", "soup"))
+    return R("meat", "Meat and seafood are judged at 3 oz in the FRG");
+  if ((cat("eggs", "legumes", "beans", "lentils", "chickpeas", "tofu", "tempeh", "meat-substitutes", "meat-alternatives", "veggie-burgers", "edamame") && !cat("green-beans")) ||
+      cword("legume") ||
+      (word("egg", "eggs") && !word("noodle", "noodles", "pasta", "roll", "rolls", "bread", "bagel")) ||
+      word("beans", "black beans", "kidney beans", "pinto beans", "navy beans", "baked beans", "refried beans", "lentils", "chickpeas",
+           "garbanzo", "tofu", "tempeh", "edamame", "veggie burger", "veggie burgers", "meatless", "seitan", "falafel", "boca", "morningstar"))
+    return R("protein", "Eggs, beans and meat substitutes are judged at 1/2 cup, 1 egg or 1 patty in the FRG");
+  // 14. vegetables (1/2 cup; raw leafy greens are light, about 35 g)
+  if (cat("vegetables", "leafy-vegetables", "salads", "tomatoes", "carrots", "mushrooms", "onions", "peppers", "cucumbers", "canned-vegetables", "frozen-vegetables") ||
+      cword("vegetable") || word(...FDC_VEG_WORDS)) {
+    if (bev) return R("veg", "Vegetables: the only group that can be green", 240);
+    if (word(...LEAFY_WORDS)) return R("veg", "Vegetables: the only group that can be green (raw leafy greens weigh about 35 g per 1/2 cup)", 35);
+    return R("veg", "Vegetables: the only group that can be green");
+  }
+  // 15. fruit (yellow at most) (FRG p.21-23)
+  if ((cat("fruits", "fruit", "berries", "citrus", "melons", "apples", "bananas", "compotes", "applesauce", "canned-fruits", "frozen-fruits") ||
+       cword("fruits") || hasWord(w, ...FDC_FRUIT_WORDS)) && !hasWord(w, ...FDC_NOT_PRODUCE))
+    return R("fruit", "Fruit is yellow at most in the FRG; only vegetables can be green");
+  // 16. grains (1 oz dry; 1/2 cup cooked) (FRG p.26-32)
+  if (cat("breads", "bagels", "tortillas", "pastas", "noodles", "rices", "cereals", "oats",
+          "oatmeal", "porridge", "quinoa", "crackers", "pretzels", "rice-cakes", "popcorn", "pancakes", "waffles", "muffins", "rolls",
+          "buns", "croissants", "flours", "stuffing", "doughs", "pizza-doughs", "cereal-grains") ||
+      cword("cereal grains", "baked products") ||
+      word("bread", "bagel", "bagels", "tortilla", "tortillas", "pita", "naan", "pasta", "spaghetti", "macaroni", "penne", "noodle", "noodles",
+           "rice", "oats", "oatmeal", "quinoa", "barley", "couscous", "bulgur", "farro", "cracker", "crackers", "pretzel", "pretzels",
+           "rice cake", "rice cakes", "popcorn", "pancake", "pancakes", "waffle", "waffles", "muffin", "muffins", "roll", "rolls", "bun",
+           "buns", "biscuit", "croissant", "flour", "cornmeal", "grits", "stuffing", "pierogi", "pierogies", "goldfish", "cheez it",
+           "triscuit", "wheat thins", "ritz", "saltines", "graham")) {
+    const cooked = k != null && k < 220 && (word("cooked", "ready", "prepared", "rice", "pasta", "noodle", "noodles", "oatmeal", "grits", "quinoa", "barley", "couscous") || cat("rices", "pastas", "noodles"));
+    return R("grain", cooked ? "Grains: cooked rice, pasta and hot cereal are judged at 1/2 cup" : "Grains are judged at 1 oz in the FRG", cooked ? 75 : 28);
+  }
+  return { group: null, why: "Food group not detected", servG: null };
+}
+
+function classify(f, rules, groupOverride) {
+  // f: {name, cats[], usdaCategory, per100:{kcal,fat,sat,sugars,added,protein}, serv:{...}, isBeverage}
+  // Returns {color, reasons[], group, groupLabel, detected, servG, kcalServ}.
+  const R = rules || RULES;
+  const det = detectGroup(f);
+  const group = groupOverride || det.group;
+  const g = group ? R[group] : null;
   const reasons = [];
+  const p = f.per100 || {}, s = f.serv || {};
   const num = (v) => (typeof v === "number" && !isNaN(v)) ? v : null;
-  const kcal100 = num(p.kcal), fat100 = num(p.fat), sat100 = num(p.sat),
-        sug100 = num(p.sugars), add100 = num(p.added), prot100 = num(p.protein);
-  const kcalS = num(s.kcal), fatS = num(s.fat), satS = num(s.sat), addS = num(s.added);
+  const kcal100 = num(p.kcal), sug100 = num(p.sugars);
+  let servG = null, kcalServ = null;
+  const done = (color) => ({ color, reasons, group: group || null, groupLabel: g ? g.label : "Not determined",
+                             detected: det.group, servG, kcalServ });
 
-  // --- beverages get their own track ---
-  if (f.isBeverage) {
-    const isMilk = hasCat(cats, "milks") && !hasCat(cats, "flavoured-milks", "chocolate");
-    const isSoda = hasCat(cats, "sodas", "soft-drink", "energy-drink", "sweetened-beverages");
-    const isJuice = hasCat(cats, "juices", "nectars", "smoothies");
-    if (isMilk) {
-      if (hasCat(cats, "skimmed", "fat-free")) { reasons.push("Skim milk: nutrient-rich, low fat"); return done("green"); }
-      if ((add100 ?? 0) < 1) { reasons.push("Plain milk: staple beverage"); return done("yellow"); }
-    }
-    if (isSoda || (add100 != null && add100 >= 4) || (add100 == null && sug100 != null && sug100 >= R.bevSugar100 && !isMilk)) {
-      if (sug100 != null && sug100 < 2.5 && (add100 ?? 0) < 1) {
-        reasons.push("Diet / zero-sugar drink: no added sugar, but not a “go” drink");
-        return done("yellow");
-      }
-      reasons.push("Sugary drink (" + (add100 != null ? fmt1(add100) + "g added sugar" : fmt1(sug100) + "g sugars") + " per 100ml)");
-      return done("red");
-    }
-    if (isJuice) { reasons.push("Fruit juice: most traffic-light programs count juice as red"); return done("red"); }
-    if (kcal100 != null && kcal100 <= R.bevGreenKcal100 && (sug100 ?? 0) < 2.5) {
-      reasons.push("Water / unsweetened drink (" + fmt1(kcal100) + " kcal per 100ml)"); return done("green");
-    }
-    reasons.push("Beverage: moderate"); return done("yellow");
+  if (!g) {
+    reasons.push("Food group not detected; pick one below. The FRG colour depends on the group.");
+    return done("yellow");
   }
+  if (g.free) { reasons.push(det.group === group ? det.why : g.label + ": no Traffic Light colour"); return done("free"); }
+  if (g.alwaysRed) { reasons.push(det.group === group ? det.why : g.label + ": always red in the FRG"); return done("red"); }
+  if (g.review) { reasons.push(det.group === group ? det.why : g.label + ": red if it holds a full serving of any red food, otherwise judge by its parts"); return done("yellow"); }
 
-  // --- RED checks (category first, then nutrients) ---
-  // note: OFF files yogurts under "desserts", so exempt them - yogurt is judged on its nutrients
-  const isYogurt = hasCat(cats, "yogurts", "kefirs", "skyr", "fromages-blancs");
-  const redCat = !isYogurt && hasCat(cats, "sugary-snacks", "candies", "candy", "chocolates", "confectioneries",
-    "biscuits", "cakes", "pastries", "desserts", "ice-cream", "chips-and-fries", "crisps",
-    "french-fries", "fried-food", "salty-snacks", "viennoiseries", "pies");
-  const isNuts = hasCat(cats, "nuts", "nut-butters", "peanut-butter", "seeds") &&
-                 (add100 == null || add100 < 5);
-  const isFruitCat = hasCat(cats, "fruits", "fruit") && !hasCat(cats, "dried");
-  const isVegCat = hasCat(cats, "vegetables", "legumes", "salads") && !redCat;
-
-  if (redCat) reasons.push("Treat / snack category: high in sugar or fat, low nutrition");
-  if (add100 != null && add100 >= R.redAdded100) reasons.push("High added sugar: " + fmt1(add100) + "g per 100g (≥ " + R.redAdded100 + ")");
-  else if (add100 == null && addS != null && addS >= R.redAddedServ) reasons.push("High added sugar: " + fmt1(addS) + "g per serving (≥ " + R.redAddedServ + ")");
-  else if (add100 == null && addS == null && sug100 != null && sug100 >= 18 && !isFruitCat) reasons.push("Very high sugars: " + fmt1(sug100) + "g per 100g (added sugar unknown)");
-
-  if (!isNuts) {
-    if (fat100 != null && fat100 >= R.redFat100) reasons.push("High fat: " + fmt1(fat100) + "g per 100g (≥ " + R.redFat100 + ")");
-    else if (fat100 == null && fatS != null && fatS >= R.redFatServ) reasons.push("High fat: " + fmt1(fatS) + "g per serving (≥ " + R.redFatServ + ")");
-    if (sat100 != null && sat100 >= R.redSat100) reasons.push("High saturated fat: " + fmt1(sat100) + "g per 100g (≥ " + R.redSat100 + ")");
-    else if (sat100 == null && satS != null && satS >= R.redSatServ) reasons.push("High saturated fat: " + fmt1(satS) + "g per serving (≥ " + R.redSatServ + ")");
-    if (kcal100 != null && kcal100 >= R.redKcal100 && (prot100 ?? 0) < R.proteinSpare100)
-      reasons.push("Calorie-dense: " + fmt1(kcal100) + " kcal per 100g");
+  reasons.push(det.group === group && det.why ? det.why : g.label);
+  servG = (det.group === group && det.servG) || g.servG;
+  let basis;
+  if (kcal100 != null && servG) {
+    kcalServ = kcal100 * servG / 100;
+    basis = fmt0(kcalServ) + " cal per FRG serving (about " + servG + " g" + (servG === g.servG ? ", " + g.serv : "") + ")";
+  } else if (num(s.kcal) != null) {
+    kcalServ = num(s.kcal);
+    basis = fmt0(kcalServ) + " cal per serving as entered (FRG serving is " + g.serv + ")";
   }
-  if (reasons.length) return done("red");
+  if (kcalServ == null) { reasons.push("No calorie data, so it cannot be placed in the " + g.label.toLowerCase() + " range"); return done("yellow"); }
 
-  // --- GREEN checks ---
-  if ((isFruitCat || isVegCat) && (kcal100 == null || kcal100 <= R.greenProduceKcal100) && (add100 ?? 0) <= 2) {
-    reasons.push("Fruit / vegetable: go food"); return done("green");
-  }
-  if (kcal100 != null && kcal100 <= R.greenKcal100 && (add100 ?? 0) <= 2) {
-    reasons.push("Very low calorie density: " + fmt1(kcal100) + " kcal per 100g"); return done("green");
-  }
-  if (isYogurt && (fat100 ?? 99) <= 2 && (add100 ?? 0) <= 2 && (sug100 ?? 0) <= 8) {
-    reasons.push("Plain low-fat yogurt: go food"); return done("green");
-  }
-  if (kcal100 == null && kcalS != null && kcalS <= 50 && (fatS ?? 0) <= 1 && (addS ?? 0) <= 2) {
-    reasons.push("Low calorie: " + fmt1(kcalS) + " kcal per serving"); return done("green");
-  }
+  let color;
+  if (g.green != null && kcalServ <= g.green) color = "green";
+  else if (kcalServ <= g.yellow) color = "yellow";
+  else color = "red";
+  reasons.push(basis + " → " + (g.green != null ? "green ≤ " + g.green + ", " : "") + "yellow ≤ " + g.yellow + ", red > " + g.yellow);
 
-  // --- default ---
-  if (isNuts) reasons.push("Nuts / nut butter: nutritious but calorie-dense; watch portions");
-  else reasons.push("Staple food: fine in sensible portions");
-  return done("yellow");
-
-  function done(color) { return { color, reasons }; }
+  if (g.sugarPct != null) {
+    const kB = kcal100 != null ? kcal100 : num(s.kcal), sB = kcal100 != null ? sug100 : num(s.sugars);
+    if (kB != null && sB != null && kB > 0) {
+      const pct = sB * 4 / kB * 100;
+      if (pct > g.sugarPct) { color = "red"; reasons.push(fmt0(pct) + "% of calories from sugar: red above " + g.sugarPct + "% (FRG cereal rule)"); }
+      else reasons.push(fmt0(pct) + "% of calories from sugar (" + g.sugarPct + "% allowed)");
+    } else reasons.push("Sugar rule not checked: sugars per 100 g missing");
+  }
+  return done(color);
 }
 
 // ---------- Open Food Facts lookup ----------
@@ -512,7 +748,7 @@ function foodFromOFF(p) {
   const n = p.nutriments || {};
   const g = (k) => { const v = n[k]; return (typeof v === "number") ? v : (v != null && v !== "" ? parseFloat(v) : null); };
   const cats = (p.categories_tags || []).map(c => String(c).toLowerCase());
-  const isBeverage = cats.some(c => c.includes("beverages") || c.includes("waters") || c.includes("juices") || c.includes("sodas") || c.includes("milks"));
+  const isBeverage = tagsLookLikeBeverage(cats);
   const per100 = {
     kcal: g("energy-kcal_100g"), fat: g("fat_100g"), sat: g("saturated-fat_100g"),
     sugars: g("sugars_100g"), added: g("added-sugars_100g"), protein: g("proteins_100g"),
@@ -539,7 +775,7 @@ function foodFromOFF(p) {
 }
 
 // ---------- USDA FoodData Central lookup ----------
-const FDC_NUTR = { 1008: "kcal", 1004: "fat", 1258: "sat", 1003: "protein", 1235: "added", 2000: "sugars", 1063: "sugars" };
+const FDC_NUTR = { 1008: "kcal", 2047: "kcal", 2048: "kcal", 1004: "fat", 1258: "sat", 1003: "protein", 1235: "added", 2000: "sugars", 1063: "sugars" };
 async function fdcSearch(q, opts = {}) {
   const params = new URLSearchParams({
     api_key: PREFS.usdaKey || "DEMO_KEY", query: q, pageSize: String(opts.pageSize || 6),
@@ -561,6 +797,24 @@ async function fdcByBarcode(code) {
       if (hit) return hit;
     } catch (e) { /* try next padding */ }
   }
+  return null;
+}
+// USDA Survey (FNDDS) records carry a WWEIA category in foodCategory - "Bananas",
+// "Carrots", "Spinach" - not the "Fruits and Fruit Juices" wording Foundation and
+// SR Legacy use, so matching on foodCategory alone misses every generic produce
+// item. FNDDS writes descriptions as "<food>, <preparation>", so the segment
+// before the first comma identifies the food. Match whole words, never
+// substrings, for the same reason hasCat() does.
+function fdcProduceKind(desc, cat) {
+  const all = fdcWords(desc);
+  if (all.some(w => FDC_NOT_PRODUCE.indexOf(w) !== -1)) return null;
+  const words = fdcWords(String(desc || "").split(",")[0]).concat(fdcWords(cat));
+  const hit = (list) => words.some(w =>
+    list.indexOf(w) !== -1 ||
+    (w.length > 3 && w.slice(-1) === "s" && list.indexOf(w.slice(0, -1)) !== -1) ||
+    (w.length > 4 && w.slice(-2) === "es" && list.indexOf(w.slice(0, -2)) !== -1));
+  if (hit(FDC_FRUIT_WORDS)) return "fruit";
+  if (hit(FDC_VEG_WORDS)) return "veg";
   return null;
 }
 function fdcCatsToTags(f) {
@@ -589,6 +843,11 @@ function fdcCatsToTags(f) {
   if (desc.includes("yogurt") || desc.includes("yoghurt")) { tags.push("en:yogurts"); isBeverage = false; }
   if (desc.includes("fried") && !desc.includes("stir")) tags.push("en:fried-food");
   if (desc.includes("water") && (cat.includes("beverages") || !cat)) { tags.push("en:waters"); isBeverage = true; }
+  if (!isBeverage && !tags.some(t => t === "en:fruits" || t === "en:vegetables")) {
+    const kind = fdcProduceKind(f.description, f.foodCategory);
+    if (kind === "fruit") tags.push("en:fruits");
+    else if (kind === "veg") tags.push("en:vegetables");
+  }
   return { tags, isBeverage };
 }
 function titleCase(s) {
@@ -618,36 +877,42 @@ function foodFromFDC(f) {
     cats: tags, isBeverage, per100, serv: serv || {},
     base: serv || per100, baseLabel, servingLabel,
     source: "USDA " + (f.dataType || "FoodData Central"), code: f.gtinUpc || "",
+    usdaCategory: f.foodCategory || "",
   };
 }
 
 // ---------- quick-add foods (USDA-typical values) ----------
 const QUICK_FOODS = [
-  { name: "Apple, medium", brand: "generic", cats: ["en:fruits"], isBeverage: false, per100: { kcal: 52, fat: 0.2, sat: 0, sugars: 10.4, added: 0, protein: 0.3 }, servG: 182, servingLabel: "1 medium (182g)" },
-  { name: "Broccoli, cooked, 1 cup", brand: "generic", cats: ["en:vegetables"], isBeverage: false, per100: { kcal: 35, fat: 0.4, sat: 0.1, sugars: 1.4, added: 0, protein: 2.4 }, servG: 156, servingLabel: "1 cup (156g)" },
-  { name: "Chicken breast, grilled", brand: "generic", cats: ["en:meats"], isBeverage: false, per100: { kcal: 165, fat: 3.6, sat: 1, sugars: 0, added: 0, protein: 31 }, servG: 85, servingLabel: "3 oz (85g)" },
-  { name: "White rice, cooked, 1 cup", brand: "generic", cats: ["en:cereals"], isBeverage: false, per100: { kcal: 130, fat: 0.3, sat: 0.1, sugars: 0.1, added: 0, protein: 2.7 }, servG: 158, servingLabel: "1 cup (158g)" },
-  { name: "Skim milk, 1 cup", brand: "generic", cats: ["en:beverages", "en:milks", "en:skimmed-milks"], isBeverage: true, per100: { kcal: 34, fat: 0.1, sat: 0.1, sugars: 5, added: 0, protein: 3.4 }, servG: 245, servingLabel: "1 cup (245ml)" },
-  { name: "Cola, 12 oz can", brand: "generic", cats: ["en:beverages", "en:sodas"], isBeverage: true, per100: { kcal: 39, fat: 0, sat: 0, sugars: 10.6, added: 10.6, protein: 0 }, servG: 355, servingLabel: "1 can (355ml)" },
-  { name: "Potato chips, 1 oz", brand: "generic", cats: ["en:salty-snacks", "en:crisps"], isBeverage: false, per100: { kcal: 536, fat: 35, sat: 4.6, sugars: 0.4, added: 0, protein: 7 }, servG: 28, servingLabel: "1 oz (28g)" },
-  { name: "Chocolate chip cookie", brand: "generic", cats: ["en:sugary-snacks", "en:biscuits"], isBeverage: false, per100: { kcal: 488, fat: 24, sat: 8, sugars: 36, added: 30, protein: 5 }, servG: 30, servingLabel: "1 cookie (30g)" },
+  { name: "Broccoli, cooked", cats: ["en:vegetables"], per100: { kcal: 35, fat: 0.4, sat: 0.1, sugars: 1.4, added: 0, protein: 2.4 }, servG: 78, servingLabel: "1/2 cup (78 g)" },
+  { name: "Baby carrots, raw", cats: ["en:vegetables", "en:carrots"], per100: { kcal: 35, fat: 0.1, sat: 0, sugars: 4.8, added: 0, protein: 0.6 }, servG: 85, servingLabel: "3 oz (85 g)" },
+  { name: "Apple, medium", cats: ["en:fruits"], per100: { kcal: 52, fat: 0.2, sat: 0, sugars: 10.4, added: 0, protein: 0.3 }, servG: 182, servingLabel: "1 medium (182 g)" },
+  { name: "Banana, medium", cats: ["en:fruits"], per100: { kcal: 89, fat: 0.3, sat: 0.1, sugars: 12.2, added: 0, protein: 1.1 }, servG: 118, servingLabel: "1 medium (118 g)" },
+  { name: "Chicken breast, grilled", cats: ["en:meats", "en:chicken"], per100: { kcal: 165, fat: 3.6, sat: 1, sugars: 0, added: 0, protein: 31 }, servG: 85, servingLabel: "3 oz (85 g)" },
+  { name: "White rice, cooked", cats: ["en:rices"], per100: { kcal: 130, fat: 0.3, sat: 0.1, sugars: 0.1, added: 0, protein: 2.7 }, servG: 79, servingLabel: "1/2 cup (79 g)" },
+  { name: "Whole wheat bread", cats: ["en:breads"], per100: { kcal: 247, fat: 3.4, sat: 0.7, sugars: 5.6, added: 4, protein: 13 }, servG: 28, servingLabel: "1 slice (28 g)" },
+  { name: "Skim milk", cats: ["en:beverages", "en:milks", "en:skimmed-milks"], isBeverage: true, per100: { kcal: 34, fat: 0.1, sat: 0.1, sugars: 5, added: 0, protein: 3.4 }, servG: 245, servingLabel: "1 cup (245 ml)" },
+  { name: "Plain nonfat Greek yogurt", cats: ["en:yogurts"], per100: { kcal: 59, fat: 0.4, sat: 0.1, sugars: 3.2, added: 0, protein: 10.2 }, servG: 170, servingLabel: "6 oz (170 g)" },
+  { name: "Cheddar cheese", cats: ["en:cheeses"], per100: { kcal: 403, fat: 33, sat: 19, sugars: 0.5, added: 0, protein: 23 }, servG: 28, servingLabel: "1 oz (28 g)" },
+  { name: "Almonds", cats: ["en:nuts"], per100: { kcal: 579, fat: 50, sat: 3.8, sugars: 4.4, added: 0, protein: 21 }, servG: 28, servingLabel: "1 oz (28 g)" },
+  { name: "Water", cats: ["en:beverages", "en:waters"], isBeverage: true, per100: { kcal: 0, fat: 0, sat: 0, sugars: 0, added: 0, protein: 0 }, servG: 240, servingLabel: "1 cup (240 ml)" },
+  { name: "Cola, 12 oz can", cats: ["en:beverages", "en:sodas"], isBeverage: true, per100: { kcal: 39, fat: 0, sat: 0, sugars: 10.6, added: 10.6, protein: 0 }, servG: 355, servingLabel: "1 can (355 ml)" },
+  { name: "Potato chips", cats: ["en:salty-snacks", "en:crisps"], per100: { kcal: 536, fat: 35, sat: 4.6, sugars: 0.4, added: 0, protein: 7 }, servG: 28, servingLabel: "1 oz (28 g)" },
 ];
 function foodFromQuick(q) {
   const f = q.servG / 100;
   const serv = {};
   for (const k of ["kcal", "fat", "sat", "sugars", "added", "protein"]) serv[k] = q.per100[k] == null ? null : q.per100[k] * f;
-  return { name: q.name, brand: q.brand, cats: q.cats, isBeverage: q.isBeverage, per100: q.per100, serv, base: serv, baseLabel: "per serving (" + q.servingLabel + ")", servingLabel: q.servingLabel, source: "reference values", code: "" };
+  return { name: q.name, brand: "generic", cats: q.cats, isBeverage: !!q.isBeverage, per100: q.per100, serv, base: serv,
+           baseLabel: "per serving (" + q.servingLabel + ")", servingLabel: q.servingLabel, source: "reference values", code: "" };
 }
 
 // ---------- UI: current food ----------
 const PORTIONS = [0.25, 0.5, 0.75, 1, 1.5, 2, 3];
-function showFood(food) {
+function showFood(food, group) {
   state.current = food;
   state.portionMult = 1;
   state.override = "";
-  const res = classify(food, RULES);
-  food.auto = res.color;
-  food.reasons = res.reasons;
+  state.groupOverride = group || null;
   $("foodCard").hidden = false;
   $("fName").textContent = food.name;
   $("fBrand").textContent = [food.brand, food.source].filter(Boolean).join(" · ");
@@ -671,10 +936,13 @@ function renderPortions() {
 function currentColor() { return state.override || state.current.auto; }
 function renderVerdict() {
   const f = state.current; if (!f) return;
+  const res = classify(f, RULES, state.groupOverride);
+  f.auto = res.color; f.reasons = res.reasons; f.group = res.group; f.groupLabel = res.groupLabel;
   const color = currentColor();
   const badge = $("fBadge");
   badge.className = "badge " + color;
   badge.innerHTML = '<span class="shape" aria-hidden="true">' + SHAPES[color] + "</span>" + LABELS[color] + (state.override ? " (manual)" : "");
+  renderGroupSelect(res);
   const rWrap = $("fReasons");
   rWrap.innerHTML = "";
   for (const r of f.reasons) {
@@ -685,7 +953,20 @@ function renderVerdict() {
   $("nvFat").textContent = fmt1(b.fat == null ? null : b.fat * m);
   $("nvSugar").textContent = fmt1(b.sugars == null ? null : b.sugars * m);
   $("nvProtein").textContent = fmt1(b.protein == null ? null : b.protein * m);
-  $("servingHint").textContent = "Base: " + f.baseLabel + ", showing " + (m === 1 ? "1 serving" : m + " × serving");
+  $("servingHint").textContent = "Base: " + f.baseLabel + ", showing " + (m === 1 ? "1 serving" : m + " × serving") +
+    ". The colour is fixed per FRG serving and does not change with portion.";
+}
+function renderGroupSelect(res) {
+  const sel = $("groupSelect");
+  sel.innerHTML = "";
+  const o0 = document.createElement("option");
+  o0.value = "";
+  o0.textContent = res.detected ? "Auto: " + RULES[res.detected].label : "Auto: not detected";
+  sel.appendChild(o0);
+  for (const k of GROUP_ORDER) {
+    const o = document.createElement("option"); o.value = k; o.textContent = RULES[k].label; sel.appendChild(o);
+  }
+  sel.value = state.groupOverride || "";
 }
 
 // ---------- logging ----------
@@ -698,7 +979,7 @@ function addToLog() {
     id: state.nextId++, clientId: state.activeClient,
     date: $("logDate").value || todayStr(),
     time: String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"),
-    name: f.name, brand: f.brand,
+    name: f.name, brand: f.brand, group: f.groupLabel || "",
     color: currentColor(), auto: f.auto, overridden: !!state.override,
     kcal: b.kcal == null ? null : Math.round(b.kcal * m),
     fat: b.fat == null ? null : Math.round(b.fat * m * 10) / 10,
@@ -717,13 +998,13 @@ function activeLog() { return state.log.filter(e => e.clientId === state.activeC
 function renderDay() {
   const date = $("viewDate").value;
   const entries = activeLog().filter(e => e.date === date);
-  const counts = { green: 0, yellow: 0, red: 0 };
+  const counts = { green: 0, yellow: 0, red: 0, free: 0 };
   let kcal = 0;
-  for (const e of entries) { counts[e.color]++; kcal += e.kcal || 0; }
+  for (const e of entries) { counts[e.color] = (counts[e.color] || 0) + 1; kcal += e.kcal || 0; }
   $("dayTiles").innerHTML =
     tile(counts.green, '<span class="dotg">●</span> green') +
     tile(counts.yellow, '<span class="doty">▲</span> yellow') +
-    tile(counts.red, '<span class="dotr">⬣</span> red') +
+    tile(counts.red, '<span class="dotr">⬣</span> red' + (counts.red > RULES.redPerDay ? ' (over ' + RULES.redPerDay + ')' : '')) +
     tile(kcal, "kcal");
   const wrap = $("dayLog");
   wrap.innerHTML = "";
@@ -766,7 +1047,9 @@ function renderWeek() {
   const client = state.clients.find(c => c.id === state.activeClient);
   const goal = client ? client.goal : 4;
   const over = redTotal > goal;
-  $("goalLine").innerHTML = '<span class="dotr">⬣</span> Red foods: <b class="' + (over ? "over" : "under") + '">' + redTotal + " of " + goal + "</b> weekly budget" + (over ? ", over budget" : "");
+  const todayRed = days[6].r, dayOver = todayRed > RULES.redPerDay;
+  $("goalLine").innerHTML = '<span class="dotr">⬣</span> Red foods: <b class="' + (over ? "over" : "under") + '">' + redTotal + " of " + goal + "</b> weekly budget" + (over ? ", over budget" : "") +
+    ' · <b class="' + (dayOver ? "over" : "under") + '">' + todayRed + "</b> on this day (FRG limit " + RULES.redPerDay + " a day)";
 
   // simple stacked bar chart (status colors, 2px gaps, hairline baseline)
   const W = 320, H = 96, PAD = 2, bw = Math.floor((W - 6 * 6) / 7);
@@ -808,20 +1091,6 @@ function renderClients() {
 }
 
 // ---------- settings ----------
-const RULE_LABELS = {
-  greenKcal100: "Green: max kcal per 100g",
-  greenProduceKcal100: "Green: max kcal/100g for fruits & veg",
-  redAdded100: "Red: added sugar g per 100g ≥",
-  redAddedServ: "Red: added sugar g per serving ≥",
-  redFat100: "Red: fat g per 100g ≥",
-  redFatServ: "Red: fat g per serving ≥",
-  redSat100: "Red: sat fat g per 100g ≥",
-  redSatServ: "Red: sat fat g per serving ≥",
-  redKcal100: "Red: kcal per 100g ≥",
-  proteinSpare100: "…unless protein g/100g ≥",
-  bevSugar100: "Red drink: sugars g per 100ml ≥",
-  bevGreenKcal100: "Green drink: max kcal per 100ml",
-};
 function renderSettings() {
   const g = $("setGrid");
   g.innerHTML = "";
@@ -833,11 +1102,20 @@ function renderSettings() {
   ki.type = "text"; ki.id = "usdaKeyInput"; ki.value = PREFS.usdaKey; ki.autocomplete = "off"; ki.spellcheck = false;
   ki.onchange = () => { PREFS.usdaKey = ki.value.trim() || "DEMO_KEY"; toast("USDA key updated"); };
   g.appendChild(kl); g.appendChild(ki);
-  for (const k of Object.keys(RULE_LABELS)) {
-    const lab = document.createElement("label"); lab.textContent = RULE_LABELS[k]; lab.htmlFor = "rule_" + k;
-    const inp = document.createElement("input"); inp.type = "number"; inp.step = "0.5"; inp.min = "0"; inp.id = "rule_" + k; inp.value = RULES[k];
-    inp.onchange = () => { const v = parseFloat(inp.value); if (!isNaN(v)) { RULES[k] = v; if (state.current) { const res = classify(state.current, RULES); state.current.auto = res.color; state.current.reasons = res.reasons; renderVerdict(); } } };
+  const row = (id, text, value, onchange) => {
+    const lab = document.createElement("label"); lab.textContent = text; lab.htmlFor = id;
+    const inp = document.createElement("input"); inp.type = "number"; inp.step = "1"; inp.min = "0"; inp.id = id; inp.value = value;
+    inp.onchange = () => { const v = parseFloat(inp.value); if (!isNaN(v)) { onchange(v); if (state.current) renderVerdict(); renderAll(); } };
     g.appendChild(lab); g.appendChild(inp);
+  };
+  row("rule_redPerDay", "Red servings allowed per day (FRG: 2)", RULES.redPerDay, v => { RULES.redPerDay = v; });
+  for (const k of GROUP_ORDER) {
+    const r = RULES[k];
+    if (!r || r.alwaysRed || r.free || r.review) continue;
+    if (r.green != null) row("rule_" + k + "_green", r.label + ": green up to (cal per serving)", r.green, v => { RULES[k].green = v; });
+    row("rule_" + k + "_yellow", r.label + ": yellow up to (cal per serving), red above", r.yellow, v => { RULES[k].yellow = v; });
+    if (r.sugarPct != null) row("rule_" + k + "_sugarPct", r.label + ": red above this % of calories from sugar", r.sugarPct, v => { RULES[k].sugarPct = v; });
+    row("rule_" + k + "_servG", r.label + ": serving used, grams (" + r.serv + ")", r.servG, v => { RULES[k].servG = v; });
   }
 }
 
@@ -849,16 +1127,16 @@ function download(name, text, type) {
   setTimeout(() => URL.revokeObjectURL(a.href), 5000);
 }
 function exportCsv() {
-  const rows = [["date", "time", "client", "food", "brand", "portion", "color", "auto_color", "overridden", "kcal", "fat_g", "sugars_g", "protein_g"]];
+  const rows = [["date", "time", "client", "food", "brand", "food_group", "portion", "color", "auto_color", "overridden", "kcal", "fat_g", "sugars_g", "protein_g"]];
   for (const e of state.log) {
     const c = state.clients.find(x => x.id === e.clientId);
-    rows.push([e.date, e.time, c ? c.name : "", e.name, e.brand, e.portion, e.color, e.auto, e.overridden ? "yes" : "no", e.kcal ?? "", e.fat ?? "", e.sugars ?? "", e.protein ?? ""]);
+    rows.push([e.date, e.time, c ? c.name : "", e.name, e.brand, e.group || "", e.portion, e.color, e.auto, e.overridden ? "yes" : "no", e.kcal ?? "", e.fat ?? "", e.sugars ?? "", e.protein ?? ""]);
   }
   const csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g, '""') + '"').join(",")).join("\n");
   download("traffic_light_log.csv", csv, "text/csv");
 }
 function exportJson() {
-  download("traffic_light_backup.json", JSON.stringify({ v: 1, clients: state.clients, activeClient: state.activeClient, log: state.log, nextId: state.nextId, rules: RULES, prefs: PREFS }, null, 2), "application/json");
+  download("traffic_light_backup.json", JSON.stringify({ v: 2, clients: state.clients, activeClient: state.activeClient, log: state.log, nextId: state.nextId, rules: RULES, prefs: PREFS }, null, 2), "application/json");
 }
 function importJson(file) {
   const rd = new FileReader();
@@ -869,7 +1147,7 @@ function importJson(file) {
       state.clients = j.clients; state.log = j.log;
       state.nextId = j.nextId || (Math.max(0, ...j.log.map(e => e.id)) + 1);
       state.activeClient = j.activeClient && j.clients.some(c => c.id === j.activeClient) ? j.activeClient : (j.clients[0] && j.clients[0].id);
-      if (j.rules) RULES = { ...DEFAULT_RULES, ...j.rules };
+      if (j.rules && j.rules.veg) RULES = { ...cloneRules(DEFAULT_RULES), ...j.rules };  // v1 backups carried the old nutrient rules
       if (j.prefs && j.prefs.usdaKey) PREFS.usdaKey = j.prefs.usdaKey;
       renderClients(); renderSettings(); renderAll();
       toast("Backup restored: " + state.log.length + " entries");
@@ -972,7 +1250,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const b = document.createElement("button");
     const f = foodFromQuick(q);
     const col = classify(f, RULES).color;
-    b.innerHTML = '<span class="' + (col === "green" ? "dotg" : col === "yellow" ? "doty" : "dotr") + '">' + SHAPES[col] + "</span> " + esc(q.name);
+    b.innerHTML = '<span class="' + (col === "green" ? "dotg" : col === "yellow" ? "doty" : col === "free" ? "dotf" : "dotr") + '">' + SHAPES[col] + "</span> " + esc(q.name);
     b.onclick = () => showFood(foodFromQuick(q));
     qg.appendChild(b);
   }
@@ -982,6 +1260,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $("lookupInput").addEventListener("keydown", (e) => { if (e.key === "Enter") lookup(); });
   $("btnLog").onclick = addToLog;
   document.querySelectorAll("[data-ov]").forEach(b => b.onclick = () => { state.override = b.dataset.ov; renderVerdict(); });
+  $("groupSelect").onchange = (e) => { state.groupOverride = e.target.value || null; state.override = ""; renderVerdict(); };
 
   $("viewDate").onchange = renderAll;
   $("dayPrev").onclick = () => shiftDay(-1);
@@ -994,27 +1273,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   $("clientSelect").onchange = (e) => { state.activeClient = Number(e.target.value); renderAll(); };
-  $("btnAddClient").onclick = () => { $("clName").value = ""; $("clGoal").value = "4"; $("clientDlg").showModal(); };
+  $("btnAddClient").onclick = () => { $("clName").value = ""; $("clGoal").value = "14"; $("clientDlg").showModal(); };
   $("clCancel").onclick = () => $("clientDlg").close();
   $("clOk").onclick = () => {
     const name = $("clName").value.trim(); if (!name) return;
     const id = Math.max(0, ...state.clients.map(c => c.id)) + 1;
-    state.clients.push({ id, name, goal: Math.max(0, parseInt($("clGoal").value) || 4) });
+    state.clients.push({ id, name, goal: Math.max(0, parseInt($("clGoal").value) || 14) });
     state.activeClient = id;
     $("clientDlg").close(); renderClients(); renderAll();
   };
 
-  $("btnCustom").onclick = () => { ["cfName", "cfKcal", "cfServ", "cfFat", "cfSat", "cfAdded", "cfProt"].forEach(i => $(i).value = ""); $("customDlg").showModal(); };
+  $("btnCustom").onclick = () => {
+    ["cfName", "cfKcal", "cfServ", "cfSugar"].forEach(i => $(i).value = "");
+    const gs = $("cfGroup"); gs.innerHTML = "";
+    for (const k of GROUP_ORDER) { const o = document.createElement("option"); o.value = k; o.textContent = RULES[k].label; gs.appendChild(o); }
+    gs.value = "veg";
+    $("customDlg").showModal();
+  };
   $("cfCancel").onclick = () => $("customDlg").close();
   $("cfOk").onclick = () => {
     const name = $("cfName").value.trim(); if (!name) return;
     const num = (id) => { const v = parseFloat($(id).value); return isNaN(v) ? null : v; };
-    const serv = { kcal: num("cfKcal"), fat: num("cfFat"), sat: num("cfSat"), sugars: num("cfAdded"), added: num("cfAdded"), protein: num("cfProt") };
+    const serv = { kcal: num("cfKcal"), sugars: num("cfSugar"), fat: null, sat: null, added: null, protein: null };
+    const servLabel = $("cfServ").value.trim();
     $("customDlg").close();
-    showFood({ name, brand: "custom entry", cats: [], isBeverage: false, per100: {}, serv, base: serv, baseLabel: "per serving" + ($("cfServ").value ? " (" + $("cfServ").value + ")" : ""), servingLabel: $("cfServ").value || "1 serving", source: "manual entry", code: "" });
+    showFood({ name, brand: "custom entry", cats: [], isBeverage: false, per100: {}, serv, base: serv,
+               baseLabel: "per serving" + (servLabel ? " (" + servLabel + ")" : ""), servingLabel: servLabel || "1 serving",
+               source: "manual entry", code: "" }, $("cfGroup").value);
   };
 
-  $("btnResetRules").onclick = () => { RULES = { ...DEFAULT_RULES }; renderSettings(); toast("Rules reset to defaults"); };
+  $("btnResetRules").onclick = () => { RULES = cloneRules(DEFAULT_RULES); renderSettings(); if (state.current) renderVerdict(); renderAll(); toast("Rules reset to the FRG defaults"); };
   $("btnExportCsv").onclick = exportCsv;
   $("btnExportJson").onclick = exportJson;
   $("btnImportJson").onclick = () => $("importFile").click();

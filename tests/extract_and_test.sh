@@ -12,3 +12,5 @@ PY
 node --check app.js && echo "syntax OK"
 node build_test.js && node combined_test.js
 node fdc_unit.js && node fdc_combined.js
+node off_fixture_test.js
+node fdc_generic_test.js

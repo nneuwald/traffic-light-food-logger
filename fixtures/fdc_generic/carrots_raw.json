@@ -1,0 +1,104 @@
+{
+ "foods": [
+  {
+   "fdcId": 2709660,
+   "description": "Carrots, raw",
+   "dataType": "Survey (FNDDS)",
+   "foodCategory": "Carrots",
+   "foodNutrients": [
+    {
+     "nutrientId": 1003,
+     "value": 0.87
+    },
+    {
+     "nutrientId": 1004,
+     "value": 0.24
+    },
+    {
+     "nutrientId": 1008,
+     "value": 44
+    },
+    {
+     "nutrientId": 2000,
+     "value": 4.75
+    },
+    {
+     "nutrientId": 1258,
+     "value": 0.028
+    }
+   ]
+  },
+  {
+   "fdcId": 170393,
+   "description": "Carrots, raw",
+   "dataType": "SR Legacy",
+   "foodCategory": "Vegetables and Vegetable Products",
+   "foodNutrients": [
+    {
+     "nutrientId": 1258,
+     "value": 0.032
+    },
+    {
+     "nutrientId": 1003,
+     "value": 0.93
+    },
+    {
+     "nutrientId": 1004,
+     "value": 0.24
+    },
+    {
+     "nutrientId": 2000,
+     "value": 4.74
+    },
+    {
+     "nutrientId": 1008,
+     "value": 41
+    }
+   ]
+  },
+  {
+   "fdcId": 2709661,
+   "description": "Carrots, raw, salad",
+   "dataType": "Survey (FNDDS)",
+   "foodCategory": "Coleslaw, non-lettuce salads",
+   "foodNutrients": [
+    {
+     "nutrientId": 1003,
+     "value": 1.25
+    },
+    {
+     "nutrientId": 1004,
+     "value": 15.74
+    },
+    {
+     "nutrientId": 1008,
+     "value": 212
+    },
+    {
+     "nutrientId": 2000,
+     "value": 12.04
+    },
+    {
+     "nutrientId": 1258,
+     "value": 2.454
+    }
+   ]
+  },
+  {
+   "fdcId": 2258587,
+   "description": "Carrots, baby, raw",
+   "dataType": "Foundation",
+   "foodCategory": "Vegetables and Vegetable Products",
+   "foodNutrients": [
+    {
+     "nutrientId": 1004,
+     "value": 0.138
+    },
+    {
+     "nutrientId": 1003,
+     "value": 0.805
+    }
+   ]
+  }
+ ]
+}

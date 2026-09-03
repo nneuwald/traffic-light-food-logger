@@ -1,39 +1,107 @@
-const T = (name, f, expect) => {
-  const r = classify(f, RULES);
-  const ok = r.color === expect;
-  console.log((ok ? 'PASS' : 'FAIL'), name, '->', r.color, '| expected', expect, '|', r.reasons.join('; '));
+// Hand-written cases against the FRG rule: food group -> calories per Traffic
+// Light serving -> colour. Every expected colour below can be checked against a
+// page of Epstein's Food & Activity Reference Guide (2012); page numbers are the
+// guide's own. Expected groups are asserted too, because a right colour reached
+// through the wrong group is still a bug.
+const T = (name, f, expect, group, override) => {
+  const r = classify(f, RULES, override);
+  const ok = r.color === expect && (group === undefined || r.group === group);
+  console.log((ok ? 'PASS' : 'FAIL'), name, '->', r.color, '(' + r.group + ')', '| expected', expect, group === undefined ? '' : '(' + group + ')',
+    ok ? '' : '| ' + r.reasons.join('; '));
   return ok;
 };
 let all = true;
-// produce
-all &= T('Broccoli', {cats:['en:vegetables'], per100:{kcal:35,fat:0.4,sugars:1.4,added:0,protein:2.4}}, 'green');
-all &= T('Apple', {cats:['en:fruits'], per100:{kcal:52,fat:0.2,sugars:10.4,added:0,protein:0.3}}, 'green');
-all &= T('Banana', {cats:['en:fruits'], per100:{kcal:89,fat:0.3,sugars:12.2,added:0,protein:1.1}}, 'green');
-all &= T('Dried mango, sweetened', {cats:['en:fruits','en:dried-fruits','en:dried'], per100:{kcal:319,fat:1.2,sugars:66,added:47,protein:2.5}}, 'red');
-// staples
-all &= T('Chicken breast', {cats:['en:meats'], per100:{kcal:165,fat:3.6,sat:1,sugars:0,added:0,protein:31}}, 'yellow');
-all &= T('White rice', {cats:['en:cereals'], per100:{kcal:130,fat:0.3,sugars:0.1,added:0,protein:2.7}}, 'yellow');
-all &= T('Plain Cheerios', {cats:['en:breakfast-cereals'], per100:{kcal:367,fat:6.7,sat:1.3,sugars:4.8,added:4.1,protein:12}}, 'yellow');
-all &= T('Whole wheat bread', {cats:['en:breads'], per100:{kcal:247,fat:3.4,sat:0.7,sugars:5.6,added:4,protein:13}}, 'yellow');
-// red foods
-all &= T('Honey Nut Cheerios', {cats:['en:breakfast-cereals'], per100:{kcal:393,fat:5.4,sat:0,sugars:32.1,added:22.1,protein:7.1}}, 'red');
-all &= T('Potato chips', {cats:['en:salty-snacks','en:crisps'], per100:{kcal:536,fat:35,sat:4.6,sugars:0.4,added:0,protein:7}}, 'red');
-all &= T('Choc chip cookie', {cats:['en:sugary-snacks','en:biscuits'], per100:{kcal:488,fat:24,sat:8,sugars:36,added:30,protein:5}}, 'red');
-all &= T('Cheddar cheese', {cats:['en:cheeses'], per100:{kcal:403,fat:33,sat:19,sugars:0.5,added:0,protein:23}}, 'red');
-all &= T('Ice cream', {cats:['en:desserts','en:ice-cream'], per100:{kcal:207,fat:11,sat:6.8,sugars:21,added:17,protein:3.5}}, 'red');
-// nuts exemption
-all &= T('Almonds, raw', {cats:['en:nuts'], per100:{kcal:579,fat:50,sat:3.8,sugars:4.4,added:0,protein:21}}, 'yellow');
-all &= T('Peanut butter, no added sugar', {cats:['en:nut-butters','en:peanut-butter'], per100:{kcal:588,fat:50,sat:10,sugars:9,added:2,protein:25}}, 'yellow');
-all &= T('Candied nuts', {cats:['en:nuts','en:sugary-snacks'], per100:{kcal:520,fat:35,sat:4,sugars:35,added:30,protein:12}}, 'red');
-// beverages
-all &= T('Water', {cats:['en:beverages','en:waters'], isBeverage:true, per100:{kcal:0,sugars:0,added:0}}, 'green');
-all &= T('Cola', {cats:['en:beverages','en:sodas'], isBeverage:true, per100:{kcal:39,sugars:10.6,added:10.6}}, 'red');
-all &= T('Diet cola', {cats:['en:beverages','en:sodas','en:diet-sodas'], isBeverage:true, per100:{kcal:0.4,sugars:0,added:0}}, 'yellow');
-all &= T('Orange juice 100%', {cats:['en:beverages','en:fruit-juices'], isBeverage:true, per100:{kcal:45,sugars:8.4,added:0}}, 'red');
-all &= T('Skim milk', {cats:['en:beverages','en:milks','en:skimmed-milks'], isBeverage:true, per100:{kcal:34,fat:0.1,sugars:5,added:0,protein:3.4}}, 'green');
-all &= T('Whole milk', {cats:['en:beverages','en:milks','en:whole-milks'], isBeverage:true, per100:{kcal:61,fat:3.3,sat:1.9,sugars:5,added:0,protein:3.2}}, 'yellow');
-all &= T('Chocolate milk', {cats:['en:beverages','en:milks','en:flavoured-milks','en:chocolate-milks'], isBeverage:true, per100:{kcal:83,fat:2.1,sugars:9.9,added:5,protein:3.2}}, 'red');
-// serving-only fallback (custom entry)
-all &= T('Custom: veggie soup (serving only)', {cats:[], serv:{kcal:45,fat:0.8,added:0,protein:2}}, 'green');
-all &= T('Custom: donut (serving only)', {cats:[], serv:{kcal:260,fat:14,sat:6,added:10,protein:3}}, 'red');
+
+// --- vegetables: the only group that can be green (FRG p.12-17) ---
+all &= T('Broccoli, cooked',              {name:'Broccoli, cooked', cats:['en:vegetables'], per100:{kcal:35}}, 'green', 'veg');
+all &= T('Carrots, raw',                  {name:'Carrots, raw', cats:['en:vegetables','en:carrots'], per100:{kcal:41}}, 'green', 'veg');
+all &= T('Kale, raw (leafy = light)',     {name:'Kale, raw', cats:['en:vegetables'], per100:{kcal:49}}, 'green', 'veg');
+all &= T('Artichoke hearts in oil',       {name:'Artichoke hearts in oil', cats:['en:vegetables'], per100:{kcal:150}}, 'red', 'veg');
+all &= T('Marinara sauce (1/4 cup)',      {name:'Marinara sauce', cats:['en:tomato-sauces'], per100:{kcal:55}}, 'yellow', 'veg');
+all &= T('Tomato juice (8 fl oz)',        {name:'Tomato juice', cats:['en:beverages','en:vegetable-juices'], isBeverage:true, per100:{kcal:17}}, 'yellow', 'veg');
+
+// --- starchy vegetables: never green (FRG p.18-20) ---
+all &= T('Potato, baked',                 {name:'Potato, baked', cats:['en:potatoes'], per100:{kcal:93}}, 'yellow', 'starchy');
+all &= T('Green peas (starchy, not green)', {name:'Green peas', cats:['en:vegetables','en:peas'], per100:{kcal:66}}, 'yellow', 'starchy');
+all &= T('Corn, canned',                  {name:'Corn, sweet, canned', cats:['en:vegetables','en:corn'], per100:{kcal:81}}, 'yellow', 'starchy');
+all &= T('French fries, oven baked',      {name:'French fries, frozen, oven baked', cats:['en:french-fries'], per100:{kcal:164}}, 'red', 'starchy');
+
+// --- fruit: yellow at most; juice and dried fruit are always red (FRG p.21-25) ---
+all &= T('Apple',                         {name:'Apple, raw', cats:['en:fruits'], per100:{kcal:52}}, 'yellow', 'fruit');
+all &= T('Banana',                        {name:'Banana, raw', cats:['en:fruits'], per100:{kcal:89}}, 'yellow', 'fruit');
+all &= T('Avocado',                       {name:'Avocado, raw', cats:['en:fruits','en:avocados'], per100:{kcal:160}}, 'red', 'fruit');
+all &= T('Orange juice, 100%',            {name:'Orange juice', cats:['en:beverages','en:fruit-juices'], isBeverage:true, per100:{kcal:45}}, 'red', 'juice');
+all &= T('Raisins',                       {name:'Raisins', cats:['en:dried-fruits'], per100:{kcal:299}}, 'red', 'juice');
+
+// --- grains (FRG p.26-32) ---
+all &= T('Whole wheat bread',             {name:'Whole wheat bread', cats:['en:breads'], per100:{kcal:247}}, 'yellow', 'grain');
+all &= T('Honey wheat bread (honey is not a sweet here)', {name:'Honey wheat bread', cats:['en:breads'], per100:{kcal:233}}, 'yellow', 'grain');
+all &= T('Bread with seeds (seeds are not nuts here)', {name:'21 whole grains and seeds bread', cats:['en:breads'], per100:{kcal:244}}, 'yellow', 'grain');
+all &= T('Brown rice, cooked (1/2 cup)',  {name:'Brown rice, cooked', cats:['en:rices'], per100:{kcal:112}}, 'yellow', 'grain');
+all &= T('Spaghetti, dry (1 oz)',         {name:'Spaghetti', cats:['en:pastas'], per100:{kcal:357}}, 'yellow', 'grain');
+all &= T('Cheez-It crackers',             {name:'Cheez-It original crackers', cats:['en:crackers'], per100:{kcal:503}}, 'red', 'grain');
+all &= T('Granola bar',                   {name:'Oats and honey granola bar', cats:['en:granola-bars'], per100:{kcal:450}}, 'red', 'grain');
+all &= T('Banana bread is a grain',       {name:'Banana bread', cats:[], per100:{kcal:326}}, 'yellow', 'grain');
+
+// --- cold cereal: calories and the 25% sugar rule (FRG p.77) ---
+all &= T('Cheerios',                      {name:'Cheerios', cats:['en:breakfast-cereals'], per100:{kcal:367, sugars:4.8}}, 'yellow', 'cereal');
+all &= T('Honey Nut Cheerios (33% sugar)', {name:'Honey Nut Cheerios', cats:['en:breakfast-cereals'], per100:{kcal:393, sugars:32.1}}, 'red', 'cereal');
+all &= T('Dense granola (>120 cal)',      {name:'Granola', cats:['en:granolas'], per100:{kcal:489, sugars:20}}, 'red', 'cereal');
+
+// --- cheese (1 oz) and other dairy (1 cup; yogurt 6 oz) (FRG p.33-40) ---
+all &= T('Cheddar cheese',                {name:'Cheddar cheese', cats:['en:cheeses'], per100:{kcal:403}}, 'red', 'cheese');
+all &= T('Mozzarella, part skim',         {name:'Mozzarella, part skim', cats:['en:cheeses'], per100:{kcal:254}}, 'yellow', 'cheese');
+all &= T('Cottage cheese 1% (1/2 cup)',   {name:'Cottage cheese, 1% fat', cats:['en:cottage-cheeses'], per100:{kcal:72}}, 'yellow', 'cheese');
+all &= T('Skim milk (yellow, not green)', {name:'Skim milk', cats:['en:beverages','en:milks','en:skimmed-milks'], isBeverage:true, per100:{kcal:34}}, 'yellow', 'dairy');
+all &= T('Whole milk',                    {name:'Whole milk', cats:['en:beverages','en:milks'], isBeverage:true, per100:{kcal:61}}, 'red', 'dairy');
+all &= T('Chocolate milk, 1%',            {name:'Chocolate milk, lowfat', cats:['en:beverages','en:milks','en:chocolate-milks'], isBeverage:true, per100:{kcal:71}}, 'red', 'dairy');
+all &= T('Plain nonfat Greek yogurt',     {name:'Plain nonfat greek yogurt', cats:['en:yogurts','en:desserts'], per100:{kcal:59}}, 'yellow', 'dairy');
+all &= T('Strawberry yogurt',             {name:'Strawberry yogurt', cats:['en:yogurts'], per100:{kcal:100}}, 'red', 'dairy');
+all &= T('Unsweetened almond milk',       {name:'Unsweetened almondmilk', cats:[], isBeverage:true, per100:{kcal:5}}, 'yellow', 'dairy');
+
+// --- protein (FRG p.41-58) ---
+all &= T('Chicken breast, roasted',       {name:'Chicken breast, roasted', cats:['en:meats','en:chicken'], per100:{kcal:165}}, 'yellow', 'meat');
+all &= T('Ground beef 80/20',             {name:'Ground beef, 80% lean, broiled', cats:['en:meats','en:beef'], per100:{kcal:270}}, 'red', 'meat');
+all &= T('Tuna in water',                 {name:'Chunk light tuna in water', cats:['en:canned-fish'], per100:{kcal:86}}, 'yellow', 'meat');
+all &= T('Egg, hard boiled',              {name:'Egg, hard boiled', cats:['en:eggs'], per100:{kcal:155}}, 'yellow', 'protein');
+all &= T('Black beans, canned',           {name:'Black beans, canned', cats:['en:legumes','en:beans'], per100:{kcal:87}}, 'yellow', 'protein');
+all &= T('Green beans are vegetables',    {name:'Cut green beans', cats:['en:legumes','en:green-beans','en:vegetables'], per100:{kcal:17}}, 'green', 'veg');
+all &= T('Almonds',                       {name:'Almonds, raw', cats:['en:nuts'], per100:{kcal:579}}, 'red', 'nuts');
+all &= T('Peanut butter (2 Tbsp)',        {name:'Peanut butter, smooth', cats:['en:nut-butters','en:peanut-butter'], per100:{kcal:588}}, 'red', 'nuts');
+all &= T('Chestnuts, roasted',            {name:'Chestnuts, roasted', cats:['en:nuts'], per100:{kcal:240}}, 'yellow', 'nuts');
+all &= T('Rice tagged en:seeds is a grain', {name:'Ready rice', cats:['en:seeds','en:cereals','en:rices'], per100:{kcal:160}}, 'yellow', 'grain');
+
+// --- fats, oils, sweets & others: always red, diet drinks included (FRG p.59-66) ---
+all &= T('Cola',                          {name:'Cola', cats:['en:beverages','en:sodas'], isBeverage:true, per100:{kcal:39}}, 'red', 'sweets');
+all &= T('Diet cola (red, not yellow)',   {name:'Diet cola', cats:['en:beverages','en:sodas','en:diet-beverages'], isBeverage:true, per100:{kcal:0}}, 'red', 'sweets');
+all &= T('Sports drink',                  {name:'Lemon-lime thirst quencher', cats:['en:beverages','en:sports-drinks'], isBeverage:true, per100:{kcal:25}}, 'red', 'sweets');
+all &= T('Sweetened iced tea',            {name:'Iced tea, sweetened', cats:['en:beverages','en:teas','en:iced-teas'], isBeverage:true, per100:{kcal:35}}, 'red', 'sweets');
+all &= T('Potato chips',                  {name:'Potato chips', cats:['en:salty-snacks','en:crisps'], per100:{kcal:536}}, 'red', 'sweets');
+all &= T('Chocolate chip cookies',        {name:'Chocolate chip cookies', cats:['en:sugary-snacks','en:biscuits'], per100:{kcal:488}}, 'red', 'sweets');
+all &= T('Butter',                        {name:'Butter', cats:['en:butters'], per100:{kcal:717}}, 'red', 'sweets');
+all &= T('Ice cream',                     {name:'Vanilla ice cream', cats:['en:desserts','en:ice-cream'], per100:{kcal:207}}, 'red', 'sweets');
+all &= T('Milk chocolate bar (not dairy)', {name:'Candy, milk chocolate bar', cats:[], usdaCategory:'Sweets', per100:{kcal:535}}, 'red', 'sweets');
+
+// --- no colour (FRG p.7) ---
+all &= T('Water',                         {name:'Water', cats:['en:beverages','en:waters'], isBeverage:true, per100:{kcal:0}}, 'free', 'free');
+all &= T('Water tagged unsweetened-beverages', {name:'Spring water', cats:['en:beverages','en:waters','en:unsweetened-beverages'], isBeverage:true, per100:{kcal:0}}, 'free', 'free');
+all &= T('Black coffee',                  {name:'Coffee, brewed', cats:['en:beverages','en:coffees'], isBeverage:true, per100:{kcal:1}}, 'free', 'free');
+
+// --- soups (1 cup) and condiments (1 Tbsp) (FRG p.67-76) ---
+all &= T('Chicken noodle soup',           {name:'Chicken noodle soup', cats:['en:soups','en:meals'], per100:{kcal:30}}, 'yellow', 'soupBroth');
+all &= T('Chili with beans',              {name:'Chili with beans', cats:['en:soups','en:chilis'], per100:{kcal:110}}, 'red', 'soupChili');
+all &= T('Chicken broth is an ingredient', {name:'Chicken broth', cats:['en:broths','en:meals'], per100:{kcal:5}}, 'yellow', 'condiment');
+all &= T('Ketchup',                       {name:'Ketchup', cats:['en:condiments','en:ketchups'], per100:{kcal:100}}, 'yellow', 'condiment');
+all &= T('Ranch dressing',                {name:'Ranch dressing', cats:['en:salad-dressings'], per100:{kcal:430}}, 'red', 'condiment');
+all &= T('Dill pickle spear',             {name:'Kosher dill spears', cats:['en:pickles'], per100:{kcal:12}}, 'yellow', 'condiment');
+all &= T('Mustard spinach is a vegetable', {name:'Mustard spinach, raw', cats:[], usdaCategory:'Vegetables and Vegetable Products', per100:{kcal:22}}, 'green', 'veg');
+
+// --- combination foods and the clinician's own entries ---
+all &= T('Pepperoni pizza (review)',      {name:'Pepperoni pizza', cats:['en:pizzas'], per100:{kcal:280}}, 'yellow', 'combo');
+all &= T('Custom: veggie soup, group given', {name:'Homemade veggie soup', cats:[], per100:{}, serv:{kcal:80}}, 'yellow', 'soupBroth', 'soupBroth');
+all &= T('Custom: fudge, group given',    {name:'Grandma\'s fudge', cats:[], per100:{}, serv:{kcal:120}}, 'red', 'sweets', 'sweets');
+all &= T('Custom: cereal 40% sugar, group given', {name:'Mystery cereal', cats:[], per100:{}, serv:{kcal:110, sugars:11}}, 'red', 'cereal', 'cereal');
+all &= T('Group override beats detection', {name:'Apple, raw', cats:['en:fruits'], per100:{kcal:52}}, 'yellow', 'veg', 'veg');
+all &= T('Unknown food asks for a group', {name:'Mystery item', cats:[], per100:{kcal:200}}, 'yellow', null);
+
 console.log(all ? '\nALL TESTS PASS' : '\nSOME TESTS FAILED');

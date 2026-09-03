@@ -1,0 +1,104 @@
+{
+ "foods": [
+  {
+   "fdcId": 2709283,
+   "description": "Strawberries, raw",
+   "dataType": "Survey (FNDDS)",
+   "foodCategory": "Strawberries",
+   "foodNutrients": [
+    {
+     "nutrientId": 1003,
+     "value": 0.64
+    },
+    {
+     "nutrientId": 1004,
+     "value": 0.22
+    },
+    {
+     "nutrientId": 1008,
+     "value": 36
+    },
+    {
+     "nutrientId": 2000,
+     "value": 4.86
+    },
+    {
+     "nutrientId": 1258,
+     "value": 0
+    }
+   ]
+  },
+  {
+   "fdcId": 167762,
+   "description": "Strawberries, raw",
+   "dataType": "SR Legacy",
+   "foodCategory": "Fruits and Fruit Juices",
+   "foodNutrients": [
+    {
+     "nutrientId": 1004,
+     "value": 0.3
+    },
+    {
+     "nutrientId": 1003,
+     "value": 0.67
+    },
+    {
+     "nutrientId": 2000,
+     "value": 4.89
+    },
+    {
+     "nutrientId": 1008,
+     "value": 32
+    },
+    {
+     "nutrientId": 1258,
+     "value": 0.015
+    }
+   ]
+  },
+  {
+   "fdcId": 2346409,
+   "description": "Strawberries, raw",
+   "dataType": "Foundation",
+   "foodCategory": "Fruits and Fruit Juices",
+   "foodNutrients": [
+    {
+     "nutrientId": 1004,
+     "value": 0.22
+    },
+    {
+     "nutrientId": 1003,
+     "value": 0.641
+    },
+    {
+     "nutrientId": 1063,
+     "value": 4.86
+    }
+   ]
+  },
+  {
+   "fdcId": 173045,
+   "description": "Guavas, strawberry, raw",
+   "dataType": "SR Legacy",
+   "foodCategory": "Fruits and Fruit Juices",
+   "foodNutrients": [
+    {
+     "nutrientId": 1258,
+     "value": 0.172
+    },
+    {
+     "nutrientId": 1003,
+     "value": 0.58
+    },
+    {
+     "nutrientId": 1004,
+     "value": 0.6
+    },
+    {
+     "nutrientId": 1008,
+     "value": 69
+    }
+   ]
+  }
+ ]
+}
