@@ -281,4 +281,43 @@ all &= T('Custom: cereal 40% sugar, group given', {name:'Mystery cereal', cats:[
 all &= T('Group override beats detection', {name:'Apple, raw', cats:['en:fruits'], per100:{kcal:52}}, 'yellow', 'veg', 'veg');
 all &= T('Unknown food asks for a group', {name:'Mystery item', cats:[], per100:{kcal:200}}, 'yellow', null);
 
+// --- portions: label servings in, FRG servings out (FRG p.3, p.5, p.28, p.36) ---
+const P = (name, ok, detail) => { console.log((ok ? 'PASS' : 'FAIL'), name, detail ? '| ' + detail : ''); return ok; };
+{
+  const bagel = {name:'Plain bagel', cats:['en:bagels'], per100:{kcal:262}, serv:{kcal:275}, servQtyG:105, servingLabel:'1 bagel (105 g)'};
+  const r = classify(bagel, RULES); const b = portionBasis(bagel, r, RULES); const sv = frgServings(r, b, 1, null, RULES);
+  all &= P('A whole bagel is yellow per 1/4 bagel (p.28) and counts about 3.8 FRG servings', r.color === 'yellow' && r.group === 'grain' && b.kind === 'label' && fmtServ(sv) === '3.8', r.color + ' ' + r.group + ' ' + b.kind + ' ' + fmtServ(sv));
+  all &= P('Half a bagel is about 1.9 FRG servings', fmtServ(frgServings(r, b, 0.5, null, RULES)) === '1.9', fmtServ(frgServings(r, b, 0.5, null, RULES)));
+  all &= P('A typed 28 g of bagel is 1 FRG serving', fmtServ(frgServings(r, b, 1, 28, RULES)) === '1', fmtServ(frgServings(r, b, 1, 28, RULES)));
+  all &= P('The portion line shows both scales', portionLine(r, b, 1, null, sv, RULES) === '1 label serving, 1 bagel (105 g) = about 3.8 FRG servings', portionLine(r, b, 1, null, sv, RULES));
+  all &= P('...and a typed weight', portionLine(r, b, 1, 28, frgServings(r, b, 1, 28, RULES), RULES) === '28 g = about 1 FRG serving', portionLine(r, b, 1, 28, frgServings(r, b, 1, 28, RULES), RULES));
+}
+{
+  const cc = {name:'Cream cheese', cats:['en:cream-cheeses'], per100:{kcal:321, fat:32}, serv:{}, servQtyG:null, servingLabel:'100 g'};
+  const r = classify(cc, RULES); const b = portionBasis(cc, r, RULES);
+  all &= P('Cream cheese with no label serving opens at the FRG ounce, about 93 cal, red (p.36)', r.color === 'red' && r.group === 'cheese' && b.kind === 'frg' && b.grams === 29 && Math.round(b.base.kcal) === 93, r.color + ' ' + r.group + ' ' + b.kind + ' ' + b.grams + ' ' + Math.round(b.base.kcal));
+  all &= P('...and one of it is one FRG serving', fmtServ(frgServings(r, b, 1, null, RULES)) === '1');
+  all &= P('...typed as 30 g it is still about 1 FRG serving', fmtServ(frgServings(r, b, 1, 30, RULES)) === '1', fmtServ(frgServings(r, b, 1, 30, RULES)));
+  all &= P('...and the line names the guide serving', portionLine(r, b, 1, null, 1, RULES) === '1 FRG serving, about 29 g, 1 oz', portionLine(r, b, 1, null, 1, RULES));
+}
+{
+  const water = {name:'Spring water', cats:['en:beverages','en:waters'], isBeverage:true, per100:{kcal:0}, serv:{}};
+  const r = classify(water, RULES); const b = portionBasis(water, r, RULES);
+  all &= P('Water has no FRG serving to count', r.color === 'free' && frgServings(r, b, 2, null, RULES) === null, r.color + ' ' + frgServings(r, b, 2, null, RULES));
+}
+{
+  const custom = {name:'Homemade veggie soup', cats:[], per100:{}, serv:{kcal:80}, servingLabel:'1 bowl'};
+  const r = classify(custom, RULES, 'soupBroth'); const b = portionBasis(custom, r, RULES);
+  all &= P('A custom food with calories but no weight counts servings by calories', b.grams === null && fmtServ(frgServings(r, b, 2, null, RULES)) === '2', b.grams + ' ' + fmtServ(frgServings(r, b, 2, null, RULES)));
+}
+{
+  const pizza = {name:'Pepperoni pizza', cats:['en:pizzas'], per100:{kcal:280}, serv:{kcal:392}, servQtyG:140, servingLabel:'1/4 pizza (140 g)'};
+  const r = classify(pizza, RULES); const b = portionBasis(pizza, r, RULES);
+  all &= P('A combination food counts its own servings (p.8 gives it no other)', r.group === 'combo' && fmtServ(frgServings(r, b, 2, null, RULES)) === '2', r.group + ' ' + fmtServ(frgServings(r, b, 2, null, RULES)));
+}
+all &= P('Entries logged before servings were recorded count as one', entryServings({color:'red'}) === 1 && entryServings({color:'red', servings:2.5}) === 2.5);
+all &= P('Red servings add up across entries and round to a tenth', sumServings([{color:'red', servings:1.25}, {color:'red'}, {color:'yellow', servings:4}], 'red') === 2.3, String(sumServings([{color:'red', servings:1.25}, {color:'red'}, {color:'yellow', servings:4}], 'red')));
+all &= P('Servings print to a tenth, whole numbers plain', fmtServ(3.75) === '3.8' && fmtServ(2) === '2' && fmtServ(0.96) === '1' && fmtServ(null) === '?');
+
+
 console.log(all ? '\nALL TESTS PASS' : '\nSOME TESTS FAILED');
