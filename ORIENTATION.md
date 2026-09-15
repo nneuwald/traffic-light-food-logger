@@ -6,7 +6,7 @@ A single-file web app for Traffic Light Diet food logging with clients or patien
 
 1. Open `traffic_light_food_logger.html` in any modern browser. That's it; there is no build step, server, or install.
 2. On a phone, the camera barcode scanner works best. On a laptop you can type barcode numbers or search by name instead. `verified_barcodes.csv` has 33 tested barcodes to try, spread across all three colors.
-3. For real use, get a free USDA API key at https://api.data.gov/signup (takes a minute) and paste it into Settings inside the app. The bundled DEMO_KEY is limited to roughly 30 lookups per hour.
+3. For real use, get a free USDA API key at https://api.data.gov/signup (takes a minute) and paste it into Settings inside the app. The key is remembered on that device. The bundled DEMO_KEY allows only about 10 searches an hour per network (measured September 2026), so a clinic will run it out in minutes.
 
 **Important:** data lives only while the page is open. Use the Backup (JSON) button to save a session and Restore to reload it. This is the prototype's biggest limitation; a production version needs real storage.
 
@@ -33,7 +33,7 @@ A single-file web app for Traffic Light Diet food logging with clients or patien
 
 ## How the app works
 
-**Data flow for a barcode:** scan or type a code, then the app queries Open Food Facts first (broadest barcode coverage). If not found, it retries USDA FoodData Central's Branded Foods using the `gtinUpc:` field query with the code zero-padded to 14 digits. **Name search** queries both databases in parallel and merges results, USDA lab-analyzed generic foods first, each labeled with its source.
+**Data flow for a barcode:** scan or type a code, then the app queries Open Food Facts first (broadest barcode coverage). If not found, it retries USDA FoodData Central's Branded Foods using the `gtinUpc:` field query with the code zero-padded to 14 digits. **Name search** checks the built-in quick-add list, then queries both databases in parallel and merges the results: built-in and USDA generic foods first, then Open Food Facts, then USDA branded, each labeled with its source.
 
 **Classification** happens entirely on-device and implements Epstein's Traffic Light Diet as written in *The Food & Activity Reference Guide* (2012), not an approximation of it. The rule is one sentence: find the food group, take the calories in one Traffic Light serving, read the colour off the group's range (guide p.6). `detectGroup()` picks the group from Open Food Facts tags, the product name and the USDA category string; `classify()` applies the range. Only vegetables can be green (≤ 30 cal per ½ cup, yellow to 45, red above). Every other group is yellow up to a cap and red above it: starchy vegetables 120, fruit 90, grains 120, cheese 83, other dairy 135, meat & seafood 158, eggs/beans/substitutes 120, nuts 68, broth soups 186, chili and bean soups 224, condiments 23. Fruit juice, dried fruit and the fats/oils/sweets group are always red, diet drinks included. Water, plain tea and coffee, and seasonings carry no colour. Cold cereal is also red above 25% of calories from sugar, the guide's one nutrient rule. Combination foods get no range; the app takes them apart instead (see below). Every verdict shows its reasons, the group can be changed in a dropdown, and any colour can be overridden.
 
@@ -59,6 +59,8 @@ The arithmetic is only run when it can be trusted. The serving has to be at leas
 
 **Name search.** Open Food Facts rate-limits its search endpoint to a handful of requests a minute, and a throttled request reaches the browser as a plain network error rather than a status code. `offSearch()` used to treat one failure as fatal and fall through to search.openfoodfacts.org, which sends no CORS header and so can never load in a browser; the real cause was masked and the clinician was told the databases were unreachable. It now retries the endpoint that works, three times with a short backoff. If a search still comes back empty, `queryVariants()` retries up to two spellings of the last word, so "wheat thin" finds Wheat Thins and "berry" finds berries; the hint says which spelling produced the results. The messages now separate "busy, try again" from "no matches", and say to add a personal USDA key when the shared DEMO_KEY has been rate-limited, which is what a USDA 429 means.
 
+**Name search, second round (15 September 2026).** A tester's screenshots showed "oatmeal" returning French oat cookies and "skim milk" returning Nutella, with USDA reported unavailable in one and rate-limited in the other. Both messages had one cause. USDA now fronts `/foods/search` with a proxy (`X-Nginx-Intercept: portal-foods-search`) that answers 400 to a GET whose `dataType` list holds a value with a space, "SR Legacy" or "Survey (FNDDS)", however it is encoded; a single value or a list without spaces still passes, so barcode lookups kept working while every name search failed. The request string had not changed since the first commit, so this changed on USDA's side. The failed calls still counted against the demo key, whose limit header now reads 10 an hour per IP address rather than the 30 the docs state, so ten searches later the 400s became 429s. `fdcSearch()` now sends the documented POST with a JSON body, which the proxy accepts and whose CORS preflight is answered. With USDA gone, all a searcher saw was Open Food Facts' text search on the worldwide site with no sort order, which matches words anywhere in a record, ingredients included, and returns the most recently edited. `offSearchOnce()` now asks the US site sorted by scan count, which returned Quaker Instant Oatmeal, Oatmeal Squares, Better Oats and Millville for "oatmeal", and `rankByName()` lifts records whose name holds every search word above ingredient-only matches. The search box also matches the built-in quick-add list through `quickMatches()`, so skim milk is found with no network at all. The USDA key is now kept in `localStorage` by `loadPrefs()` and `savePrefs()`, the one thing the prototype persists, because every fresh visit to the GitHub Pages link otherwise ran on the shared demo key. Open Food Facts also began answering anonymous search with a 503 "temporarily unavailable" page after about five requests in a few minutes, lasting several minutes; the app's three quick retries cannot outwait that, and the hint says the branded products are missing. `search.openfoodfacts.org` still sends no `Access-Control-Allow-Origin`, so it remains unusable from a browser. `tests/search_test.js` pins the request shapes and the ranking.
+
 **Other structures worth knowing:** `state` holds clients and the log in memory. `foodFromOFF()` and `foodFromFDC()` normalize the two APIs into one food shape. `fdcCatsToTags()` adds Open Food Facts style tags to USDA foods; `detectGroup()` reads tags, name and USDA category together. The weekly view adds up red servings against a per-client budget (default 14 per week, the guide's 2 servings a day) and the day view flags more than 2 on one day.
 
 ## Data sources
@@ -69,12 +71,13 @@ The arithmetic is only run when it can be trusted. The serving has to be at leas
 
 ## Testing
 
-With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs four suites, all offline:
+With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs five suites, all offline:
 
 - `tests_body.js`: 222 hand-written classification checks, each tied to a guide page (produce, grains, dairy, protein, drinks, condiments, the surprising cases listed above, and every category-vocabulary trap the live audit found)
 - `fdc_unit.js`: 11 USDA mapping checks against `fixtures/fdc_search.json` and `fixtures/fdc_upc.json`
 - `off_fixture_test.js`: 39 assertions over 33 saved Open Food Facts responses in `fixtures/off_products/`, covering colour, group and the reason text
 - `fdc_generic_test.js`: 17 assertions over saved USDA generic-food responses in `fixtures/fdc_generic/`
+- `search_test.js`: 25 checks of the name-search plumbing: the USDA request is a POST with a JSON body, the Open Food Facts request asks the US site sorted by popularity, name matches rank first, and the built-in quick-add list is searched
 
 The saved Open Food Facts fixtures were captured before `ingredients_text` and `additives_tags` were added to the request, so the artificial-sweetener rule is covered by hand-written cases only. Re-saving a fixture (for example a zero-calorie flavoured water) with `tests/probe.js` would let it be tested on real data.
 
@@ -106,7 +109,7 @@ All have regression tests. `hasCat()` now matches whole hyphen-delimited words, 
 
 ## Known limitations and roadmap ideas
 
-No persistence beyond JSON backup files (the top priority for a production version). The single-file design exposes any API key in Settings to whoever has the file; fine for internal use, but a paid data source like CalorieKing would need a small server in the middle. Restaurant food coverage is thin pending a dedicated source. A real mobile app (React Native or similar) would add proper storage, accounts, camera reliability, and offline caching. Style note: no em dashes in app text.
+No persistence beyond JSON backup files, apart from the USDA key (the top priority for a production version). The single-file design exposes any API key in Settings to whoever has the file; fine for internal use, but a paid data source like CalorieKing would need a small server in the middle. Restaurant food coverage is thin pending a dedicated source. A real mobile app (React Native or similar) would add proper storage, accounts, camera reliability, and offline caching. Style note: no em dashes in app text.
 
 ## Status and next steps (3 September 2026)
 

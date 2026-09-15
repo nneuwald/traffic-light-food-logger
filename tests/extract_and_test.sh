@@ -17,3 +17,4 @@ node fdc_unit.js && node fdc_combined.js
 node off_fixture_test.js
 node fdc_generic_test.js
 node audit_regression.js
+node search_test.js

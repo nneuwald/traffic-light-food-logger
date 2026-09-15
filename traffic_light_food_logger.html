@@ -369,7 +369,7 @@
   <p class="footer-note">
     ⚠️ Prototype for professional use alongside clinical judgment; not medical advice.
     Colours follow the Traffic Light Diet Food Reference Guide (Epstein, 2012); where a product is listed in the guide, the guide wins.
-    Data lives in this open page only: use <b>Backup (JSON)</b> to save and <b>Restore</b> to reload.
+    Client data lives in this open page only: use <b>Backup (JSON)</b> to save and <b>Restore</b> to reload. The USDA key in Settings is remembered on this device.
     Nutrition data from USDA FoodData Central and Open Food Facts; branded records are label-deep, so verify against the package when accuracy matters.
   </p>
 </div>
@@ -465,6 +465,18 @@ const GROUP_ORDER = ["veg", "starchy", "fruit", "juice", "grain", "cereal", "che
 function cloneRules(r) { return JSON.parse(JSON.stringify(r)); }
 let RULES = cloneRules(DEFAULT_RULES);
 const PREFS = { usdaKey: "DEMO_KEY" };  // free personal key: https://api.data.gov/signup
+// The key is the one setting worth keeping between visits: without it every
+// visit to the live link runs on the shared DEMO_KEY, which USDA now caps at
+// about 10 searches an hour per network. Client data still lives only in the
+// open page and travels by JSON backup.
+const PREFS_STORAGE_KEY = "tlfl.prefs";
+function loadPrefs() {
+  try { const j = JSON.parse(localStorage.getItem(PREFS_STORAGE_KEY) || "{}"); if (j && j.usdaKey) PREFS.usdaKey = String(j.usdaKey); }
+  catch (e) { /* storage blocked: stay on the default */ }
+}
+function savePrefs() {
+  try { localStorage.setItem(PREFS_STORAGE_KEY, JSON.stringify(PREFS)); } catch (e) { /* storage blocked: nothing to keep */ }
+}
 
 // ---------- helpers ----------
 const $ = (id) => document.getElementById(id);
@@ -528,6 +540,22 @@ function hasWord(w, ...needles) {
     const nw = textWords(n);
     return nw.length > 0 && w.some((_, i) => nw.every((x, j) => sameWord(w[i + j], x)));
   });
+}
+// Search ranking: a record whose name holds every word typed, in any order and
+// plural-tolerant, is what the searcher meant. "oatmeal" should bring up
+// "Instant Oatmeal Original" before a cookie that only lists oatmeal as an
+// ingredient, and "skim milk" should never bring up a hazelnut spread.
+function nameHasAllWords(name, q) {
+  const nw = textWords(name), qw = textWords(q);
+  return qw.length > 0 && qw.every(x => nw.some(w => sameWord(w, x)));
+}
+// Stable: name matches first, the shortest names among them before longer ones
+// ("Skim Milk" before "Queso Fresco Part Skim Milk Cheese"), otherwise the order
+// the source gave.
+function rankByName(list, q, nameOf) {
+  const name = nameOf || (p => p.product_name);
+  return list.map((p, i) => { const t = name(p); return { p, i, hit: nameHasAllWords(t, q) ? 1 : 0, len: textWords(t).length }; })
+    .sort((a, b) => (b.hit - a.hit) || (a.hit && (a.len - b.len)) || (a.i - b.i)).map(x => x.p);
 }
 const FDC_FRUIT_WORDS = ["apple", "applesauce", "apricot", "avocado", "banana", "berry", "berries", "blackberry", "blackberries",
   "blueberry", "blueberries", "cantaloupe", "cherry", "cherries", "clementine", "cranberry", "cranberries", "dates", "fig", "fruit",
@@ -1199,13 +1227,20 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 // through to search.openfoodfacts.org, which sends no CORS header and so can
 // never load in a browser; that masked the real cause and told the clinician the
 // databases were unreachable. Retrying the endpoint that does work is what fixes it.
+//
+// The text search matches words anywhere in a record, ingredient list included,
+// and with no sort order it returns whatever was edited most recently, from any
+// country: "oatmeal" gave French oat cookies and "skim milk" gave Nutella. The
+// US site, sorted by how often a product has been scanned, returns the Quaker
+// and Millville records a clinic expects (checked 15 September 2026), and
+// rankByName() then lifts the records whose name holds every search word.
 async function offSearchOnce(q) {
-  const url = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=" + encodeURIComponent(q) +
-    "&search_simple=1&action=process&json=1&page_size=8&fields=" + OFF_FIELDS;
+  const url = "https://us.openfoodfacts.org/cgi/search.pl?search_terms=" + encodeURIComponent(q) +
+    "&search_simple=1&action=process&json=1&page_size=12&sort_by=unique_scans_n&fields=" + OFF_FIELDS;
   const r = await fetch(url);
   if (!r.ok) throw new Error("HTTP " + r.status);
   const j = await r.json();
-  return (j.products || []).filter(p => p.product_name);
+  return rankByName((j.products || []).filter(p => p.product_name), q);
 }
 async function offSearch(q) {
   let last = null;
@@ -1269,12 +1304,19 @@ function foodFromOFF(p) {
 
 // ---------- USDA FoodData Central lookup ----------
 const FDC_NUTR = { 1008: "kcal", 2047: "kcal", 2048: "kcal", 1004: "fat", 1258: "sat", 1003: "protein", 1235: "added", 2000: "sugars", 1063: "sugars" };
+// USDA now fronts /foods/search with a proxy that answers 400 Bad Request to a
+// GET whose dataType list holds a value with a space ("SR Legacy", "Survey
+// (FNDDS)"), however the space is encoded; a single value or a list without
+// spaces still passes, which is why barcode lookups kept working while every
+// name search failed. The documented POST form takes the same list as a JSON
+// array and is accepted, and its CORS preflight is answered, so every search
+// goes that way (checked 15 September 2026). The 400s counted against the demo
+// key too, which is how "USDA is unavailable" turned into "USDA is rate-limited".
 async function fdcSearch(q, opts = {}) {
-  const params = new URLSearchParams({
-    api_key: PREFS.usdaKey || "DEMO_KEY", query: q, pageSize: String(opts.pageSize || 6),
-  });
-  if (opts.dataType) params.set("dataType", opts.dataType);
-  const r = await fetch("https://api.nal.usda.gov/fdc/v1/foods/search?" + params.toString());
+  const body = { query: q, pageSize: opts.pageSize || 6 };
+  if (opts.dataType) body.dataType = String(opts.dataType).split(",").map(t => t.trim()).filter(Boolean);
+  const r = await fetch("https://api.nal.usda.gov/fdc/v1/foods/search?api_key=" + encodeURIComponent(PREFS.usdaKey || "DEMO_KEY"),
+    { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   if (!r.ok) throw new Error("USDA HTTP " + r.status);
   const j = await r.json();
   if (j.error) throw new Error("USDA: " + (j.error.code || "error"));
@@ -1400,6 +1442,9 @@ function foodFromQuick(q) {
   return { name: q.name, brand: "generic", cats: q.cats, isBeverage: !!q.isBeverage, per100: q.per100, serv, base: serv,
            baseLabel: "per serving (" + q.servingLabel + ")", servingLabel: q.servingLabel, servQtyG: q.servG, source: "reference values", code: "" };
 }
+// The search box checks this list too, so the commonest generic foods are found
+// even when both databases are throttled.
+function quickMatches(q) { return QUICK_FOODS.filter(f => nameHasAllWords(f.name, q)); }
 
 // ---------- UI: current food ----------
 const PORTIONS = [0.25, 0.5, 0.75, 1, 1.5, 2, 3];
@@ -1744,10 +1789,10 @@ function renderSettings() {
   // USDA API key row
   const kl = document.createElement("label");
   kl.htmlFor = "usdaKeyInput";
-  kl.innerHTML = 'USDA API key. Free at <a href="https://api.data.gov/signup" target="_blank" rel="noopener">api.data.gov/signup</a> (DEMO_KEY works but is limited to ~30 lookups/hour)';
+  kl.innerHTML = 'USDA API key, remembered on this device. Free at <a href="https://api.data.gov/signup" target="_blank" rel="noopener">api.data.gov/signup</a>; the shared DEMO_KEY allows only about 10 searches an hour per network';
   const ki = document.createElement("input");
   ki.type = "text"; ki.id = "usdaKeyInput"; ki.value = PREFS.usdaKey; ki.autocomplete = "off"; ki.spellcheck = false;
-  ki.onchange = () => { PREFS.usdaKey = ki.value.trim() || "DEMO_KEY"; toast("USDA key updated"); };
+  ki.onchange = () => { PREFS.usdaKey = ki.value.trim() || "DEMO_KEY"; savePrefs(); toast("USDA key updated and remembered on this device"); };
   g.appendChild(kl); g.appendChild(ki);
   const row = (id, text, value, onchange, step) => {
     const lab = document.createElement("label"); lab.textContent = text; lab.htmlFor = id;
@@ -1798,7 +1843,7 @@ function importJson(file) {
       state.activeClient = j.activeClient && j.clients.some(c => c.id === j.activeClient) ? j.activeClient : (j.clients[0] && j.clients[0].id);
       if (Array.isArray(j.recipes)) state.recipes = j.recipes;
       if (j.rules && j.rules.veg) RULES = { ...cloneRules(DEFAULT_RULES), ...j.rules };  // v1 backups carried the old nutrient rules
-      if (j.prefs && j.prefs.usdaKey) PREFS.usdaKey = j.prefs.usdaKey;
+      if (j.prefs && j.prefs.usdaKey) { PREFS.usdaKey = j.prefs.usdaKey; savePrefs(); }
       renderClients(); renderSettings(); renderAll();
       toast("Backup restored: " + state.log.length + " entries");
     } catch (e) { toast("Could not read that backup file"); }
@@ -1855,7 +1900,7 @@ async function lookup() {
       // search USDA (generic + branded) and Open Food Facts in parallel
       const searchBoth = async (term) => {
         const [usdaRes, offRes] = await Promise.allSettled([
-          fdcSearch(term, { dataType: "Foundation,SR Legacy,Survey (FNDDS),Branded", pageSize: 8 }),
+          fdcSearch(term, { dataType: "Foundation,SR Legacy,Survey (FNDDS),Branded", pageSize: 10 }),
           offSearch(term),
         ]);
         const usda = usdaRes.status === "fulfilled" ? usdaRes.value : [];
@@ -1864,6 +1909,7 @@ async function lookup() {
         const usdaGeneric = usda.filter(f => f.dataType !== "Branded");
         const usdaBranded = usda.filter(f => f.dataType === "Branded");
         const items = [
+          ...quickMatches(term).map(f => ({ label: f.name, sub: "Built-in · reference values", food: () => foodFromQuick(f) })),
           ...usdaGeneric.slice(0, 4).map(f => ({ label: titleCase(f.description), sub: "USDA · " + f.dataType, food: () => foodFromFDC(f) })),
           ...off.slice(0, 4).map(p => ({ label: p.product_name, sub: (p.brands ? p.brands + " · " : "") + "Open Food Facts", food: () => foodFromOFF(p) })),
           ...usdaBranded.slice(0, 3).map(f => ({ label: titleCase(f.description), sub: (f.brandOwner ? titleCase(f.brandOwner) + " · " : "") + "USDA Branded", food: () => foodFromFDC(f) })),
@@ -1891,10 +1937,10 @@ async function lookup() {
       $("lookupHint").textContent = "Pick a match:" +
         (usedTerm !== q ? " showing results for “" + usedTerm + "”." : "") +
         (usdaRes.status === "rejected"
-          ? (usdaBusy ? " USDA is rate-limited, so these are Open Food Facts only; add your own free key in Settings."
-                      : " USDA is unavailable, so these are Open Food Facts only.")
+          ? (usdaBusy ? " USDA is rate-limited, so its generic foods are missing; add your own free key in Settings."
+                      : " USDA is unavailable, so its generic foods are missing.")
           : "") +
-        (offRes.status === "rejected" ? " Open Food Facts is busy, so these are USDA only." : "");
+        (offRes.status === "rejected" ? " Open Food Facts is busy, so branded products are missing." : "");
       for (const it of items) {
         const b = document.createElement("button");
         b.innerHTML = esc(it.label) + ' <span class="sub">· ' + esc(it.sub) + "</span>";
@@ -1910,6 +1956,7 @@ async function lookup() {
 // ---------- wiring ----------
 function renderAll() { renderDay(); renderWeek(); }
 document.addEventListener("DOMContentLoaded", () => {
+  loadPrefs();
   $("viewDate").value = todayStr();
   $("logDate").value = todayStr();
   renderClients(); renderSettings(); renderAll();

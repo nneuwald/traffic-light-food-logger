@@ -10,7 +10,7 @@ Works on a phone (camera barcode scanning) or a laptop (type a barcode or search
 
 Open the live link above. `verified_barcodes.csv` lists 33 barcodes confirmed to resolve, covering all three colors plus "no colour" water, if you want known-good codes to test with.
 
-For more than casual use, get a free USDA API key at [api.data.gov/signup](https://api.data.gov/signup) and paste it into the app's Settings. The bundled `DEMO_KEY` is limited to roughly 30 lookups per hour.
+For more than casual use, get a free USDA API key at [api.data.gov/signup](https://api.data.gov/signup) and paste it into the app's Settings. The key is remembered on that device. The bundled `DEMO_KEY` allows only about 10 searches an hour per network (measured September 2026), so a clinic will run it out in minutes.
 
 **Data lives only while the page is open.** Use the Backup (JSON) button to save a session and Restore to reload it. This is the prototype's biggest limitation.
 
@@ -42,7 +42,7 @@ See [ORIENTATION.md](ORIENTATION.md) for the full technical writeup.
 
 ## Testing
 
-With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs four suites against offline fixtures: 237 hand-written classification and portion checks, 11 USDA mapping checks, 39 assertions over saved Open Food Facts responses, and 17 over saved USDA generic-food responses.
+With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs five suites against offline fixtures: 237 hand-written classification and portion checks, 11 USDA mapping checks, 39 assertions over saved Open Food Facts responses, 17 over saved USDA generic-food responses, and 25 checks of the name-search plumbing (request shapes and ranking).
 
 Three internet audits complement them. `node tests/audit_live.js` pulls about 130 named everyday US products and compares each with the guide. `node tests/audit_random.js 400 <seed>` draws products at random across 57 categories. `node tests/audit_analyze.js <file>` then checks every drawn product automatically: each Open Food Facts category implies which food groups a product from it could legitimately take, so anything outside that set is printed for review. `node tests/audit_reclassify.js` re-runs a saved draw offline after a rule change. Across five random draws totalling 1,700 products the classifier now produces no group outside what the category allows.
 
