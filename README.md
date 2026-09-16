@@ -33,9 +33,10 @@ Every verdict shows its reasons, the food group can be changed, and any colour c
 | `traffic_light_food_logger.html` | The entire app: HTML, CSS, and JavaScript in one file |
 | `index.html` | Redirect so the site root opens the app |
 | `ORIENTATION.md` | Full project orientation: architecture, data sources, thresholds, roadmap |
+| `Rules explained.docx` | The classification rules in plain language for clinicians: each group's serving and colour lines, the order the app checks groups, combination foods, portions and the daily limit |
 | `verified_barcodes.csv` / `.json` | 33 US barcodes confirmed to resolve, with assigned colors and reasons (3 green, 15 yellow, 12 red, 3 no colour) |
 | `screenshots/` | Light mode, dark mode, and USDA-search screenshots |
-| `tests/` | Test harness: four suites covering the classification engine and both API mappers |
+| `tests/` | Test harness: five suites covering the classification engine and both API mappers |
 | `fixtures/` | Saved Open Food Facts and USDA responses so the tests run offline |
 
 See [ORIENTATION.md](ORIENTATION.md) for the full technical writeup.
