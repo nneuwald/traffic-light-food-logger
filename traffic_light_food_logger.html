@@ -621,12 +621,12 @@ function labelServ(f, range) {
 // servings.
 //
 // A dish can be taken apart two ways. The Combination food button asks the
-// clinician for the parts, and a food record carrying per-ingredient
-// percentages is decomposed automatically. USDA publishes ingredient lists as
-// plain text with no percentages, so while USDA is the only source the
-// automatic path never fires and every combination food goes to the button.
-// The path is kept because it is the mapper, not the engine, that decides: any
-// source that supplies percentages turns it back on without a rule change.
+// clinician for the parts, and a food record carrying a percentage per
+// ingredient is decomposed automatically. USDA publishes no percentages, so
+// ingredientsFromFDC() estimates them from the order of the ingredient list
+// before the record ever reaches this engine. That keeps the split clean: the
+// mapper decides what a percentage is, and the arithmetic here is the same
+// whatever produced it.
 //
 // Those percentages are inferred from ingredient order rather than declared on the
 // label, so the verdict is always shown with its arithmetic and can be overridden.
@@ -744,11 +744,11 @@ function decomposeCombo(f, rules) {
     return { color: "red", decided: true, reasons: [
       "Combination food: red because it holds a full serving of red food (FRG p.8)",
       "Red components in one " + fmt0(servG) + " g serving: " + listed + " → " + total + " red servings, and " + limit + " is enough",
-      "From the estimated ingredient percentages on the food record, so check it against the package"] };
+      "Ingredient percentages estimated from the order of the ingredient list, so check it against the package"] };
   return { color: "yellow", decided: true, reasons: [
     "Combination food: no full serving of a red food in it, so it is judged by its parts (FRG p.8)",
     "Red components in one " + fmt0(servG) + " g serving: " + listed + " → " + total + " red servings, and it takes " + limit + " to make the dish red",
-    "From the estimated ingredient percentages on the food record, so check it against the package"] };
+    "Ingredient percentages estimated from the order of the ingredient list, so check it against the package"] };
 }
 function titleWord(s) { const t = String(s || "").toLowerCase().trim(); return t.charAt(0).toUpperCase() + t.slice(1); }
 
@@ -801,9 +801,14 @@ function detectGroup(f) {
                         word("frozen yogurt", "frozen yoghurt", "froyo", "frozen dessert", "ice cream", "popsicle", "ice pop", "italian ice", "sherbet", "sorbet", "gelato");
   //    plain beans in a can are tagged "meals" by Open Food Facts; they stay in the protein group (p.41)
   //    (peanuts are legumes to Open Food Facts but nuts to the guide, p.54-55)
+  // USDA writes the name inverted and calls dried legumes "mature seeds", which
+  // is why the plain phrases below are not enough on their own.
+  const usdaLegume = word("mature seeds") ||
+                     (word("bean", "beans") && word("black", "pinto", "kidney", "navy", "cannellini", "lima", "fava", "mung", "adzuki", "great northern", "red", "white", "pink"));
   const legumey = (cat("legumes", "pulses", "legume-seeds", "canned-legumes", "baked-beans-in-tomato-sauce", "beans", "lentils", "chickpeas") ||
-                   word("baked beans", "refried beans", "black beans", "kidney beans", "pinto beans", "navy beans", "chickpeas", "lentils")) &&
-                  !cat("peanuts", "nuts", "nut-butters", "peanut-butter", "peanut-butters") && !word("peanut", "peanuts");
+                   word("baked beans", "refried beans", "black beans", "kidney beans", "pinto beans", "navy beans", "chickpeas", "lentils") || usdaLegume) &&
+                  !cat("peanuts", "nuts", "nut-butters", "peanut-butter", "peanut-butters") && !word("peanut", "peanuts") &&
+                  !word("green bean", "green beans", "snap", "string beans", "wax bean", "wax beans", "vanilla", "coffee", "cocoa");
 
   // 1. drinks the guide puts in Fats/Oils/Sweets: red, diet versions included (FRG p.2, p.59-60).
   //    Zero-calorie flavoured waters (Propel, Vitaminwater Zero, Crystal Light) sit in the guide's
@@ -861,7 +866,8 @@ function detectGroup(f) {
   //    1 packet (p.28); cold cereal has its own sugar rule (p.77)
   if (cat("cereal-bars", "granola-bars", "snack-bars", "energy-bars") || word("granola bar", "cereal bar", "breakfast bar", "nutri grain", "clif"))
     return R("grain", "Cereal and granola bars are grains in the FRG, judged as 1 bar", labelServ(f, [20, 80]) || 28);
-  if (!sweetWord && (cat("porridge", "porridges", "oatmeals") || word("oatmeal", "hot cereal", "porridge", "grits", "cream of wheat", "farina", "instant oats", "steel cut oats", "rolled oats")))
+  if (!sweetWord && (cat("porridge", "porridges", "oatmeals") || word("oatmeal", "hot cereal", "porridge", "grits", "cream of wheat", "farina", "instant oats", "steel cut oats", "rolled oats") ||
+      (word("oats") && !bev && !word("ready to eat", "milk", "beverage", "drink") && !cat("breakfast-cereals", "cereal-flakes", "puffed-cereals", "granolas", "mueslis"))))
     return R("grain", word("instant", "packet", "packets", "cup", "cups")
       ? "Instant oatmeal is a grain in the FRG, judged as 1 packet"
       : "Hot cereal is a grain in the FRG, judged at 1 oz dry (1/2 cup cooked)",
@@ -877,7 +883,7 @@ function detectGroup(f) {
       !proteinTagged && !cat("cheeses", "canned-fishes", "meals") &&
       !cat("ketchup", "ketchups", "barbecue-sauces", "hot-sauces", "salsas") && !word("ketchup", "catsup", "barbecue", "bbq", "salsa", "hot sauce", "cocktail sauce"))
     return R("veg", "Tomato and pasta sauces sit in the vegetable group at 1/4 cup", 60);
-  if (cat("french-fries", "fries", "frozen-fries", "hash-browns") || word("fries", "french fries", "hash browns", "tater tots", "potato wedges"))
+  if (!grainy && (cat("french-fries", "fries", "frozen-fries", "hash-browns") || word("fries", "french fries", "hash browns", "tater tots", "potato wedges")))
     return R("starchy", "Fried potatoes are starchy vegetables in the FRG, judged at 3 oz", 85);
   // 10. soups (1 cup); broth and stock are ingredients in the FRG (p.73, p.75)
   //     (a product tagged "soups" whose name says soup is a soup, even if Open Food Facts also tags it bouillon)
@@ -1011,7 +1017,8 @@ function detectGroup(f) {
            "miso", "au jus", "whipped cream", "cocoa powder", "baking cocoa", "cooking spray")))
     return R("condiment", "Condiments and dressings are judged at 1 Tbsp in the FRG");
   // 12. produce: green beans before legumes; starchy before other vegetables (FRG p.12-20)
-  if (cat("green-beans", "snap-beans", "string-beans", "wax-beans") || word("green bean", "green beans", "wax bean", "wax beans", "snap beans", "string beans", "snow peas", "snap peas", "pea pods", "sugar snap"))
+  if (cat("green-beans", "snap-beans", "string-beans", "wax-beans") || word("green bean", "green beans", "wax bean", "wax beans", "snap beans", "string beans", "snow peas", "snap peas", "pea pods", "sugar snap") ||
+      (word("bean", "beans") && word("snap", "string", "wax")))   // USDA writes "Beans, snap, green"
     return R("veg", "Green beans and pea pods are vegetables in the FRG");
   if (!grainy && (cat("potatoes", "sweet-potatoes", "corn", "sweet-corn", "peas", "green-peas", "beets", "parsnips", "pumpkins", "winter-squashes", "plantains", "cassava") ||
        word(...STARCHY_WORDS)) &&
@@ -1041,7 +1048,7 @@ function detectGroup(f) {
   // 14. vegetables (1/2 cup; raw leafy greens are light, about 35 g)
   //     "basmati rice with bell peppers" and "vegetable macaroni" are grains, not vegetables
   if (!grainy && (cat("vegetables", "leafy-vegetables", "salads", "tomatoes", "carrots", "mushrooms", "onions", "peppers", "cucumbers", "canned-vegetables", "frozen-vegetables") ||
-      cword("vegetable") || word(...FDC_VEG_WORDS))) {
+      cword("vegetable") || (word(...FDC_VEG_WORDS) && !fruitWord))) {
     if (bev) return R("veg", "Vegetables: the only group that can be green", 240);
     if (word(...LEAFY_WORDS)) return R("veg", "Vegetables: the only group that can be green (raw leafy greens weigh about 35 g per 1/2 cup)", 35);
     return R("veg", "Vegetables: the only group that can be green");
@@ -1304,10 +1311,16 @@ function fdcCatsToTags(f) {
   if (cat.includes("sweets") || desc.includes("candy") || desc.includes("candies")) tags.push("en:sugary-snacks", "en:candies");
   if (cat.includes("snacks")) tags.push("en:salty-snacks");
   if (cat.includes("baked products") && /cookie|cake|pastry|doughnut|donut|brownie|pie\b/.test(desc)) tags.push("en:sugary-snacks", "en:biscuits");
-  if (cat.includes("cereal")) tags.push("en:breakfast-cereals");
+  // "Cereal Grains and Pasta" is USDA's grain category, not breakfast cereal
+  if (cat.includes("cereal") && !cat.includes("cereal grains")) tags.push("en:breakfast-cereals");
+  if (cat.includes("cereal grains") || cat.includes("pasta")) tags.push("en:cereals");
   if (cat.includes("nut and seed")) tags.push("en:nuts");
   if (cat.includes("beverages") || cat.includes("alcoholic")) { tags.push("en:beverages"); isBeverage = true; }
-  if (/\b(soda|sodas|cola|colas|soft drinks?|energy drinks?)\b/.test(desc)) { tags.push("en:beverages", "en:sodas"); isBeverage = true; }
+  // Club soda is carbonated water. detectGroup() already excludes it by name, but
+  // the tag is read first, so the exclusion has to happen here too or plain
+  // seltzer comes out red.
+  if (/\b(club soda|soda water|seltzer|sparkling water)\b/.test(desc)) { tags.push("en:beverages", "en:carbonated-waters"); isBeverage = true; }
+  else if (/\b(soda|sodas|cola|colas|soft drinks?|energy drinks?)\b/.test(desc)) { tags.push("en:beverages", "en:sodas"); isBeverage = true; }
   if ((cat.includes("dairy") || cat.includes("beverages")) && desc.includes("milk") && !cat.includes("sweets")) {
     tags.push("en:beverages", "en:milks"); isBeverage = true;
     if (/skim|nonfat|non-fat|fat.free/.test(desc)) tags.push("en:skimmed-milks");
@@ -1327,6 +1340,118 @@ function titleCase(s) {
   if (s === s.toUpperCase()) return s.toLowerCase().replace(/(^|\s|[("-])([a-z])/g, (m, p, c) => p + c.toUpperCase());
   return s;
 }
+// USDA publishes an ingredient list as one plain-text string with no percentage
+// against any ingredient, which is why combination foods stopped being taken
+// apart when Open Food Facts was removed. Open Food Facts was not reading
+// percentages off labels either, though: labels do not declare them. It computed
+// them, and the thing it computed them from is the one thing every US label does
+// guarantee, that ingredients are listed in descending order by weight (21 CFR
+// 101.4). USDA gives the same ordered list. The inference was what went missing,
+// not the data, so it is done here instead.
+//
+// The estimate is exactly that, and is always shown with its arithmetic so a
+// clinician can overrule it. It decides a colour only through decomposeCombo(),
+// which independently refuses to trust a dish it has recognised less than 60% of.
+
+// Split on commas at the top level only, so "CRUST (ENRICHED FLOUR, WATER), SAUCE"
+// is two ingredients rather than four. The parenthetical says what an ingredient
+// is made of; the head noun in front of it is the ingredient, and INGREDIENT_KCAL
+// prices "crust" and "enriched flour" alike.
+function splitTopLevel(s) {
+  const out = [];
+  let depth = 0, cur = "";
+  for (const ch of String(s || "")) {
+    if (ch === "(" || ch === "[" || ch === "{") depth++;
+    else if (ch === ")" || ch === "]" || ch === "}") depth = Math.max(0, depth - 1);
+    if (ch === "," && depth === 0) { out.push(cur); cur = ""; continue; }
+    cur += ch;
+  }
+  out.push(cur);
+  return out.map(x => x.trim()).filter(Boolean);
+}
+
+// "CONTAINS 2% OR LESS OF" and its variants are a declared bound, not noise: every
+// ingredient from there on is at most 2% of the product. An allergen line
+// ("CONTAINS: MILK, SOY") or a facility note is not part of the recipe at all, and
+// both always sit at the end, so the list is cut there.
+const PCT_MARKER = /^(?:and\s+)?(?:contains?\s+)?(?:less\s+than|not\s+more\s+than|no\s+more\s+than)?\s*\d+(?:\.\d+)?\s*%\s*or\s*less\s*(?:of)?\s*:?\s*/i;
+const PCT_MARKER_ALT = /^(?:and\s+)?(?:contains?\s+)?(?:less\s+than|under)\s+\d+(?:\.\d+)?\s*%\s*(?:of)?\s*:?\s*/i;
+const TAIL_NOTE = /^(?:contains\b(?!\s*\d)|may\s+contain|manufactured|made\s+(?:in|on)\b|processed\s+(?:in|on)\b|produced\s+in|packaged\s+in|packed\s+in\s+a|allergen)/i;
+
+function parseUsdaIngredients(text) {
+  let s = String(text || "").replace(/^\s*ingredients?\s*:?\s*/i, "").trim();
+  if (!s) return [];
+  const items = [];
+  let minor = false;
+  for (let raw of splitTopLevel(s)) {
+    let t = raw.replace(/[*†‡]/g, "").replace(/\.\s*$/, "").trim();
+    if (!t) continue;
+    if (TAIL_NOTE.test(t)) break;          // the recipe has ended; the rest is labelling
+    if (PCT_MARKER.test(t) || PCT_MARKER_ALT.test(t)) {
+      minor = true;
+      t = t.replace(PCT_MARKER, "").replace(PCT_MARKER_ALT, "").trim();
+      if (!t) continue;                    // the marker stood alone: it only opened the group
+    }
+    // drop the parenthetical composition, keep the ingredient it describes
+    const head = t.replace(/\s*[([{][^)\]}]*[)\]}]/g, " ").replace(/\s{2,}/g, " ").trim();
+    const name = (head || t).toLowerCase();
+    if (!name || name.length > 60) continue;
+    items.push({ text: name, minor });
+  }
+  return items;
+}
+
+// Descending order is all the label guarantees, so the shares have to be guessed
+// from rank alone: share i of n is proportional to i to the power -INGREDIENT_DECAY,
+// normalised to the total. A decay of 0 makes every ingredient equal and 1 makes
+// the first several times the size of the fourth.
+//
+// The value is measured, not chosen. tests/audit_combo_estimate.js takes real
+// products that publish both their ingredient text and a percentage per
+// ingredient, classifies each one twice, and counts how often the estimate
+// reaches the same colour the percentages do. Swept over 140 combination foods,
+// agreement rises from 62% at a flat 0 to a broad peak between 1.5 and 2, and
+// falls away above it: 1.75 matched 96 of the 140 and agreed on 83% of the 116
+// it was willing to decide. The peak is a plateau rather than a spike, which is
+// why a round 1.75 is safe to sit on.
+//
+// A steep curve looked wrong at first: a single lasagna record showed the source
+// giving its top five ingredients nearly equal shares. The sweep says otherwise,
+// and verdicts are what matter here. A colour turns on whether one red
+// ingredient reaches a full serving, and a flat curve pushes mid-list cheese and
+// meat over that line in dishes the source itself calls yellow.
+//
+// Re-run the audit before changing this.
+const INGREDIENT_DECAY = 1.75;
+function orderStatisticShares(n, total) {
+  if (n <= 0) return [];
+  const w = [];
+  let sum = 0;
+  for (let i = 1; i <= n; i++) { const x = Math.pow(i, -INGREDIENT_DECAY); w.push(x); sum += x; }
+  return w.map(x => total * x / sum);
+}
+
+function estimateIngredientPercents(items) {
+  const list = Array.isArray(items) ? items : [];
+  if (!list.length) return [];
+  const majors = list.filter(i => !i.minor), minors = list.filter(i => i.minor);
+  if (!majors.length) return list.map((i, k) => ({ text: i.text, pct: orderStatisticShares(list.length, 100)[k] }));
+  // each minor is at most 2%, and they decline in turn, so the group is at most
+  // m + 1 percent of the product; cap it so a long tail cannot crowd out the recipe
+  const m = minors.length;
+  const minorTotal = m ? Math.min(m + 1, 25) : 0;
+  const majorShares = orderStatisticShares(majors.length, 100 - minorTotal);
+  const minorShares = m ? minors.map((_, k) => minorTotal * 2 * (m - k) / (m * (m + 1))) : [];
+  const out = [];
+  let mi = 0, ni = 0;
+  for (const i of list) out.push({ text: i.text, pct: i.minor ? minorShares[ni++] : majorShares[mi++] });
+  return out;
+}
+
+function ingredientsFromFDC(text) {
+  return estimateIngredientPercents(parseUsdaIngredients(text));
+}
+
 function foodFromFDC(f) {
   const per100 = {};
   for (const n of f.foodNutrients || []) {
@@ -1350,6 +1475,7 @@ function foodFromFDC(f) {
     cats: tags, isBeverage, per100, serv: serv || {},
     base: serv || per100, baseLabel, servingLabel,
     servQtyG: servQty || null,
+    ingredients: ingredientsFromFDC(f.ingredients),
     sweetened: looksArtificiallySweetened(f.ingredients, null),
     source: "USDA " + (f.dataType || "FoodData Central"), code: f.gtinUpc || "",
     usdaCategory: f.foodCategory || "",

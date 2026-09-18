@@ -19,3 +19,5 @@ node fdc_generic_test.js
 node audit_regression.js
 node search_test.js
 node lookup_test.js
+node combo_estimate_test.js
+node audit_usda_offline.js | tail -2
