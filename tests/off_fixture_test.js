@@ -9,12 +9,10 @@ const path = require('path');
 
 const src = fs.readFileSync(path.join(__dirname, 'app.js'), 'utf8');
 const s1 = src.indexOf('const DEFAULT_RULES');
-const e1 = src.indexOf('// ---------- Open Food Facts lookup');
-const fieldsLine = src.split('\n').find(l => l.startsWith('const OFF_FIELDS'));
-const s2 = src.indexOf('function foodFromOFF');
-const e2 = src.indexOf('// ---------- USDA FoodData Central');
+const e1 = src.indexOf('// ---------- search helpers');
+const adapter = fs.readFileSync(path.join(__dirname, 'off_fixture_adapter.js'), 'utf8');
 const engine = src.slice(s1, e1).replace(/const \$ = .*\n/, '').replace(/function toast[^\n]*\n/, '')
-             + fieldsLine + '\n' + src.slice(s2, e2);
+             + '\n' + adapter;
 (0, eval)(engine + ';globalThis._c=classify;globalThis._R=RULES;globalThis._f=foodFromOFF;');
 
 const DIR = path.join(__dirname, '..', 'fixtures', 'off_products');

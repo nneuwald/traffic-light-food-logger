@@ -1,27 +1,27 @@
-// Name-search plumbing, offline. Pins the two things that broke in September
-// 2026: the USDA search must be a POST with a JSON body (USDA's proxy answers
-// 400 to a GET whose dataType list holds "SR Legacy" or "Survey (FNDDS)"), and
-// the Open Food Facts search must ask the US site sorted by popularity and then
-// rank records whose name holds every search word first. Also covers the
-// built-in quick-add match, which needs no network at all.
+// Name-search plumbing, offline. Pins the USDA search shape that broke in
+// September 2026 - it must be a POST with a JSON body, because USDA's proxy
+// answers 400 to a GET whose dataType list holds "SR Legacy" or "Survey
+// (FNDDS)" - and the name ranking that decides which record a clinician sees
+// first. USDA is now the only source, so that ranking is applied to its results
+// in lookup(); it used to be applied to Open Food Facts results instead, which
+// is why the ranking is asserted here against USDA-shaped records. Also covers
+// the built-in quick-add match, which needs no network at all.
 const fs = require('fs');
 const path = require('path');
 
 const src = fs.readFileSync(path.join(__dirname, 'app.js'), 'utf8');
 const s1 = src.indexOf('const DEFAULT_RULES');
-const e1 = src.indexOf('// ---------- Open Food Facts lookup');
+const e1 = src.indexOf('// ---------- search helpers');
 const s2 = src.indexOf('// ---------- quick-add foods');
 const e2 = src.indexOf('// ---------- UI: current food');
 const grab = (re) => { const m = src.match(re); if (!m) throw new Error('missing ' + re); return m[0]; };
 const engine = src.slice(s1, e1).replace(/const \$ = .*\n/, '').replace(/function toast[^\n]*\n/, '')
   + src.slice(s2, e2)
-  + grab(/const OFF_FIELDS = .*\n/)
-  + grab(/async function offSearchOnce[\s\S]*?\n}\n/)
   + grab(/async function fdcSearch[\s\S]*?\n}\n/);
 
 let calls = [];
 globalThis.fetch = async (url, init) => { calls.push({ url, init }); return { ok: true, json: async () => globalThis._reply }; };
-(0, eval)(engine + ';globalThis._t = { nameHasAllWords, rankByName, quickMatches, offSearchOnce, fdcSearch, PREFS };');
+(0, eval)(engine + ';globalThis._t = { nameHasAllWords, rankByName, quickMatches, fdcSearch, PREFS };');
 const t = globalThis._t;
 
 let pass = 0, fail = 0;
@@ -62,14 +62,22 @@ const check = (ok, line) => { ok ? pass++ : fail++; console.log((ok ? 'PASS ' : 
   check(t.quickMatches('milk').map(f => f.name).join() === 'Skim milk', 'quick-add: milk');
   check(t.quickMatches('oatmeal').length === 0, 'quick-add: nothing for oatmeal (that comes from USDA)');
 
-  // ---- Open Food Facts request shape ----
-  globalThis._reply = { products: [{ product_name: 'Aussie Bites' }, { product_name: 'Oatmeal', brands: 'Millville' }, { brands: 'nameless' }] };
-  const off = await t.offSearchOnce('oatmeal');
-  const u = calls[0].url;
-  check(/^https:\/\/us\.openfoodfacts\.org\/cgi\/search\.pl\?/.test(u), 'OFF search asks the US site');
-  check(/sort_by=unique_scans_n/.test(u), 'OFF search sorts by popularity');
-  check(/search_terms=oatmeal/.test(u), 'OFF search carries the term');
-  check(off.map(p => p.product_name).join('|') === 'Oatmeal|Aussie Bites', 'OFF results drop nameless records and rank name matches first');
+  // ---- ranking USDA records by name ----
+  // USDA orders by its own relevance score, which puts elaborate records above
+  // the plain one a clinician is almost always after. lookup() re-ranks each
+  // list by description before showing it, so pin that here: USDA records carry
+  // "description", not "product_name", and passing the wrong accessor silently
+  // scores every record a non-match and leaves USDA's order untouched.
+  const usdaRecords = [
+    { description: 'Milk, chocolate, whole' },
+    { description: 'Milk, whole' },
+    { description: 'Beverages, milk substitute' },
+  ];
+  const usdaRanked = t.rankByName(usdaRecords, 'whole milk', f => f.description);
+  check(usdaRanked.map(f => f.description).join('|') === 'Milk, whole|Milk, chocolate, whole|Beverages, milk substitute',
+    'USDA results rank name matches first, shortest name among them leading');
+  check(t.rankByName(usdaRecords, 'whole milk').map(f => f.description).join('|') === usdaRecords.map(f => f.description).join('|'),
+    'without the description accessor nothing matches and USDA order survives');
 
   // ---- USDA request shape ----
   calls = [];

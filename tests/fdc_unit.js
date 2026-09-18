@@ -2,7 +2,7 @@
 const fs = require('fs');
 const src = fs.readFileSync('app.js', 'utf8');
 const s1 = src.indexOf('const DEFAULT_RULES');
-const e1 = src.indexOf('// ---------- Open Food Facts lookup');
+const e1 = src.indexOf('// ---------- search helpers');
 const s2 = src.indexOf('const FDC_NUTR');
 const e2 = src.indexOf('// ---------- quick-add foods');
 const engine = src.slice(s1, e1).replace(/const \$ = .*\n/, '').replace(/function toast[^\n]*\n/, '')

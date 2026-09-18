@@ -3,7 +3,7 @@ const fs = require('fs');
 // pull the classification engine + OFF mapper out of the app
 const src = fs.readFileSync('app.js', 'utf8');
 const s1 = src.indexOf('const DEFAULT_RULES');
-const e1 = src.indexOf('// ---------- Open Food Facts lookup');
+const e1 = src.indexOf('// ---------- search helpers');
 const fieldsLine = src.split('\n').find(l => l.startsWith('const OFF_FIELDS'));
 const s2 = src.indexOf('function foodFromOFF');
 const e2 = src.indexOf('// ---------- USDA FoodData Central');

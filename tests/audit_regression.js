@@ -11,7 +11,7 @@ const { execFileSync } = require('child_process');
 
 const src = fs.readFileSync(path.join(__dirname, 'app.js'), 'utf8');
 const s1 = src.indexOf('const DEFAULT_RULES');
-const e1 = src.indexOf('// ---------- Open Food Facts lookup');
+const e1 = src.indexOf('// ---------- search helpers');
 (0, eval)(src.slice(s1, e1).replace(/const \$ = .*\n/, '').replace(/function toast[^\n]*\n/, '') +
   ';globalThis._c=classify;globalThis._R=RULES;globalThis._bev=tagsLookLikeBeverage;');
 

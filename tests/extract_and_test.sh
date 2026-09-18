@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regenerates app.js from the HTML and runs all four test suites offline.
+# Regenerates app.js from the HTML and runs every test suite offline.
 # Requires only Node.js (the extraction step used to need Python 3, which is
 # not on every lab machine). Run from anywhere: bash tests/extract_and_test.sh
 set -e
@@ -18,3 +18,4 @@ node off_fixture_test.js
 node fdc_generic_test.js
 node audit_regression.js
 node search_test.js
+node lookup_test.js

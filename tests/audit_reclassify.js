@@ -9,7 +9,7 @@ const path = require('path');
 
 const src = fs.readFileSync(path.join(__dirname, 'app.js'), 'utf8');
 const s1 = src.indexOf('const DEFAULT_RULES');
-const e1 = src.indexOf('// ---------- Open Food Facts lookup');
+const e1 = src.indexOf('// ---------- search helpers');
 const engine = src.slice(s1, e1).replace(/const \$ = .*\n/, '').replace(/function toast[^\n]*\n/, '');
 (0, eval)(engine + ';globalThis._c=classify;globalThis._R=RULES;globalThis._bev=tagsLookLikeBeverage;');
 
