@@ -1,8 +1,8 @@
 // Everyday foods through the real USDA path, checked against the guide.
 // (needs internet, and realistically needs your own USDA key)
 //
-// Every other suite either feeds the classifier tidy input or measures it against
-// Open Food Facts. This one runs the path the clinic actually uses: search USDA
+// The offline suites feed the classifier records written out by hand. This one
+// runs the path the clinic actually uses: search USDA
 // by name, take the record it would have shown, map it with foodFromFDC(), and
 // classify it. Expected colours and groups are read off Epstein's Food & Activity
 // Reference Guide (2012).

@@ -2,9 +2,8 @@
 // plain-text string with no percentages, so the app parses the list and
 // estimates a percentage per ingredient from the order, which is the one thing a
 // US label guarantees (21 CFR 101.4). These are the parsing cases that decide
-// whether decomposeCombo() sees a recipe or gives up; how well the estimate
-// itself tracks real percentages is measured separately by
-// tests/audit_combo_estimate.js, which needs internet.
+// whether decomposeCombo() sees a recipe or gives up. How well the estimate
+// tracks real percentages was calibrated separately; see INGREDIENT_DECAY.
 //
 //   node tests/combo_estimate_test.js
 const fs = require('fs');

@@ -10,9 +10,8 @@
 //
 // USDA's house style is the point. It writes names inverted ("Beans, snap,
 // green"), names colour variants ("Grapes, red or green"), and calls dried
-// legumes "mature seeds". The group rules were written against Open Food Facts
-// product names, so those conventions are where they break, and five real bugs
-// came out of the first sixty foods here.
+// legumes "mature seeds". Rules keyed to ordinary product names break on those
+// conventions, and the first sixty foods here found five real bugs.
 //
 // A food marked borderline sits within a few calories of a line, or in a group
 // the guide does not settle plainly. Those are printed but never counted wrong:
@@ -100,7 +99,8 @@ const F = [
   ['Noodles, egg, cooked, enriched', GRA, 138, 0.4, null, 'grain', 'yellow'],
   ['Quinoa, cooked', GRA, 120, 0.9, null, 'grain', 'yellow'],
   ['Couscous, cooked', GRA, 112, 0.1, null, 'grain', 'yellow'],
-  ['Cereals, oats, regular and quick, cooked with water', GRA, 71, 0.3, null, 'grain', 'yellow'],
+  // USDA files hot cereal under Breakfast Cereals, beside the ready-to-eat kind
+  ['Cereals, oats, regular and quick, cooked with water', BRK, 71, 0.3, null, 'grain', 'yellow'],
   ['Tortillas, ready-to-bake or -fry, flour', BAK, 306, 2.9, 45, 'grain', 'yellow'],
   ['Crackers, saltines', BAK, 418, 1.4, 28, 'grain', 'yellow'],
   ['Pretzels, hard, plain, salted', SNK, 384, 2.2, 28, 'grain', 'yellow'],
@@ -145,6 +145,13 @@ const F = [
   ['Fish, salmon, Atlantic, farmed, cooked', FIS, 206, 0, null, 'meat', 'red'],
   ['Fish, sardine, canned in oil, drained', FIS, 208, 0, null, 'meat', 'red'],
   ['Crustaceans, shrimp, cooked', FIS, 99, 0, null, 'meat', 'yellow'],
+  // a sauce, gravy or drink word in the name must not move meat or fish out of the group:
+  // USDA files these by category, and the category is what settles it
+  ['Fish, sardine, Pacific, canned in tomato sauce, drained', FIS, 186, 0.6, null, 'meat', 'yellow', B],
+  ['Chicken, breast, teriyaki sauce, cooked', POU, 150, 6.0, null, 'meat', 'yellow'],
+  ['Pork, bbq sauce, pulled', PRK, 190, 9.0, null, 'meat', 'red'],
+  ['Turkey, sliced, with gravy, frozen', POU, 70, 1.0, null, 'meat', 'yellow'],
+  ['Sausage, beer bratwurst', SAU, 300, 1.0, null, 'meat', 'red'],
   // --- eggs, beans and meat substitutes ---
   ['Egg, whole, cooked, hard-boiled', DAI, 155, 1.1, null, 'protein', 'yellow'],
   ['Beans, black, mature seeds, cooked, boiled', LEG, 132, 0.3, null, 'protein', 'yellow'],
@@ -174,8 +181,9 @@ const F = [
   ['Cookies, chocolate chip, commercially prepared', BAK, 474, 30.0, 30, 'sweets', 'red'],
   ['Doughnuts, cake-type, plain', BAK, 421, 22.0, 50, 'sweets', 'red'],
   ['Cake, chocolate, commercially prepared with frosting', BAK, 371, 38.0, 64, 'sweets', 'red'],
-  ['Jams and preserves', SWE, 278, 48.5, null, 'sweets', 'red'],
-  ['Honey', SWE, 304, 82.1, null, 'sweets', 'red'],
+  // red ingredients judged at 1 Tbsp, not the fats-and-sweets group (p.75)
+  ['Jams and preserves', SWE, 278, 48.5, null, 'condiment', 'red'],
+  ['Honey', SWE, 304, 82.1, null, 'condiment', 'red'],
   ['Syrups, maple', SWE, 260, 60.5, null, 'sweets', 'red'],
   ['Puddings, chocolate, ready-to-eat', SWE, 130, 17.0, 113, 'sweets', 'red'],
   // --- drinks ---
@@ -197,7 +205,8 @@ const F = [
   ['Salad dressing, ranch dressing, regular', SOU, 430, 4.0, null, 'condiment', 'red'],
   ['Soy sauce made from soy and wheat', SOU, 53, 0.4, null, 'condiment', 'yellow'],
   ['Sauce, salsa, ready-to-serve', SOU, 29, 3.3, null, 'condiment', 'yellow'],
-  ['Pickles, cucumber, dill', VEG, 12, 1.2, null, 'veg', 'green', B],
+  // the guide prints dill pickles in its yellow condiment list (p.73), not with vegetables
+  ['Pickles, cucumber, dill', VEG, 12, 1.2, null, 'condiment', 'yellow'],
   ['Lemon juice, raw', FRU, 22, 2.5, null, 'condiment', 'yellow'],
   ['Gravy, beef, canned, ready-to-serve', SOU, 45, 0.9, null, 'condiment', 'red', B],
   ['Spices, cinnamon, ground', SPI, 247, 2.2, null, 'free', 'free'],
@@ -216,6 +225,57 @@ const F = [
   ['Burrito, bean and cheese, frozen', MIX, 212, 2.1, 110, 'combo', 'review'],
 ];
 
+
+// Extra records used only by tests/characterize.js, to reach branches of
+// detectGroup() that the guide list above leaves cold. No expected colour: their
+// job is to make a refactor that changes behaviour visible, not to judge it.
+const BRANCH = [
+  ['Sandwich, ham and cheese, on white bread', MIX, 250, 3.0, 150],
+  ['Sandwich, peanut butter and jelly', MIX, 330, 20.0, 100],
+  ['Wrap, chicken caesar', MIX, 210, 2.0, 230],
+  ['Taco, beef, hard shell', MIX, 240, 1.5, 100],
+  ['Burger, cheeseburger, fast food', MIX, 270, 5.0, 130],
+  ['Pot pie, chicken, frozen', MIX, 220, 2.0, 217],
+  ['Stew, beef, canned', SOU, 90, 1.2, 245],
+  ['Ramen noodle soup, dry mix', SOU, 440, 2.0, 81],
+  ['Broth, beef, canned, ready to serve', SOU, 7, 0.2, 240],
+  ['Bouillon cube, chicken', SOU, 240, 2.0, 4],
+  ['Chowder, clam, New England, canned', SOU, 80, 1.5, 245],
+  ['Sauce, pasta, spaghetti/marinara, ready-to-serve', SOU, 50, 6.0, 125],
+  ['Sauce, barbecue', SOU, 172, 33.0, 32],
+  ['Vinaigrette, balsamic', SOU, 300, 10.0, 15],
+  ['Dip, bean, original flavor', LEG, 110, 1.0, 35],
+  ['Hummus, commercial', LEG, 166, 0.3, 30],
+  ['Guacamole', VEG, 157, 0.7, 30],
+  ['Juice, tomato, canned', VEG, 17, 2.6, 240],
+  ['Cereal bar, granola, oats and honey', BAK, 471, 25.0, 42],
+  ['Cereals, oats, instant, fortified, plain, dry', BRK, 370, 1.0, 40],
+  ['Milk, buttermilk, lowfat', DAI, 40, 4.8, 245],
+  ['Milk, evaporated, canned', DAI, 135, 10.0, 30],
+  ['Milk, condensed, sweetened, canned', DAI, 321, 54.0, 38],
+  ['Beverages, rice milk, unsweetened', BEV, 47, 2.0, 240],
+  ['Beverages, oat milk, original', BEV, 50, 4.0, 240],
+  ['Nuts, coconut milk, canned', NUT, 197, 2.8, 15],
+  ['Cheese, ricotta, part skim milk', DAI, 138, 0.3, 62],
+  ['Cheese spread, pasteurized process, American', DAI, 290, 5.0, 28],
+  ['Frozen yogurt, vanilla, soft serve', SWE, 159, 24.0, 72],
+  ['Sherbet, orange', SWE, 144, 32.0, 97],
+  ['Pudding, vanilla, dry mix, prepared', SWE, 111, 16.0, 142],
+  ['Marmalade, orange', SWE, 246, 60.0, 20],
+  ['Pickle relish, sweet', VEG, 130, 32.0, 15],
+  ['Olives, ripe, canned, small', VEG, 115, 0.5, 15],
+  ['Spices, oregano, dried', SPI, 265, 4.1, 2],
+  ['Herbs, parsley, fresh', VEG, 36, 0.9, 10],
+  ['Seasoning mix, taco, dry', SPI, 320, 10.0, 6],
+  ['Potatoes, mashed, prepared from granules', VEG, 113, 1.5, 210],
+  ['Onions, frozen, chopped', VEG, 36, 3.5, 65],
+  ['Tofu, baked, seasoned', LEG, 175, 1.0, 85],
+];
+
+module.exports = { F, BRANCH, t };
+
+if (require.main === module) run();
+function run() {
 const COL = { green: 'GREEN ', yellow: 'YELLOW', red: 'RED   ', free: 'NONE  ', review: 'ASK   ' };
 let ok = 0, bad = 0, border = 0;
 const rows = [];
@@ -243,3 +303,4 @@ for (const [mark, desc, col, grp, cal, note] of rows)
 console.log('-'.repeat(116));
 console.log(ok + ' of ' + F.length + ' match the guide, ' + bad + ' do not, ' + border + ' are borderline and not counted');
 process.exitCode = bad ? 1 : 0;
+}

@@ -1,0 +1,7002 @@
+[
+ {
+  "id": "Broccoli, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 6
+ },
+ {
+  "id": "Broccoli, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 13
+ },
+ {
+  "id": "Broccoli, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 22
+ },
+ {
+  "id": "Broccoli, raw @1.8",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 65,
+  "kcal": 40
+ },
+ {
+  "id": "Broccoli, raw @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 71
+ },
+ {
+  "id": "Carrots, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 7
+ },
+ {
+  "id": "Carrots, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 16
+ },
+ {
+  "id": "Carrots, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 27
+ },
+ {
+  "id": "Carrots, raw @1.8",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 48
+ },
+ {
+  "id": "Carrots, raw @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 85
+ },
+ {
+  "id": "Spinach, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 2
+ },
+ {
+  "id": "Spinach, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 5
+ },
+ {
+  "id": "Spinach, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 8
+ },
+ {
+  "id": "Spinach, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 14
+ },
+ {
+  "id": "Spinach, raw @3.2",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 26
+ },
+ {
+  "id": "Tomatoes, red, ripe, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 3
+ },
+ {
+  "id": "Tomatoes, red, ripe, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 7
+ },
+ {
+  "id": "Tomatoes, red, ripe, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 12
+ },
+ {
+  "id": "Tomatoes, red, ripe, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 21
+ },
+ {
+  "id": "Tomatoes, red, ripe, raw @3.2",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 65,
+  "kcal": 37
+ },
+ {
+  "id": "Cucumber, with peel, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 2
+ },
+ {
+  "id": "Cucumber, with peel, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 6
+ },
+ {
+  "id": "Cucumber, with peel, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 10
+ },
+ {
+  "id": "Cucumber, with peel, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 18
+ },
+ {
+  "id": "Cucumber, with peel, raw @3.2",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 65,
+  "kcal": 31
+ },
+ {
+  "id": "Peppers, sweet, green, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 2
+ },
+ {
+  "id": "Peppers, sweet, green, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 4
+ },
+ {
+  "id": "Peppers, sweet, green, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 7
+ },
+ {
+  "id": "Peppers, sweet, green, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 13
+ },
+ {
+  "id": "Peppers, sweet, green, raw @3.2",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 22
+ },
+ {
+  "id": "Cabbage, red, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 3
+ },
+ {
+  "id": "Cabbage, red, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 7
+ },
+ {
+  "id": "Cabbage, red, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 11
+ },
+ {
+  "id": "Cabbage, red, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 20
+ },
+ {
+  "id": "Cabbage, red, raw @3.2",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 35,
+  "kcal": 35
+ },
+ {
+  "id": "Lettuce, green leaf, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 1
+ },
+ {
+  "id": "Lettuce, green leaf, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 3
+ },
+ {
+  "id": "Lettuce, green leaf, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 5
+ },
+ {
+  "id": "Lettuce, green leaf, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 9
+ },
+ {
+  "id": "Lettuce, green leaf, raw @3.2",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 17
+ },
+ {
+  "id": "Onions, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 7
+ },
+ {
+  "id": "Onions, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 16
+ },
+ {
+  "id": "Onions, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 26
+ },
+ {
+  "id": "Onions, raw @1.8",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 47
+ },
+ {
+  "id": "Onions, raw @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 83
+ },
+ {
+  "id": "Mushrooms, white, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 4
+ },
+ {
+  "id": "Mushrooms, white, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 9
+ },
+ {
+  "id": "Mushrooms, white, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 14
+ },
+ {
+  "id": "Mushrooms, white, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 26
+ },
+ {
+  "id": "Mushrooms, white, raw @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 46
+ },
+ {
+  "id": "Cauliflower, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 4
+ },
+ {
+  "id": "Cauliflower, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 10
+ },
+ {
+  "id": "Cauliflower, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 16
+ },
+ {
+  "id": "Cauliflower, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 29
+ },
+ {
+  "id": "Cauliflower, raw @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 52
+ },
+ {
+  "id": "Celery, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 3
+ },
+ {
+  "id": "Celery, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 6
+ },
+ {
+  "id": "Celery, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 10
+ },
+ {
+  "id": "Celery, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 19
+ },
+ {
+  "id": "Celery, raw @3.2",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 65,
+  "kcal": 33
+ },
+ {
+  "id": "Squash, summer, zucchini, raw @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 3
+ },
+ {
+  "id": "Squash, summer, zucchini, raw @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 7
+ },
+ {
+  "id": "Squash, summer, zucchini, raw @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 11
+ },
+ {
+  "id": "Squash, summer, zucchini, raw @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 20
+ },
+ {
+  "id": "Squash, summer, zucchini, raw @3.2",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 65,
+  "kcal": 35
+ },
+ {
+  "id": "Asparagus, cooked, boiled, drained @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 4
+ },
+ {
+  "id": "Asparagus, cooked, boiled, drained @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 9
+ },
+ {
+  "id": "Asparagus, cooked, boiled, drained @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 14
+ },
+ {
+  "id": "Asparagus, cooked, boiled, drained @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 26
+ },
+ {
+  "id": "Asparagus, cooked, boiled, drained @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 46
+ },
+ {
+  "id": "Brussels sprouts, cooked, boiled @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 3
+ },
+ {
+  "id": "Brussels sprouts, cooked, boiled @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 8
+ },
+ {
+  "id": "Brussels sprouts, cooked, boiled @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 13
+ },
+ {
+  "id": "Brussels sprouts, cooked, boiled @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 35,
+  "kcal": 23
+ },
+ {
+  "id": "Brussels sprouts, cooked, boiled @3.2",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 35,
+  "kcal": 40
+ },
+ {
+  "id": "Beans, snap, green, canned @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 2
+ },
+ {
+  "id": "Beans, snap, green, canned @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 6
+ },
+ {
+  "id": "Beans, snap, green, canned @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 10
+ },
+ {
+  "id": "Beans, snap, green, canned @1.8",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 18
+ },
+ {
+  "id": "Beans, snap, green, canned @3.2",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 65,
+  "kcal": 31
+ },
+ {
+  "id": "Vegetable juice cocktail, canned @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 240,
+  "kcal": 10
+ },
+ {
+  "id": "Vegetable juice cocktail, canned @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 240,
+  "kcal": 24
+ },
+ {
+  "id": "Vegetable juice cocktail, canned @1",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 240,
+  "kcal": 41
+ },
+ {
+  "id": "Vegetable juice cocktail, canned @1.8",
+  "group": "veg",
+  "color": "red",
+  "servG": 240,
+  "kcal": 73
+ },
+ {
+  "id": "Vegetable juice cocktail, canned @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 240,
+  "kcal": 131
+ },
+ {
+  "id": "Corn, sweet, yellow, cooked @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 19
+ },
+ {
+  "id": "Corn, sweet, yellow, cooked @0.6",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 46
+ },
+ {
+  "id": "Corn, sweet, yellow, cooked @1",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 77
+ },
+ {
+  "id": "Corn, sweet, yellow, cooked @1.8",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 138
+ },
+ {
+  "id": "Corn, sweet, yellow, cooked @3.2",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 246
+ },
+ {
+  "id": "Potatoes, baked, flesh and skin @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 19
+ },
+ {
+  "id": "Potatoes, baked, flesh and skin @0.6",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 45
+ },
+ {
+  "id": "Potatoes, baked, flesh and skin @1",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 74
+ },
+ {
+  "id": "Potatoes, baked, flesh and skin @1.8",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 134
+ },
+ {
+  "id": "Potatoes, baked, flesh and skin @3.2",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 238
+ },
+ {
+  "id": "Potatoes, french fried, frozen, oven-heated @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 62
+ },
+ {
+  "id": "Potatoes, french fried, frozen, oven-heated @0.6",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 150
+ },
+ {
+  "id": "Potatoes, french fried, frozen, oven-heated @1",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 250
+ },
+ {
+  "id": "Potatoes, french fried, frozen, oven-heated @1.8",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 449
+ },
+ {
+  "id": "Potatoes, french fried, frozen, oven-heated @3.2",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 799
+ },
+ {
+  "id": "Potatoes, hash brown, frozen, prepared @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 56
+ },
+ {
+  "id": "Potatoes, hash brown, frozen, prepared @0.6",
+  "group": "starchy",
+  "color": "red",
+  "servG": 85,
+  "kcal": 135
+ },
+ {
+  "id": "Potatoes, hash brown, frozen, prepared @1",
+  "group": "starchy",
+  "color": "red",
+  "servG": 85,
+  "kcal": 225
+ },
+ {
+  "id": "Potatoes, hash brown, frozen, prepared @1.8",
+  "group": "starchy",
+  "color": "red",
+  "servG": 85,
+  "kcal": 405
+ },
+ {
+  "id": "Potatoes, hash brown, frozen, prepared @3.2",
+  "group": "starchy",
+  "color": "red",
+  "servG": 85,
+  "kcal": 721
+ },
+ {
+  "id": "Peas, green, frozen, cooked @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 15
+ },
+ {
+  "id": "Peas, green, frozen, cooked @0.6",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 37
+ },
+ {
+  "id": "Peas, green, frozen, cooked @1",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 62
+ },
+ {
+  "id": "Peas, green, frozen, cooked @1.8",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 111
+ },
+ {
+  "id": "Peas, green, frozen, cooked @3.2",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 197
+ },
+ {
+  "id": "Beets, cooked, boiled, drained @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 9
+ },
+ {
+  "id": "Beets, cooked, boiled, drained @0.6",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 21
+ },
+ {
+  "id": "Beets, cooked, boiled, drained @1",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 35
+ },
+ {
+  "id": "Beets, cooked, boiled, drained @1.8",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 63
+ },
+ {
+  "id": "Beets, cooked, boiled, drained @3.2",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 113
+ },
+ {
+  "id": "Sweet potato, cooked, baked in skin @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 18
+ },
+ {
+  "id": "Sweet potato, cooked, baked in skin @0.6",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 43
+ },
+ {
+  "id": "Sweet potato, cooked, baked in skin @1",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 72
+ },
+ {
+  "id": "Sweet potato, cooked, baked in skin @1.8",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 130
+ },
+ {
+  "id": "Sweet potato, cooked, baked in skin @3.2",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 230
+ },
+ {
+  "id": "Squash, winter, butternut, cooked @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 8
+ },
+ {
+  "id": "Squash, winter, butternut, cooked @0.6",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 19
+ },
+ {
+  "id": "Squash, winter, butternut, cooked @1",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 32
+ },
+ {
+  "id": "Squash, winter, butternut, cooked @1.8",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 58
+ },
+ {
+  "id": "Squash, winter, butternut, cooked @3.2",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 102
+ },
+ {
+  "id": "Plantains, cooked @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 23
+ },
+ {
+  "id": "Plantains, cooked @0.6",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 56
+ },
+ {
+  "id": "Plantains, cooked @1",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 93
+ },
+ {
+  "id": "Plantains, cooked @1.8",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 167
+ },
+ {
+  "id": "Plantains, cooked @3.2",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 297
+ },
+ {
+  "id": "Apples, raw, with skin @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 12
+ },
+ {
+  "id": "Apples, raw, with skin @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 28
+ },
+ {
+  "id": "Apples, raw, with skin @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 47
+ },
+ {
+  "id": "Apples, raw, with skin @1.8",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 84
+ },
+ {
+  "id": "Apples, raw, with skin @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 150
+ },
+ {
+  "id": "Bananas, raw @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 20
+ },
+ {
+  "id": "Bananas, raw @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 48
+ },
+ {
+  "id": "Bananas, raw @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 80
+ },
+ {
+  "id": "Bananas, raw @1.8",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 144
+ },
+ {
+  "id": "Bananas, raw @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 256
+ },
+ {
+  "id": "Strawberries, raw @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 7
+ },
+ {
+  "id": "Strawberries, raw @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 17
+ },
+ {
+  "id": "Strawberries, raw @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 29
+ },
+ {
+  "id": "Strawberries, raw @1.8",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 52
+ },
+ {
+  "id": "Strawberries, raw @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 92
+ },
+ {
+  "id": "Grapes, red or green, raw @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 16
+ },
+ {
+  "id": "Grapes, red or green, raw @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 37
+ },
+ {
+  "id": "Grapes, red or green, raw @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 62
+ },
+ {
+  "id": "Grapes, red or green, raw @1.8",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 112
+ },
+ {
+  "id": "Grapes, red or green, raw @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 199
+ },
+ {
+  "id": "Blueberries, raw @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 13
+ },
+ {
+  "id": "Blueberries, raw @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 31
+ },
+ {
+  "id": "Blueberries, raw @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 51
+ },
+ {
+  "id": "Blueberries, raw @1.8",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 92
+ },
+ {
+  "id": "Blueberries, raw @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 164
+ },
+ {
+  "id": "Oranges, raw, all commercial varieties @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 11
+ },
+ {
+  "id": "Oranges, raw, all commercial varieties @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 25
+ },
+ {
+  "id": "Oranges, raw, all commercial varieties @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 42
+ },
+ {
+  "id": "Oranges, raw, all commercial varieties @1.8",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 76
+ },
+ {
+  "id": "Oranges, raw, all commercial varieties @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 135
+ },
+ {
+  "id": "Watermelon, raw @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 7
+ },
+ {
+  "id": "Watermelon, raw @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 16
+ },
+ {
+  "id": "Watermelon, raw @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 27
+ },
+ {
+  "id": "Watermelon, raw @1.8",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 49
+ },
+ {
+  "id": "Watermelon, raw @3.2",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 86
+ },
+ {
+  "id": "Applesauce, canned, unsweetened @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 125,
+  "kcal": 13
+ },
+ {
+  "id": "Applesauce, canned, unsweetened @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 125,
+  "kcal": 32
+ },
+ {
+  "id": "Applesauce, canned, unsweetened @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 125,
+  "kcal": 53
+ },
+ {
+  "id": "Applesauce, canned, unsweetened @1.8",
+  "group": "fruit",
+  "color": "red",
+  "servG": 125,
+  "kcal": 95
+ },
+ {
+  "id": "Applesauce, canned, unsweetened @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 125,
+  "kcal": 168
+ },
+ {
+  "id": "Peaches, canned, heavy syrup pack @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 125,
+  "kcal": 23
+ },
+ {
+  "id": "Peaches, canned, heavy syrup pack @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 125,
+  "kcal": 56
+ },
+ {
+  "id": "Peaches, canned, heavy syrup pack @1",
+  "group": "fruit",
+  "color": "red",
+  "servG": 125,
+  "kcal": 93
+ },
+ {
+  "id": "Peaches, canned, heavy syrup pack @1.8",
+  "group": "fruit",
+  "color": "red",
+  "servG": 125,
+  "kcal": 167
+ },
+ {
+  "id": "Peaches, canned, heavy syrup pack @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 125,
+  "kcal": 296
+ },
+ {
+  "id": "Dates, medjool @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 24,
+  "kcal": 17
+ },
+ {
+  "id": "Dates, medjool @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 24,
+  "kcal": 40
+ },
+ {
+  "id": "Dates, medjool @1",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 24,
+  "kcal": 66
+ },
+ {
+  "id": "Dates, medjool @1.8",
+  "group": "fruit",
+  "color": "red",
+  "servG": 24,
+  "kcal": 120
+ },
+ {
+  "id": "Dates, medjool @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 24,
+  "kcal": 213
+ },
+ {
+  "id": "Avocados, raw, all commercial varieties @0.25",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 36
+ },
+ {
+  "id": "Avocados, raw, all commercial varieties @0.6",
+  "group": "fruit",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 86
+ },
+ {
+  "id": "Avocados, raw, all commercial varieties @1",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 144
+ },
+ {
+  "id": "Avocados, raw, all commercial varieties @1.8",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 259
+ },
+ {
+  "id": "Avocados, raw, all commercial varieties @3.2",
+  "group": "fruit",
+  "color": "red",
+  "servG": 90,
+  "kcal": 461
+ },
+ {
+  "id": "Orange juice, raw @0.25",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 27
+ },
+ {
+  "id": "Orange juice, raw @0.6",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 65
+ },
+ {
+  "id": "Orange juice, raw @1",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 108
+ },
+ {
+  "id": "Orange juice, raw @1.8",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 194
+ },
+ {
+  "id": "Orange juice, raw @3.2",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 346
+ },
+ {
+  "id": "Apple juice, canned or bottled @0.25",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 28
+ },
+ {
+  "id": "Apple juice, canned or bottled @0.6",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 66
+ },
+ {
+  "id": "Apple juice, canned or bottled @1",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 110
+ },
+ {
+  "id": "Apple juice, canned or bottled @1.8",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 199
+ },
+ {
+  "id": "Apple juice, canned or bottled @3.2",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 353
+ },
+ {
+  "id": "Grape juice, canned or bottled @0.25",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 36
+ },
+ {
+  "id": "Grape juice, canned or bottled @0.6",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 86
+ },
+ {
+  "id": "Grape juice, canned or bottled @1",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 144
+ },
+ {
+  "id": "Grape juice, canned or bottled @1.8",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 259
+ },
+ {
+  "id": "Grape juice, canned or bottled @3.2",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 461
+ },
+ {
+  "id": "Raisins, seedless @0.25",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 180
+ },
+ {
+  "id": "Raisins, seedless @0.6",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 431
+ },
+ {
+  "id": "Raisins, seedless @1",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 718
+ },
+ {
+  "id": "Raisins, seedless @1.8",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 1292
+ },
+ {
+  "id": "Raisins, seedless @3.2",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 2296
+ },
+ {
+  "id": "Apricots, dried, sulfured @0.25",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 145
+ },
+ {
+  "id": "Apricots, dried, sulfured @0.6",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 347
+ },
+ {
+  "id": "Apricots, dried, sulfured @1",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 578
+ },
+ {
+  "id": "Apricots, dried, sulfured @1.8",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 1041
+ },
+ {
+  "id": "Apricots, dried, sulfured @3.2",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 1851
+ },
+ {
+  "id": "Plums, dried (prunes), uncooked @0.25",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 144
+ },
+ {
+  "id": "Plums, dried (prunes), uncooked @0.6",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 346
+ },
+ {
+  "id": "Plums, dried (prunes), uncooked @1",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 576
+ },
+ {
+  "id": "Plums, dried (prunes), uncooked @1.8",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 1037
+ },
+ {
+  "id": "Plums, dried (prunes), uncooked @3.2",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 1843
+ },
+ {
+  "id": "Bread, white, commercially prepared @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 50
+ },
+ {
+  "id": "Bread, white, commercially prepared @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 120
+ },
+ {
+  "id": "Bread, white, commercially prepared @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 74
+ },
+ {
+  "id": "Bread, white, commercially prepared @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 134
+ },
+ {
+  "id": "Bread, white, commercially prepared @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 238
+ },
+ {
+  "id": "Bread, whole-wheat, commercially prepared @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 46
+ },
+ {
+  "id": "Bread, whole-wheat, commercially prepared @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 111
+ },
+ {
+  "id": "Bread, whole-wheat, commercially prepared @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 69
+ },
+ {
+  "id": "Bread, whole-wheat, commercially prepared @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 124
+ },
+ {
+  "id": "Bread, whole-wheat, commercially prepared @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 221
+ },
+ {
+  "id": "Bagels, plain, enriched @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 18
+ },
+ {
+  "id": "Bagels, plain, enriched @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 43
+ },
+ {
+  "id": "Bagels, plain, enriched @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 72
+ },
+ {
+  "id": "Bagels, plain, enriched @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 130
+ },
+ {
+  "id": "Bagels, plain, enriched @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 230
+ },
+ {
+  "id": "Rice, brown, long-grain, cooked @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 23
+ },
+ {
+  "id": "Rice, brown, long-grain, cooked @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 55
+ },
+ {
+  "id": "Rice, brown, long-grain, cooked @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 92
+ },
+ {
+  "id": "Rice, brown, long-grain, cooked @1.8",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 62
+ },
+ {
+  "id": "Rice, brown, long-grain, cooked @3.2",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 110
+ },
+ {
+  "id": "Rice, white, long-grain, cooked @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 24
+ },
+ {
+  "id": "Rice, white, long-grain, cooked @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 59
+ },
+ {
+  "id": "Rice, white, long-grain, cooked @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 98
+ },
+ {
+  "id": "Rice, white, long-grain, cooked @1.8",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 66
+ },
+ {
+  "id": "Rice, white, long-grain, cooked @3.2",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 116
+ },
+ {
+  "id": "Spaghetti, cooked, enriched @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 30
+ },
+ {
+  "id": "Spaghetti, cooked, enriched @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 71
+ },
+ {
+  "id": "Spaghetti, cooked, enriched @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 119
+ },
+ {
+  "id": "Spaghetti, cooked, enriched @1.8",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 80
+ },
+ {
+  "id": "Spaghetti, cooked, enriched @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 142
+ },
+ {
+  "id": "Noodles, egg, cooked, enriched @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 50,
+  "kcal": 17
+ },
+ {
+  "id": "Noodles, egg, cooked, enriched @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 50,
+  "kcal": 41
+ },
+ {
+  "id": "Noodles, egg, cooked, enriched @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 50,
+  "kcal": 69
+ },
+ {
+  "id": "Noodles, egg, cooked, enriched @1.8",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 70
+ },
+ {
+  "id": "Noodles, egg, cooked, enriched @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 124
+ },
+ {
+  "id": "Quinoa, cooked @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 23
+ },
+ {
+  "id": "Quinoa, cooked @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 54
+ },
+ {
+  "id": "Quinoa, cooked @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 90
+ },
+ {
+  "id": "Quinoa, cooked @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 75,
+  "kcal": 162
+ },
+ {
+  "id": "Quinoa, cooked @3.2",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 108
+ },
+ {
+  "id": "Couscous, cooked @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 21
+ },
+ {
+  "id": "Couscous, cooked @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 50
+ },
+ {
+  "id": "Couscous, cooked @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 84
+ },
+ {
+  "id": "Couscous, cooked @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 75,
+  "kcal": 151
+ },
+ {
+  "id": "Couscous, cooked @3.2",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 100
+ },
+ {
+  "id": "Cereals, oats, regular and quick, cooked with water @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 117,
+  "kcal": 21
+ },
+ {
+  "id": "Cereals, oats, regular and quick, cooked with water @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 117,
+  "kcal": 50
+ },
+ {
+  "id": "Cereals, oats, regular and quick, cooked with water @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 117,
+  "kcal": 83
+ },
+ {
+  "id": "Cereals, oats, regular and quick, cooked with water @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 117,
+  "kcal": 150
+ },
+ {
+  "id": "Cereals, oats, regular and quick, cooked with water @3.2",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 64
+ },
+ {
+  "id": "Tortillas, ready-to-bake or -fry, flour @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 57
+ },
+ {
+  "id": "Tortillas, ready-to-bake or -fry, flour @0.6",
+  "group": "grain",
+  "color": "red",
+  "servG": 75,
+  "kcal": 138
+ },
+ {
+  "id": "Tortillas, ready-to-bake or -fry, flour @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 86
+ },
+ {
+  "id": "Tortillas, ready-to-bake or -fry, flour @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 154
+ },
+ {
+  "id": "Tortillas, ready-to-bake or -fry, flour @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 274
+ },
+ {
+  "id": "Crackers, saltines @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 29
+ },
+ {
+  "id": "Crackers, saltines @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 70
+ },
+ {
+  "id": "Crackers, saltines @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 117
+ },
+ {
+  "id": "Crackers, saltines @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 211
+ },
+ {
+  "id": "Crackers, saltines @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 375
+ },
+ {
+  "id": "Pretzels, hard, plain, salted @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 27
+ },
+ {
+  "id": "Pretzels, hard, plain, salted @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 65
+ },
+ {
+  "id": "Pretzels, hard, plain, salted @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 108
+ },
+ {
+  "id": "Pretzels, hard, plain, salted @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 194
+ },
+ {
+  "id": "Pretzels, hard, plain, salted @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 344
+ },
+ {
+  "id": "Snacks, popcorn, air-popped @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 27
+ },
+ {
+  "id": "Snacks, popcorn, air-popped @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 65
+ },
+ {
+  "id": "Snacks, popcorn, air-popped @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 108
+ },
+ {
+  "id": "Snacks, popcorn, air-popped @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 195
+ },
+ {
+  "id": "Snacks, popcorn, air-popped @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 347
+ },
+ {
+  "id": "Pancakes, plain, prepared from recipe @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 43
+ },
+ {
+  "id": "Pancakes, plain, prepared from recipe @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 102
+ },
+ {
+  "id": "Pancakes, plain, prepared from recipe @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 64
+ },
+ {
+  "id": "Pancakes, plain, prepared from recipe @1.8",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 114
+ },
+ {
+  "id": "Pancakes, plain, prepared from recipe @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 203
+ },
+ {
+  "id": "Waffles, plain, frozen, toasted @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 20
+ },
+ {
+  "id": "Waffles, plain, frozen, toasted @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 49
+ },
+ {
+  "id": "Waffles, plain, frozen, toasted @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 81
+ },
+ {
+  "id": "Waffles, plain, frozen, toasted @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 147
+ },
+ {
+  "id": "Waffles, plain, frozen, toasted @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 261
+ },
+ {
+  "id": "Muffins, blueberry, commercially prepared @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 75,
+  "kcal": 71
+ },
+ {
+  "id": "Muffins, blueberry, commercially prepared @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 63
+ },
+ {
+  "id": "Muffins, blueberry, commercially prepared @1",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 106
+ },
+ {
+  "id": "Muffins, blueberry, commercially prepared @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 190
+ },
+ {
+  "id": "Muffins, blueberry, commercially prepared @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 28,
+  "kcal": 338
+ },
+ {
+  "id": "Cereals ready-to-eat, toasted oat cereal @0.25",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 28
+ },
+ {
+  "id": "Cereals ready-to-eat, toasted oat cereal @0.6",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 68
+ },
+ {
+  "id": "Cereals ready-to-eat, toasted oat cereal @1",
+  "group": "cereal",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 113
+ },
+ {
+  "id": "Cereals ready-to-eat, toasted oat cereal @1.8",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 203
+ },
+ {
+  "id": "Cereals ready-to-eat, toasted oat cereal @3.2",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 360
+ },
+ {
+  "id": "Cereals ready-to-eat, frosted flakes @0.25",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 28
+ },
+ {
+  "id": "Cereals ready-to-eat, frosted flakes @0.6",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 68
+ },
+ {
+  "id": "Cereals ready-to-eat, frosted flakes @1",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 113
+ },
+ {
+  "id": "Cereals ready-to-eat, frosted flakes @1.8",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 203
+ },
+ {
+  "id": "Cereals ready-to-eat, frosted flakes @3.2",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 360
+ },
+ {
+  "id": "Cereals ready-to-eat, raisin bran @0.25",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 24
+ },
+ {
+  "id": "Cereals ready-to-eat, raisin bran @0.6",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 57
+ },
+ {
+  "id": "Cereals ready-to-eat, raisin bran @1",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 95
+ },
+ {
+  "id": "Cereals ready-to-eat, raisin bran @1.8",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 171
+ },
+ {
+  "id": "Cereals ready-to-eat, raisin bran @3.2",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 303
+ },
+ {
+  "id": "Cereals ready-to-eat, granola, homemade @0.25",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 37
+ },
+ {
+  "id": "Cereals ready-to-eat, granola, homemade @0.6",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 88
+ },
+ {
+  "id": "Cereals ready-to-eat, granola, homemade @1",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 147
+ },
+ {
+  "id": "Cereals ready-to-eat, granola, homemade @1.8",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 264
+ },
+ {
+  "id": "Cereals ready-to-eat, granola, homemade @3.2",
+  "group": "cereal",
+  "color": "red",
+  "servG": 30,
+  "kcal": 469
+ },
+ {
+  "id": "Cheese, cheddar @0.25",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 28
+ },
+ {
+  "id": "Cheese, cheddar @0.6",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 68
+ },
+ {
+  "id": "Cheese, cheddar @1",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 113
+ },
+ {
+  "id": "Cheese, cheddar @1.8",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 203
+ },
+ {
+  "id": "Cheese, cheddar @3.2",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 361
+ },
+ {
+  "id": "Cheese, swiss @0.25",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 27
+ },
+ {
+  "id": "Cheese, swiss @0.6",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 64
+ },
+ {
+  "id": "Cheese, swiss @1",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 106
+ },
+ {
+  "id": "Cheese, swiss @1.8",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 192
+ },
+ {
+  "id": "Cheese, swiss @3.2",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 340
+ },
+ {
+  "id": "Cheese, parmesan, grated @0.25",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 29
+ },
+ {
+  "id": "Cheese, parmesan, grated @0.6",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 71
+ },
+ {
+  "id": "Cheese, parmesan, grated @1",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 118
+ },
+ {
+  "id": "Cheese, parmesan, grated @1.8",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 212
+ },
+ {
+  "id": "Cheese, parmesan, grated @3.2",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 376
+ },
+ {
+  "id": "Cheese, mozzarella, part skim milk @0.25",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 18
+ },
+ {
+  "id": "Cheese, mozzarella, part skim milk @0.6",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 43
+ },
+ {
+  "id": "Cheese, mozzarella, part skim milk @1",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 71
+ },
+ {
+  "id": "Cheese, mozzarella, part skim milk @1.8",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 128
+ },
+ {
+  "id": "Cheese, mozzarella, part skim milk @3.2",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 228
+ },
+ {
+  "id": "Cheese, cottage, lowfat, 1% milkfat @0.25",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 5
+ },
+ {
+  "id": "Cheese, cottage, lowfat, 1% milkfat @0.6",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 12
+ },
+ {
+  "id": "Cheese, cottage, lowfat, 1% milkfat @1",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 20
+ },
+ {
+  "id": "Cheese, cottage, lowfat, 1% milkfat @1.8",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 36
+ },
+ {
+  "id": "Cheese, cottage, lowfat, 1% milkfat @3.2",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 65
+ },
+ {
+  "id": "Cheese, cream @0.25",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 24
+ },
+ {
+  "id": "Cheese, cream @0.6",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 57
+ },
+ {
+  "id": "Cheese, cream @1",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 96
+ },
+ {
+  "id": "Cheese, cream @1.8",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 172
+ },
+ {
+  "id": "Cheese, cream @3.2",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 306
+ },
+ {
+  "id": "Milk, whole, 3.25% milkfat @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 37
+ },
+ {
+  "id": "Milk, whole, 3.25% milkfat @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 90
+ },
+ {
+  "id": "Milk, whole, 3.25% milkfat @1",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 149
+ },
+ {
+  "id": "Milk, whole, 3.25% milkfat @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 269
+ },
+ {
+  "id": "Milk, whole, 3.25% milkfat @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 478
+ },
+ {
+  "id": "Milk, lowfat, fluid, 1% milkfat @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 26
+ },
+ {
+  "id": "Milk, lowfat, fluid, 1% milkfat @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 62
+ },
+ {
+  "id": "Milk, lowfat, fluid, 1% milkfat @1",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 103
+ },
+ {
+  "id": "Milk, lowfat, fluid, 1% milkfat @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 185
+ },
+ {
+  "id": "Milk, lowfat, fluid, 1% milkfat @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 329
+ },
+ {
+  "id": "Milk, nonfat, fluid @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 21
+ },
+ {
+  "id": "Milk, nonfat, fluid @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 50
+ },
+ {
+  "id": "Milk, nonfat, fluid @1",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 83
+ },
+ {
+  "id": "Milk, nonfat, fluid @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 150
+ },
+ {
+  "id": "Milk, nonfat, fluid @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 267
+ },
+ {
+  "id": "Milk, chocolate, lowfat @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 39
+ },
+ {
+  "id": "Milk, chocolate, lowfat @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 93
+ },
+ {
+  "id": "Milk, chocolate, lowfat @1",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 154
+ },
+ {
+  "id": "Milk, chocolate, lowfat @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 278
+ },
+ {
+  "id": "Milk, chocolate, lowfat @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 494
+ },
+ {
+  "id": "Yogurt, Greek, plain, nonfat @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 170,
+  "kcal": 25
+ },
+ {
+  "id": "Yogurt, Greek, plain, nonfat @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 170,
+  "kcal": 60
+ },
+ {
+  "id": "Yogurt, Greek, plain, nonfat @1",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 170,
+  "kcal": 100
+ },
+ {
+  "id": "Yogurt, Greek, plain, nonfat @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 170,
+  "kcal": 181
+ },
+ {
+  "id": "Yogurt, Greek, plain, nonfat @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 170,
+  "kcal": 321
+ },
+ {
+  "id": "Yogurt, fruit variety, lowfat @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 170,
+  "kcal": 42
+ },
+ {
+  "id": "Yogurt, fruit variety, lowfat @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 170,
+  "kcal": 101
+ },
+ {
+  "id": "Yogurt, fruit variety, lowfat @1",
+  "group": "dairy",
+  "color": "red",
+  "servG": 170,
+  "kcal": 168
+ },
+ {
+  "id": "Yogurt, fruit variety, lowfat @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 170,
+  "kcal": 303
+ },
+ {
+  "id": "Yogurt, fruit variety, lowfat @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 170,
+  "kcal": 539
+ },
+ {
+  "id": "Cream, sour, cultured @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 121
+ },
+ {
+  "id": "Cream, sour, cultured @0.6",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 291
+ },
+ {
+  "id": "Cream, sour, cultured @1",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 485
+ },
+ {
+  "id": "Cream, sour, cultured @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 873
+ },
+ {
+  "id": "Cream, sour, cultured @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 1552
+ },
+ {
+  "id": "Cream, fluid, heavy whipping @0.25",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 208
+ },
+ {
+  "id": "Cream, fluid, heavy whipping @0.6",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 500
+ },
+ {
+  "id": "Cream, fluid, heavy whipping @1",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 833
+ },
+ {
+  "id": "Cream, fluid, heavy whipping @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 1499
+ },
+ {
+  "id": "Cream, fluid, heavy whipping @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 2666
+ },
+ {
+  "id": "Chicken, breast, roasted, meat only @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 35
+ },
+ {
+  "id": "Chicken, breast, roasted, meat only @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 84
+ },
+ {
+  "id": "Chicken, breast, roasted, meat only @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 140
+ },
+ {
+  "id": "Chicken, breast, roasted, meat only @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 252
+ },
+ {
+  "id": "Chicken, breast, roasted, meat only @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 449
+ },
+ {
+  "id": "Chicken, thigh, roasted, meat only @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 44
+ },
+ {
+  "id": "Chicken, thigh, roasted, meat only @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 107
+ },
+ {
+  "id": "Chicken, thigh, roasted, meat only @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 178
+ },
+ {
+  "id": "Chicken, thigh, roasted, meat only @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 320
+ },
+ {
+  "id": "Chicken, thigh, roasted, meat only @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 568
+ },
+ {
+  "id": "Turkey, breast, roasted, meat only @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 29
+ },
+ {
+  "id": "Turkey, breast, roasted, meat only @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 69
+ },
+ {
+  "id": "Turkey, breast, roasted, meat only @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 115
+ },
+ {
+  "id": "Turkey, breast, roasted, meat only @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 207
+ },
+ {
+  "id": "Turkey, breast, roasted, meat only @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 367
+ },
+ {
+  "id": "Beef, ground, 80% lean meat, cooked @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 54
+ },
+ {
+  "id": "Beef, ground, 80% lean meat, cooked @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 130
+ },
+ {
+  "id": "Beef, ground, 80% lean meat, cooked @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 216
+ },
+ {
+  "id": "Beef, ground, 80% lean meat, cooked @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 389
+ },
+ {
+  "id": "Beef, ground, 80% lean meat, cooked @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 691
+ },
+ {
+  "id": "Beef, ground, 93% lean meat, cooked @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 32
+ },
+ {
+  "id": "Beef, ground, 93% lean meat, cooked @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 78
+ },
+ {
+  "id": "Beef, ground, 93% lean meat, cooked @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 129
+ },
+ {
+  "id": "Beef, ground, 93% lean meat, cooked @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 233
+ },
+ {
+  "id": "Beef, ground, 93% lean meat, cooked @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 413
+ },
+ {
+  "id": "Pork, loin, roasted @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 51
+ },
+ {
+  "id": "Pork, loin, roasted @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 123
+ },
+ {
+  "id": "Pork, loin, roasted @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 206
+ },
+ {
+  "id": "Pork, loin, roasted @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 370
+ },
+ {
+  "id": "Pork, loin, roasted @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 658
+ },
+ {
+  "id": "Ham, sliced, regular @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 31
+ },
+ {
+  "id": "Ham, sliced, regular @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 74
+ },
+ {
+  "id": "Ham, sliced, regular @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 123
+ },
+ {
+  "id": "Ham, sliced, regular @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 222
+ },
+ {
+  "id": "Ham, sliced, regular @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 394
+ },
+ {
+  "id": "Frankfurter, beef @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 62
+ },
+ {
+  "id": "Frankfurter, beef @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 148
+ },
+ {
+  "id": "Frankfurter, beef @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 247
+ },
+ {
+  "id": "Frankfurter, beef @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 444
+ },
+ {
+  "id": "Frankfurter, beef @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 789
+ },
+ {
+  "id": "Bologna, beef @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 66
+ },
+ {
+  "id": "Bologna, beef @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 158
+ },
+ {
+  "id": "Bologna, beef @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 264
+ },
+ {
+  "id": "Bologna, beef @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 474
+ },
+ {
+  "id": "Bologna, beef @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 843
+ },
+ {
+  "id": "Salami, dry or hard @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 87
+ },
+ {
+  "id": "Salami, dry or hard @0.6",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 208
+ },
+ {
+  "id": "Salami, dry or hard @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 346
+ },
+ {
+  "id": "Salami, dry or hard @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 623
+ },
+ {
+  "id": "Salami, dry or hard @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 1107
+ },
+ {
+  "id": "Fish, tuna, light, canned in water, drained @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 18
+ },
+ {
+  "id": "Fish, tuna, light, canned in water, drained @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 44
+ },
+ {
+  "id": "Fish, tuna, light, canned in water, drained @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 73
+ },
+ {
+  "id": "Fish, tuna, light, canned in water, drained @1.8",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 132
+ },
+ {
+  "id": "Fish, tuna, light, canned in water, drained @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 234
+ },
+ {
+  "id": "Fish, cod, Atlantic, cooked, dry heat @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 22
+ },
+ {
+  "id": "Fish, cod, Atlantic, cooked, dry heat @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 54
+ },
+ {
+  "id": "Fish, cod, Atlantic, cooked, dry heat @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 89
+ },
+ {
+  "id": "Fish, cod, Atlantic, cooked, dry heat @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 161
+ },
+ {
+  "id": "Fish, cod, Atlantic, cooked, dry heat @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 286
+ },
+ {
+  "id": "Fish, salmon, Atlantic, farmed, cooked @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 44
+ },
+ {
+  "id": "Fish, salmon, Atlantic, farmed, cooked @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 105
+ },
+ {
+  "id": "Fish, salmon, Atlantic, farmed, cooked @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 175
+ },
+ {
+  "id": "Fish, salmon, Atlantic, farmed, cooked @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 315
+ },
+ {
+  "id": "Fish, salmon, Atlantic, farmed, cooked @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 560
+ },
+ {
+  "id": "Fish, sardine, canned in oil, drained @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 44
+ },
+ {
+  "id": "Fish, sardine, canned in oil, drained @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 106
+ },
+ {
+  "id": "Fish, sardine, canned in oil, drained @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 177
+ },
+ {
+  "id": "Fish, sardine, canned in oil, drained @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 318
+ },
+ {
+  "id": "Fish, sardine, canned in oil, drained @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 566
+ },
+ {
+  "id": "Crustaceans, shrimp, cooked @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 21
+ },
+ {
+  "id": "Crustaceans, shrimp, cooked @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 50
+ },
+ {
+  "id": "Crustaceans, shrimp, cooked @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 84
+ },
+ {
+  "id": "Crustaceans, shrimp, cooked @1.8",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 151
+ },
+ {
+  "id": "Crustaceans, shrimp, cooked @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 269
+ },
+ {
+  "id": "Fish, sardine, Pacific, canned in tomato sauce, drained @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 40
+ },
+ {
+  "id": "Fish, sardine, Pacific, canned in tomato sauce, drained @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 95
+ },
+ {
+  "id": "Fish, sardine, Pacific, canned in tomato sauce, drained @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 158
+ },
+ {
+  "id": "Fish, sardine, Pacific, canned in tomato sauce, drained @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 285
+ },
+ {
+  "id": "Fish, sardine, Pacific, canned in tomato sauce, drained @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 506
+ },
+ {
+  "id": "Chicken, breast, teriyaki sauce, cooked @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 32
+ },
+ {
+  "id": "Chicken, breast, teriyaki sauce, cooked @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 77
+ },
+ {
+  "id": "Chicken, breast, teriyaki sauce, cooked @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 128
+ },
+ {
+  "id": "Chicken, breast, teriyaki sauce, cooked @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 230
+ },
+ {
+  "id": "Chicken, breast, teriyaki sauce, cooked @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 408
+ },
+ {
+  "id": "Pork, bbq sauce, pulled @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 40
+ },
+ {
+  "id": "Pork, bbq sauce, pulled @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 97
+ },
+ {
+  "id": "Pork, bbq sauce, pulled @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 162
+ },
+ {
+  "id": "Pork, bbq sauce, pulled @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 291
+ },
+ {
+  "id": "Pork, bbq sauce, pulled @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 517
+ },
+ {
+  "id": "Turkey, sliced, with gravy, frozen @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 15
+ },
+ {
+  "id": "Turkey, sliced, with gravy, frozen @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 36
+ },
+ {
+  "id": "Turkey, sliced, with gravy, frozen @1",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 60
+ },
+ {
+  "id": "Turkey, sliced, with gravy, frozen @1.8",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 107
+ },
+ {
+  "id": "Turkey, sliced, with gravy, frozen @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 190
+ },
+ {
+  "id": "Sausage, beer bratwurst @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 64
+ },
+ {
+  "id": "Sausage, beer bratwurst @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 153
+ },
+ {
+  "id": "Sausage, beer bratwurst @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 255
+ },
+ {
+  "id": "Sausage, beer bratwurst @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 459
+ },
+ {
+  "id": "Sausage, beer bratwurst @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 816
+ },
+ {
+  "id": "Egg, whole, cooked, hard-boiled @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 50,
+  "kcal": 19
+ },
+ {
+  "id": "Egg, whole, cooked, hard-boiled @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 50,
+  "kcal": 47
+ },
+ {
+  "id": "Egg, whole, cooked, hard-boiled @1",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 50,
+  "kcal": 78
+ },
+ {
+  "id": "Egg, whole, cooked, hard-boiled @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 50,
+  "kcal": 140
+ },
+ {
+  "id": "Egg, whole, cooked, hard-boiled @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 50,
+  "kcal": 248
+ },
+ {
+  "id": "Beans, black, mature seeds, cooked, boiled @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 30
+ },
+ {
+  "id": "Beans, black, mature seeds, cooked, boiled @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 71
+ },
+ {
+  "id": "Beans, black, mature seeds, cooked, boiled @1",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 119
+ },
+ {
+  "id": "Beans, black, mature seeds, cooked, boiled @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 214
+ },
+ {
+  "id": "Beans, black, mature seeds, cooked, boiled @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 380
+ },
+ {
+  "id": "Beans, pinto, mature seeds, cooked, boiled @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 32
+ },
+ {
+  "id": "Beans, pinto, mature seeds, cooked, boiled @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 77
+ },
+ {
+  "id": "Beans, pinto, mature seeds, cooked, boiled @1",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 129
+ },
+ {
+  "id": "Beans, pinto, mature seeds, cooked, boiled @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 232
+ },
+ {
+  "id": "Beans, pinto, mature seeds, cooked, boiled @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 412
+ },
+ {
+  "id": "Lentils, mature seeds, cooked, boiled @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 26
+ },
+ {
+  "id": "Lentils, mature seeds, cooked, boiled @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 63
+ },
+ {
+  "id": "Lentils, mature seeds, cooked, boiled @1",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 104
+ },
+ {
+  "id": "Lentils, mature seeds, cooked, boiled @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 188
+ },
+ {
+  "id": "Lentils, mature seeds, cooked, boiled @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 334
+ },
+ {
+  "id": "Chickpeas (garbanzo beans), mature seeds, cooked @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 37
+ },
+ {
+  "id": "Chickpeas (garbanzo beans), mature seeds, cooked @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 89
+ },
+ {
+  "id": "Chickpeas (garbanzo beans), mature seeds, cooked @1",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 148
+ },
+ {
+  "id": "Chickpeas (garbanzo beans), mature seeds, cooked @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 266
+ },
+ {
+  "id": "Chickpeas (garbanzo beans), mature seeds, cooked @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 472
+ },
+ {
+  "id": "Beans, baked, canned, plain or vegetarian @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 21
+ },
+ {
+  "id": "Beans, baked, canned, plain or vegetarian @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 51
+ },
+ {
+  "id": "Beans, baked, canned, plain or vegetarian @1",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 90,
+  "kcal": 85
+ },
+ {
+  "id": "Beans, baked, canned, plain or vegetarian @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 152
+ },
+ {
+  "id": "Beans, baked, canned, plain or vegetarian @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 90,
+  "kcal": 271
+ },
+ {
+  "id": "Edamame, frozen, prepared @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 78,
+  "kcal": 24
+ },
+ {
+  "id": "Edamame, frozen, prepared @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 78,
+  "kcal": 57
+ },
+ {
+  "id": "Edamame, frozen, prepared @1",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 78,
+  "kcal": 94
+ },
+ {
+  "id": "Edamame, frozen, prepared @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 78,
+  "kcal": 170
+ },
+ {
+  "id": "Edamame, frozen, prepared @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 78,
+  "kcal": 302
+ },
+ {
+  "id": "Tofu, raw, firm, prepared with calcium sulfate @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 31
+ },
+ {
+  "id": "Tofu, raw, firm, prepared with calcium sulfate @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 73
+ },
+ {
+  "id": "Tofu, raw, firm, prepared with calcium sulfate @1",
+  "group": "protein",
+  "color": "red",
+  "servG": 85,
+  "kcal": 122
+ },
+ {
+  "id": "Tofu, raw, firm, prepared with calcium sulfate @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 85,
+  "kcal": 220
+ },
+ {
+  "id": "Tofu, raw, firm, prepared with calcium sulfate @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 85,
+  "kcal": 392
+ },
+ {
+  "id": "Nuts, almonds, raw @0.25",
+  "group": "nuts",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 41
+ },
+ {
+  "id": "Nuts, almonds, raw @0.6",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 97
+ },
+ {
+  "id": "Nuts, almonds, raw @1",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 162
+ },
+ {
+  "id": "Nuts, almonds, raw @1.8",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 292
+ },
+ {
+  "id": "Nuts, almonds, raw @3.2",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 519
+ },
+ {
+  "id": "Nuts, walnuts, english @0.25",
+  "group": "nuts",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 46
+ },
+ {
+  "id": "Nuts, walnuts, english @0.6",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 110
+ },
+ {
+  "id": "Nuts, walnuts, english @1",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 183
+ },
+ {
+  "id": "Nuts, walnuts, english @1.8",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 330
+ },
+ {
+  "id": "Nuts, walnuts, english @3.2",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 586
+ },
+ {
+  "id": "Peanuts, all types, dry-roasted @0.25",
+  "group": "nuts",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 41
+ },
+ {
+  "id": "Peanuts, all types, dry-roasted @0.6",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 99
+ },
+ {
+  "id": "Peanuts, all types, dry-roasted @1",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 164
+ },
+ {
+  "id": "Peanuts, all types, dry-roasted @1.8",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 296
+ },
+ {
+  "id": "Peanuts, all types, dry-roasted @3.2",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 526
+ },
+ {
+  "id": "Peanut butter, smooth style @0.25",
+  "group": "nuts",
+  "color": "yellow",
+  "servG": 32,
+  "kcal": 47
+ },
+ {
+  "id": "Peanut butter, smooth style @0.6",
+  "group": "nuts",
+  "color": "red",
+  "servG": 32,
+  "kcal": 113
+ },
+ {
+  "id": "Peanut butter, smooth style @1",
+  "group": "nuts",
+  "color": "red",
+  "servG": 32,
+  "kcal": 188
+ },
+ {
+  "id": "Peanut butter, smooth style @1.8",
+  "group": "nuts",
+  "color": "red",
+  "servG": 32,
+  "kcal": 339
+ },
+ {
+  "id": "Peanut butter, smooth style @3.2",
+  "group": "nuts",
+  "color": "red",
+  "servG": 32,
+  "kcal": 602
+ },
+ {
+  "id": "Seeds, sunflower seed kernels, dry roasted @0.25",
+  "group": "nuts",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 41
+ },
+ {
+  "id": "Seeds, sunflower seed kernels, dry roasted @0.6",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 98
+ },
+ {
+  "id": "Seeds, sunflower seed kernels, dry roasted @1",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 163
+ },
+ {
+  "id": "Seeds, sunflower seed kernels, dry roasted @1.8",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 293
+ },
+ {
+  "id": "Seeds, sunflower seed kernels, dry roasted @3.2",
+  "group": "nuts",
+  "color": "red",
+  "servG": 28,
+  "kcal": 521
+ },
+ {
+  "id": "Butter, salted @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 27
+ },
+ {
+  "id": "Butter, salted @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 65
+ },
+ {
+  "id": "Butter, salted @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 108
+ },
+ {
+  "id": "Butter, salted @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 194
+ },
+ {
+  "id": "Butter, salted @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 344
+ },
+ {
+  "id": "Margarine, regular, hard @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 27
+ },
+ {
+  "id": "Margarine, regular, hard @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 65
+ },
+ {
+  "id": "Margarine, regular, hard @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 108
+ },
+ {
+  "id": "Margarine, regular, hard @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 194
+ },
+ {
+  "id": "Margarine, regular, hard @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 344
+ },
+ {
+  "id": "Oil, olive, salad or cooking @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 33
+ },
+ {
+  "id": "Oil, olive, salad or cooking @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 80
+ },
+ {
+  "id": "Oil, olive, salad or cooking @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 133
+ },
+ {
+  "id": "Oil, olive, salad or cooking @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 239
+ },
+ {
+  "id": "Oil, olive, salad or cooking @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 424
+ },
+ {
+  "id": "Mayonnaise, regular @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 26
+ },
+ {
+  "id": "Mayonnaise, regular @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 61
+ },
+ {
+  "id": "Mayonnaise, regular @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 102
+ },
+ {
+  "id": "Mayonnaise, regular @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 184
+ },
+ {
+  "id": "Mayonnaise, regular @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 326
+ },
+ {
+  "id": "Bacon, cooked @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 20
+ },
+ {
+  "id": "Bacon, cooked @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 49
+ },
+ {
+  "id": "Bacon, cooked @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 81
+ },
+ {
+  "id": "Bacon, cooked @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 146
+ },
+ {
+  "id": "Bacon, cooked @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 260
+ },
+ {
+  "id": "Snacks, potato chips, plain, salted @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 20
+ },
+ {
+  "id": "Snacks, potato chips, plain, salted @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 48
+ },
+ {
+  "id": "Snacks, potato chips, plain, salted @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 80
+ },
+ {
+  "id": "Snacks, potato chips, plain, salted @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 145
+ },
+ {
+  "id": "Snacks, potato chips, plain, salted @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 257
+ },
+ {
+  "id": "Snacks, tortilla chips, plain @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 18
+ },
+ {
+  "id": "Snacks, tortilla chips, plain @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 44
+ },
+ {
+  "id": "Snacks, tortilla chips, plain @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 73
+ },
+ {
+  "id": "Snacks, tortilla chips, plain @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 132
+ },
+ {
+  "id": "Snacks, tortilla chips, plain @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 235
+ },
+ {
+  "id": "Candies, milk chocolate @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 20
+ },
+ {
+  "id": "Candies, milk chocolate @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 48
+ },
+ {
+  "id": "Candies, milk chocolate @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 80
+ },
+ {
+  "id": "Candies, milk chocolate @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 144
+ },
+ {
+  "id": "Candies, milk chocolate @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 257
+ },
+ {
+  "id": "Candies, gumdrops, starch jelly pieces @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 15
+ },
+ {
+  "id": "Candies, gumdrops, starch jelly pieces @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 36
+ },
+ {
+  "id": "Candies, gumdrops, starch jelly pieces @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 59
+ },
+ {
+  "id": "Candies, gumdrops, starch jelly pieces @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 107
+ },
+ {
+  "id": "Candies, gumdrops, starch jelly pieces @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 190
+ },
+ {
+  "id": "Ice creams, vanilla @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 8
+ },
+ {
+  "id": "Ice creams, vanilla @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 19
+ },
+ {
+  "id": "Ice creams, vanilla @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 31
+ },
+ {
+  "id": "Ice creams, vanilla @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 56
+ },
+ {
+  "id": "Ice creams, vanilla @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 99
+ },
+ {
+  "id": "Cookies, chocolate chip, commercially prepared @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 18
+ },
+ {
+  "id": "Cookies, chocolate chip, commercially prepared @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 43
+ },
+ {
+  "id": "Cookies, chocolate chip, commercially prepared @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 71
+ },
+ {
+  "id": "Cookies, chocolate chip, commercially prepared @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 128
+ },
+ {
+  "id": "Cookies, chocolate chip, commercially prepared @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 228
+ },
+ {
+  "id": "Doughnuts, cake-type, plain @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 16
+ },
+ {
+  "id": "Doughnuts, cake-type, plain @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 38
+ },
+ {
+  "id": "Doughnuts, cake-type, plain @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 63
+ },
+ {
+  "id": "Doughnuts, cake-type, plain @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 114
+ },
+ {
+  "id": "Doughnuts, cake-type, plain @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 202
+ },
+ {
+  "id": "Cake, chocolate, commercially prepared with frosting @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 14
+ },
+ {
+  "id": "Cake, chocolate, commercially prepared with frosting @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 33
+ },
+ {
+  "id": "Cake, chocolate, commercially prepared with frosting @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 56
+ },
+ {
+  "id": "Cake, chocolate, commercially prepared with frosting @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 100
+ },
+ {
+  "id": "Cake, chocolate, commercially prepared with frosting @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 178
+ },
+ {
+  "id": "Jams and preserves @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 10
+ },
+ {
+  "id": "Jams and preserves @0.6",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 25
+ },
+ {
+  "id": "Jams and preserves @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 42
+ },
+ {
+  "id": "Jams and preserves @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 75
+ },
+ {
+  "id": "Jams and preserves @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 133
+ },
+ {
+  "id": "Honey @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 11
+ },
+ {
+  "id": "Honey @0.6",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 27
+ },
+ {
+  "id": "Honey @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 46
+ },
+ {
+  "id": "Honey @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 82
+ },
+ {
+  "id": "Honey @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 146
+ },
+ {
+  "id": "Syrups, maple @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 10
+ },
+ {
+  "id": "Syrups, maple @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 23
+ },
+ {
+  "id": "Syrups, maple @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 39
+ },
+ {
+  "id": "Syrups, maple @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 70
+ },
+ {
+  "id": "Syrups, maple @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 125
+ },
+ {
+  "id": "Puddings, chocolate, ready-to-eat @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 5
+ },
+ {
+  "id": "Puddings, chocolate, ready-to-eat @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 12
+ },
+ {
+  "id": "Puddings, chocolate, ready-to-eat @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 20
+ },
+ {
+  "id": "Puddings, chocolate, ready-to-eat @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 35
+ },
+ {
+  "id": "Puddings, chocolate, ready-to-eat @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 62
+ },
+ {
+  "id": "Beverages, carbonated, cola, regular @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 1
+ },
+ {
+  "id": "Beverages, carbonated, cola, regular @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 3
+ },
+ {
+  "id": "Beverages, carbonated, cola, regular @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 6
+ },
+ {
+  "id": "Beverages, carbonated, cola, regular @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 10
+ },
+ {
+  "id": "Beverages, carbonated, cola, regular @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 18
+ },
+ {
+  "id": "Beverages, carbonated, cola, diet, with aspartame @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 0
+ },
+ {
+  "id": "Beverages, carbonated, cola, diet, with aspartame @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 0
+ },
+ {
+  "id": "Beverages, carbonated, cola, diet, with aspartame @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 0
+ },
+ {
+  "id": "Beverages, carbonated, cola, diet, with aspartame @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 0
+ },
+ {
+  "id": "Beverages, carbonated, cola, diet, with aspartame @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 0
+ },
+ {
+  "id": "Beverages, energy drink @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 2
+ },
+ {
+  "id": "Beverages, energy drink @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 4
+ },
+ {
+  "id": "Beverages, energy drink @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 7
+ },
+ {
+  "id": "Beverages, energy drink @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 12
+ },
+ {
+  "id": "Beverages, energy drink @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 22
+ },
+ {
+  "id": "Beverages, fruit punch drink, canned @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 2
+ },
+ {
+  "id": "Beverages, fruit punch drink, canned @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 4
+ },
+ {
+  "id": "Beverages, fruit punch drink, canned @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 7
+ },
+ {
+  "id": "Beverages, fruit punch drink, canned @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 13
+ },
+ {
+  "id": "Beverages, fruit punch drink, canned @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 23
+ },
+ {
+  "id": "Alcoholic beverage, beer, regular, all @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 2
+ },
+ {
+  "id": "Alcoholic beverage, beer, regular, all @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 4
+ },
+ {
+  "id": "Alcoholic beverage, beer, regular, all @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 6
+ },
+ {
+  "id": "Alcoholic beverage, beer, regular, all @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 12
+ },
+ {
+  "id": "Alcoholic beverage, beer, regular, all @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 21
+ },
+ {
+  "id": "Alcoholic beverage, wine, table, red @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 3
+ },
+ {
+  "id": "Alcoholic beverage, wine, table, red @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 8
+ },
+ {
+  "id": "Alcoholic beverage, wine, table, red @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 13
+ },
+ {
+  "id": "Alcoholic beverage, wine, table, red @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 23
+ },
+ {
+  "id": "Alcoholic beverage, wine, table, red @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 41
+ },
+ {
+  "id": "Beverages, almond milk, unsweetened @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 9
+ },
+ {
+  "id": "Beverages, almond milk, unsweetened @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 22
+ },
+ {
+  "id": "Beverages, almond milk, unsweetened @1",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 37
+ },
+ {
+  "id": "Beverages, almond milk, unsweetened @1.8",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 66
+ },
+ {
+  "id": "Beverages, almond milk, unsweetened @3.2",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 118
+ },
+ {
+  "id": "Beverages, soymilk, original, unsweetened @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 26
+ },
+ {
+  "id": "Beverages, soymilk, original, unsweetened @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 63
+ },
+ {
+  "id": "Beverages, soymilk, original, unsweetened @1",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 105
+ },
+ {
+  "id": "Beverages, soymilk, original, unsweetened @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 190
+ },
+ {
+  "id": "Beverages, soymilk, original, unsweetened @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 337
+ },
+ {
+  "id": "Beverages, water, bottled, plain @0.25",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, water, bottled, plain @0.6",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, water, bottled, plain @1",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, water, bottled, plain @1.8",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, water, bottled, plain @3.2",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, coffee, brewed, prepared with tap water @0.25",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, coffee, brewed, prepared with tap water @0.6",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, coffee, brewed, prepared with tap water @1",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, coffee, brewed, prepared with tap water @1.8",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, coffee, brewed, prepared with tap water @3.2",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, tea, brewed, prepared with tap water @0.25",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, tea, brewed, prepared with tap water @0.6",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, tea, brewed, prepared with tap water @1",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, tea, brewed, prepared with tap water @1.8",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, tea, brewed, prepared with tap water @3.2",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, carbonated, club soda @0.25",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, carbonated, club soda @0.6",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, carbonated, club soda @1",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, carbonated, club soda @1.8",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Beverages, carbonated, club soda @3.2",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Catsup @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 4
+ },
+ {
+  "id": "Catsup @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 9
+ },
+ {
+  "id": "Catsup @1",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 15
+ },
+ {
+  "id": "Catsup @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 27
+ },
+ {
+  "id": "Catsup @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 48
+ },
+ {
+  "id": "Mustard, prepared, yellow @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 2
+ },
+ {
+  "id": "Mustard, prepared, yellow @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 6
+ },
+ {
+  "id": "Mustard, prepared, yellow @1",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 10
+ },
+ {
+  "id": "Mustard, prepared, yellow @1.8",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 18
+ },
+ {
+  "id": "Mustard, prepared, yellow @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 32
+ },
+ {
+  "id": "Salad dressing, ranch dressing, regular @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 16
+ },
+ {
+  "id": "Salad dressing, ranch dressing, regular @0.6",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 39
+ },
+ {
+  "id": "Salad dressing, ranch dressing, regular @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 65
+ },
+ {
+  "id": "Salad dressing, ranch dressing, regular @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 116
+ },
+ {
+  "id": "Salad dressing, ranch dressing, regular @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 206
+ },
+ {
+  "id": "Soy sauce made from soy and wheat @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 2
+ },
+ {
+  "id": "Soy sauce made from soy and wheat @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 5
+ },
+ {
+  "id": "Soy sauce made from soy and wheat @1",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 8
+ },
+ {
+  "id": "Soy sauce made from soy and wheat @1.8",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 14
+ },
+ {
+  "id": "Soy sauce made from soy and wheat @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 25
+ },
+ {
+  "id": "Sauce, salsa, ready-to-serve @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 2
+ },
+ {
+  "id": "Sauce, salsa, ready-to-serve @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 5
+ },
+ {
+  "id": "Sauce, salsa, ready-to-serve @1",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 9
+ },
+ {
+  "id": "Sauce, salsa, ready-to-serve @1.8",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 16
+ },
+ {
+  "id": "Sauce, salsa, ready-to-serve @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 28
+ },
+ {
+  "id": "Pickles, cucumber, dill @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 35,
+  "kcal": 1
+ },
+ {
+  "id": "Pickles, cucumber, dill @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 35,
+  "kcal": 3
+ },
+ {
+  "id": "Pickles, cucumber, dill @1",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 35,
+  "kcal": 4
+ },
+ {
+  "id": "Pickles, cucumber, dill @1.8",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 35,
+  "kcal": 8
+ },
+ {
+  "id": "Pickles, cucumber, dill @3.2",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 35,
+  "kcal": 13
+ },
+ {
+  "id": "Lemon juice, raw @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 1
+ },
+ {
+  "id": "Lemon juice, raw @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 2
+ },
+ {
+  "id": "Lemon juice, raw @1",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 3
+ },
+ {
+  "id": "Lemon juice, raw @1.8",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 6
+ },
+ {
+  "id": "Lemon juice, raw @3.2",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 11
+ },
+ {
+  "id": "Gravy, beef, canned, ready-to-serve @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 60,
+  "kcal": 7
+ },
+ {
+  "id": "Gravy, beef, canned, ready-to-serve @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 60,
+  "kcal": 16
+ },
+ {
+  "id": "Gravy, beef, canned, ready-to-serve @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 60,
+  "kcal": 27
+ },
+ {
+  "id": "Gravy, beef, canned, ready-to-serve @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 60,
+  "kcal": 49
+ },
+ {
+  "id": "Gravy, beef, canned, ready-to-serve @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 60,
+  "kcal": 86
+ },
+ {
+  "id": "Spices, cinnamon, ground @0.25",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Spices, cinnamon, ground @0.6",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Spices, cinnamon, ground @1",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Spices, cinnamon, ground @1.8",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Spices, cinnamon, ground @3.2",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Salt, table @0.25",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Salt, table @0.6",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Salt, table @1",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Salt, table @1.8",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Salt, table @3.2",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Soup, chicken noodle, canned, prepared with water @0.25",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 15
+ },
+ {
+  "id": "Soup, chicken noodle, canned, prepared with water @0.6",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 37
+ },
+ {
+  "id": "Soup, chicken noodle, canned, prepared with water @1",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 61
+ },
+ {
+  "id": "Soup, chicken noodle, canned, prepared with water @1.8",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 110
+ },
+ {
+  "id": "Soup, chicken noodle, canned, prepared with water @3.2",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 196
+ },
+ {
+  "id": "Soup, tomato, canned, prepared with water @0.25",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 20
+ },
+ {
+  "id": "Soup, tomato, canned, prepared with water @0.6",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 49
+ },
+ {
+  "id": "Soup, tomato, canned, prepared with water @1",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 81
+ },
+ {
+  "id": "Soup, tomato, canned, prepared with water @1.8",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 146
+ },
+ {
+  "id": "Soup, tomato, canned, prepared with water @3.2",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 259
+ },
+ {
+  "id": "Soup, cream of mushroom, canned, prepared with water @0.25",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 33
+ },
+ {
+  "id": "Soup, cream of mushroom, canned, prepared with water @0.6",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 79
+ },
+ {
+  "id": "Soup, cream of mushroom, canned, prepared with water @1",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 132
+ },
+ {
+  "id": "Soup, cream of mushroom, canned, prepared with water @1.8",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 238
+ },
+ {
+  "id": "Soup, cream of mushroom, canned, prepared with water @3.2",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 423
+ },
+ {
+  "id": "Soup, chili with beans, canned @0.25",
+  "group": "soupChili",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 56
+ },
+ {
+  "id": "Soup, chili with beans, canned @0.6",
+  "group": "soupChili",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 134
+ },
+ {
+  "id": "Soup, chili with beans, canned @1",
+  "group": "soupChili",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 223
+ },
+ {
+  "id": "Soup, chili with beans, canned @1.8",
+  "group": "soupChili",
+  "color": "red",
+  "servG": 245,
+  "kcal": 401
+ },
+ {
+  "id": "Soup, chili with beans, canned @3.2",
+  "group": "soupChili",
+  "color": "red",
+  "servG": 245,
+  "kcal": 713
+ },
+ {
+  "id": "Soup, lentil with ham, canned @0.25",
+  "group": "soupChili",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 34
+ },
+ {
+  "id": "Soup, lentil with ham, canned @0.6",
+  "group": "soupChili",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 82
+ },
+ {
+  "id": "Soup, lentil with ham, canned @1",
+  "group": "soupChili",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 137
+ },
+ {
+  "id": "Soup, lentil with ham, canned @1.8",
+  "group": "soupChili",
+  "color": "red",
+  "servG": 245,
+  "kcal": 247
+ },
+ {
+  "id": "Soup, lentil with ham, canned @3.2",
+  "group": "soupChili",
+  "color": "red",
+  "servG": 245,
+  "kcal": 439
+ },
+ {
+  "id": "Broth, chicken, canned, prepared with water @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 4
+ },
+ {
+  "id": "Broth, chicken, canned, prepared with water @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 10
+ },
+ {
+  "id": "Broth, chicken, canned, prepared with water @1",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 17
+ },
+ {
+  "id": "Broth, chicken, canned, prepared with water @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 31
+ },
+ {
+  "id": "Broth, chicken, canned, prepared with water @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 55
+ },
+ {
+  "id": "Pizza, cheese topping, regular crust, frozen @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pizza, cheese topping, regular crust, frozen @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pizza, cheese topping, regular crust, frozen @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pizza, cheese topping, regular crust, frozen @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pizza, cheese topping, regular crust, frozen @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Macaroni and cheese, canned entree @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Macaroni and cheese, canned entree @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Macaroni and cheese, canned entree @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Macaroni and cheese, canned entree @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Macaroni and cheese, canned entree @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Lasagna with meat sauce, frozen entree @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Lasagna with meat sauce, frozen entree @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Lasagna with meat sauce, frozen entree @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Lasagna with meat sauce, frozen entree @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Lasagna with meat sauce, frozen entree @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burrito, bean and cheese, frozen @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burrito, bean and cheese, frozen @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burrito, bean and cheese, frozen @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burrito, bean and cheese, frozen @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burrito, bean and cheese, frozen @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, ham and cheese, on white bread @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, ham and cheese, on white bread @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, ham and cheese, on white bread @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, ham and cheese, on white bread @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, ham and cheese, on white bread @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, peanut butter and jelly @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, peanut butter and jelly @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, peanut butter and jelly @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, peanut butter and jelly @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Sandwich, peanut butter and jelly @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Wrap, chicken caesar @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Wrap, chicken caesar @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Wrap, chicken caesar @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Wrap, chicken caesar @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Wrap, chicken caesar @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Taco, beef, hard shell @0.25",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 51
+ },
+ {
+  "id": "Taco, beef, hard shell @0.6",
+  "group": "meat",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 122
+ },
+ {
+  "id": "Taco, beef, hard shell @1",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 204
+ },
+ {
+  "id": "Taco, beef, hard shell @1.8",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 367
+ },
+ {
+  "id": "Taco, beef, hard shell @3.2",
+  "group": "meat",
+  "color": "red",
+  "servG": 85,
+  "kcal": 653
+ },
+ {
+  "id": "Burger, cheeseburger, fast food @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burger, cheeseburger, fast food @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burger, cheeseburger, fast food @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burger, cheeseburger, fast food @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Burger, cheeseburger, fast food @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pot pie, chicken, frozen @0.25",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pot pie, chicken, frozen @0.6",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pot pie, chicken, frozen @1",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pot pie, chicken, frozen @1.8",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Pot pie, chicken, frozen @3.2",
+  "group": "combo",
+  "color": "review",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Stew, beef, canned @0.25",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 55
+ },
+ {
+  "id": "Stew, beef, canned @0.6",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 132
+ },
+ {
+  "id": "Stew, beef, canned @1",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 221
+ },
+ {
+  "id": "Stew, beef, canned @1.8",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 397
+ },
+ {
+  "id": "Stew, beef, canned @3.2",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 706
+ },
+ {
+  "id": "Ramen noodle soup, dry mix @0.25",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 270
+ },
+ {
+  "id": "Ramen noodle soup, dry mix @0.6",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 647
+ },
+ {
+  "id": "Ramen noodle soup, dry mix @1",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 1078
+ },
+ {
+  "id": "Ramen noodle soup, dry mix @1.8",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 1940
+ },
+ {
+  "id": "Ramen noodle soup, dry mix @3.2",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 3450
+ },
+ {
+  "id": "Broth, beef, canned, ready to serve @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 4
+ },
+ {
+  "id": "Broth, beef, canned, ready to serve @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 10
+ },
+ {
+  "id": "Broth, beef, canned, ready to serve @1",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 17
+ },
+ {
+  "id": "Broth, beef, canned, ready to serve @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 31
+ },
+ {
+  "id": "Broth, beef, canned, ready to serve @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 55
+ },
+ {
+  "id": "Bouillon cube, chicken @0.25",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 147
+ },
+ {
+  "id": "Bouillon cube, chicken @0.6",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 353
+ },
+ {
+  "id": "Bouillon cube, chicken @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 588
+ },
+ {
+  "id": "Bouillon cube, chicken @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 1058
+ },
+ {
+  "id": "Bouillon cube, chicken @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 245,
+  "kcal": 1882
+ },
+ {
+  "id": "Chowder, clam, New England, canned @0.25",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 49
+ },
+ {
+  "id": "Chowder, clam, New England, canned @0.6",
+  "group": "soupBroth",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 118
+ },
+ {
+  "id": "Chowder, clam, New England, canned @1",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 196
+ },
+ {
+  "id": "Chowder, clam, New England, canned @1.8",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 353
+ },
+ {
+  "id": "Chowder, clam, New England, canned @3.2",
+  "group": "soupBroth",
+  "color": "red",
+  "servG": 245,
+  "kcal": 627
+ },
+ {
+  "id": "Sauce, pasta, spaghetti/marinara, ready-to-serve @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 60,
+  "kcal": 8
+ },
+ {
+  "id": "Sauce, pasta, spaghetti/marinara, ready-to-serve @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 60,
+  "kcal": 18
+ },
+ {
+  "id": "Sauce, pasta, spaghetti/marinara, ready-to-serve @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 60,
+  "kcal": 30
+ },
+ {
+  "id": "Sauce, pasta, spaghetti/marinara, ready-to-serve @1.8",
+  "group": "veg",
+  "color": "red",
+  "servG": 60,
+  "kcal": 54
+ },
+ {
+  "id": "Sauce, pasta, spaghetti/marinara, ready-to-serve @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 60,
+  "kcal": 96
+ },
+ {
+  "id": "Sauce, barbecue @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 6
+ },
+ {
+  "id": "Sauce, barbecue @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 15
+ },
+ {
+  "id": "Sauce, barbecue @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 26
+ },
+ {
+  "id": "Sauce, barbecue @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 46
+ },
+ {
+  "id": "Sauce, barbecue @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 83
+ },
+ {
+  "id": "Vinaigrette, balsamic @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 11
+ },
+ {
+  "id": "Vinaigrette, balsamic @0.6",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 27
+ },
+ {
+  "id": "Vinaigrette, balsamic @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 45
+ },
+ {
+  "id": "Vinaigrette, balsamic @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 81
+ },
+ {
+  "id": "Vinaigrette, balsamic @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 144
+ },
+ {
+  "id": "Dip, bean, original flavor @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 8
+ },
+ {
+  "id": "Dip, bean, original flavor @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 20
+ },
+ {
+  "id": "Dip, bean, original flavor @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 33
+ },
+ {
+  "id": "Dip, bean, original flavor @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 59
+ },
+ {
+  "id": "Dip, bean, original flavor @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 106
+ },
+ {
+  "id": "Hummus, commercial @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 12
+ },
+ {
+  "id": "Hummus, commercial @0.6",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 30
+ },
+ {
+  "id": "Hummus, commercial @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 50
+ },
+ {
+  "id": "Hummus, commercial @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 90
+ },
+ {
+  "id": "Hummus, commercial @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 159
+ },
+ {
+  "id": "Guacamole @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 30,
+  "kcal": 12
+ },
+ {
+  "id": "Guacamole @0.6",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 28
+ },
+ {
+  "id": "Guacamole @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 47
+ },
+ {
+  "id": "Guacamole @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 85
+ },
+ {
+  "id": "Guacamole @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 30,
+  "kcal": 151
+ },
+ {
+  "id": "Juice, tomato, canned @0.25",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 10
+ },
+ {
+  "id": "Juice, tomato, canned @0.6",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 24
+ },
+ {
+  "id": "Juice, tomato, canned @1",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 41
+ },
+ {
+  "id": "Juice, tomato, canned @1.8",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 73
+ },
+ {
+  "id": "Juice, tomato, canned @3.2",
+  "group": "juice",
+  "color": "red",
+  "servG": 240,
+  "kcal": 131
+ },
+ {
+  "id": "Cereal bar, granola, oats and honey @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 42,
+  "kcal": 49
+ },
+ {
+  "id": "Cereal bar, granola, oats and honey @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 42,
+  "kcal": 119
+ },
+ {
+  "id": "Cereal bar, granola, oats and honey @1",
+  "group": "grain",
+  "color": "red",
+  "servG": 42,
+  "kcal": 198
+ },
+ {
+  "id": "Cereal bar, granola, oats and honey @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 42,
+  "kcal": 356
+ },
+ {
+  "id": "Cereal bar, granola, oats and honey @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 42,
+  "kcal": 633
+ },
+ {
+  "id": "Cereals, oats, instant, fortified, plain, dry @0.25",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 40,
+  "kcal": 37
+ },
+ {
+  "id": "Cereals, oats, instant, fortified, plain, dry @0.6",
+  "group": "grain",
+  "color": "yellow",
+  "servG": 40,
+  "kcal": 89
+ },
+ {
+  "id": "Cereals, oats, instant, fortified, plain, dry @1",
+  "group": "grain",
+  "color": "red",
+  "servG": 40,
+  "kcal": 148
+ },
+ {
+  "id": "Cereals, oats, instant, fortified, plain, dry @1.8",
+  "group": "grain",
+  "color": "red",
+  "servG": 40,
+  "kcal": 266
+ },
+ {
+  "id": "Cereals, oats, instant, fortified, plain, dry @3.2",
+  "group": "grain",
+  "color": "red",
+  "servG": 40,
+  "kcal": 474
+ },
+ {
+  "id": "Milk, buttermilk, lowfat @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 25
+ },
+ {
+  "id": "Milk, buttermilk, lowfat @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 59
+ },
+ {
+  "id": "Milk, buttermilk, lowfat @1",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 98
+ },
+ {
+  "id": "Milk, buttermilk, lowfat @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 176
+ },
+ {
+  "id": "Milk, buttermilk, lowfat @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 314
+ },
+ {
+  "id": "Milk, evaporated, canned @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 83
+ },
+ {
+  "id": "Milk, evaporated, canned @0.6",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 198
+ },
+ {
+  "id": "Milk, evaporated, canned @1",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 331
+ },
+ {
+  "id": "Milk, evaporated, canned @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 595
+ },
+ {
+  "id": "Milk, evaporated, canned @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 1058
+ },
+ {
+  "id": "Milk, condensed, sweetened, canned @0.25",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 197
+ },
+ {
+  "id": "Milk, condensed, sweetened, canned @0.6",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 472
+ },
+ {
+  "id": "Milk, condensed, sweetened, canned @1",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 786
+ },
+ {
+  "id": "Milk, condensed, sweetened, canned @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 1416
+ },
+ {
+  "id": "Milk, condensed, sweetened, canned @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 2517
+ },
+ {
+  "id": "Beverages, rice milk, unsweetened @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 29
+ },
+ {
+  "id": "Beverages, rice milk, unsweetened @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 69
+ },
+ {
+  "id": "Beverages, rice milk, unsweetened @1",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 115
+ },
+ {
+  "id": "Beverages, rice milk, unsweetened @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 207
+ },
+ {
+  "id": "Beverages, rice milk, unsweetened @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 368
+ },
+ {
+  "id": "Beverages, oat milk, original @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 31
+ },
+ {
+  "id": "Beverages, oat milk, original @0.6",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 74
+ },
+ {
+  "id": "Beverages, oat milk, original @1",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 123
+ },
+ {
+  "id": "Beverages, oat milk, original @1.8",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 221
+ },
+ {
+  "id": "Beverages, oat milk, original @3.2",
+  "group": "dairy",
+  "color": "red",
+  "servG": 245,
+  "kcal": 392
+ },
+ {
+  "id": "Nuts, coconut milk, canned @0.25",
+  "group": "dairy",
+  "color": "yellow",
+  "servG": 245,
+  "kcal": 121
+ },
+ {
+  "id": "Nuts, coconut milk, canned @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 18
+ },
+ {
+  "id": "Nuts, coconut milk, canned @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 30
+ },
+ {
+  "id": "Nuts, coconut milk, canned @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 53
+ },
+ {
+  "id": "Nuts, coconut milk, canned @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 95
+ },
+ {
+  "id": "Cheese, ricotta, part skim milk @0.25",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 62,
+  "kcal": 21
+ },
+ {
+  "id": "Cheese, ricotta, part skim milk @0.6",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 62,
+  "kcal": 51
+ },
+ {
+  "id": "Cheese, ricotta, part skim milk @1",
+  "group": "cheese",
+  "color": "red",
+  "servG": 62,
+  "kcal": 86
+ },
+ {
+  "id": "Cheese, ricotta, part skim milk @1.8",
+  "group": "cheese",
+  "color": "red",
+  "servG": 62,
+  "kcal": 154
+ },
+ {
+  "id": "Cheese, ricotta, part skim milk @3.2",
+  "group": "cheese",
+  "color": "red",
+  "servG": 62,
+  "kcal": 274
+ },
+ {
+  "id": "Cheese spread, pasteurized process, American @0.25",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 20
+ },
+ {
+  "id": "Cheese spread, pasteurized process, American @0.6",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 49
+ },
+ {
+  "id": "Cheese spread, pasteurized process, American @1",
+  "group": "cheese",
+  "color": "yellow",
+  "servG": 28,
+  "kcal": 81
+ },
+ {
+  "id": "Cheese spread, pasteurized process, American @1.8",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 146
+ },
+ {
+  "id": "Cheese spread, pasteurized process, American @3.2",
+  "group": "cheese",
+  "color": "red",
+  "servG": 28,
+  "kcal": 260
+ },
+ {
+  "id": "Frozen yogurt, vanilla, soft serve @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 170,
+  "kcal": 68
+ },
+ {
+  "id": "Frozen yogurt, vanilla, soft serve @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 170,
+  "kcal": 162
+ },
+ {
+  "id": "Frozen yogurt, vanilla, soft serve @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 170,
+  "kcal": 270
+ },
+ {
+  "id": "Frozen yogurt, vanilla, soft serve @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 170,
+  "kcal": 487
+ },
+ {
+  "id": "Frozen yogurt, vanilla, soft serve @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 170,
+  "kcal": 865
+ },
+ {
+  "id": "Sherbet, orange @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 5
+ },
+ {
+  "id": "Sherbet, orange @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 13
+ },
+ {
+  "id": "Sherbet, orange @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 22
+ },
+ {
+  "id": "Sherbet, orange @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 39
+ },
+ {
+  "id": "Sherbet, orange @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 69
+ },
+ {
+  "id": "Pudding, vanilla, dry mix, prepared @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 4
+ },
+ {
+  "id": "Pudding, vanilla, dry mix, prepared @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 10
+ },
+ {
+  "id": "Pudding, vanilla, dry mix, prepared @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 17
+ },
+ {
+  "id": "Pudding, vanilla, dry mix, prepared @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 30
+ },
+ {
+  "id": "Pudding, vanilla, dry mix, prepared @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 53
+ },
+ {
+  "id": "Marmalade, orange @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 9
+ },
+ {
+  "id": "Marmalade, orange @0.6",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 15,
+  "kcal": 22
+ },
+ {
+  "id": "Marmalade, orange @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 37
+ },
+ {
+  "id": "Marmalade, orange @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 66
+ },
+ {
+  "id": "Marmalade, orange @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 15,
+  "kcal": 118
+ },
+ {
+  "id": "Pickle relish, sweet @0.25",
+  "group": "condiment",
+  "color": "yellow",
+  "servG": 35,
+  "kcal": 11
+ },
+ {
+  "id": "Pickle relish, sweet @0.6",
+  "group": "condiment",
+  "color": "red",
+  "servG": 35,
+  "kcal": 27
+ },
+ {
+  "id": "Pickle relish, sweet @1",
+  "group": "condiment",
+  "color": "red",
+  "servG": 35,
+  "kcal": 46
+ },
+ {
+  "id": "Pickle relish, sweet @1.8",
+  "group": "condiment",
+  "color": "red",
+  "servG": 35,
+  "kcal": 82
+ },
+ {
+  "id": "Pickle relish, sweet @3.2",
+  "group": "condiment",
+  "color": "red",
+  "servG": 35,
+  "kcal": 146
+ },
+ {
+  "id": "Olives, ripe, canned, small @0.25",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 4
+ },
+ {
+  "id": "Olives, ripe, canned, small @0.6",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 10
+ },
+ {
+  "id": "Olives, ripe, canned, small @1",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 17
+ },
+ {
+  "id": "Olives, ripe, canned, small @1.8",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 31
+ },
+ {
+  "id": "Olives, ripe, canned, small @3.2",
+  "group": "sweets",
+  "color": "red",
+  "servG": 15,
+  "kcal": 55
+ },
+ {
+  "id": "Spices, oregano, dried @0.25",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Spices, oregano, dried @0.6",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Spices, oregano, dried @1",
+  "group": "free",
+  "color": "free",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Spices, oregano, dried @1.8",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Spices, oregano, dried @3.2",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Herbs, parsley, fresh @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 6
+ },
+ {
+  "id": "Herbs, parsley, fresh @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 14
+ },
+ {
+  "id": "Herbs, parsley, fresh @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 23
+ },
+ {
+  "id": "Herbs, parsley, fresh @1.8",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 65,
+  "kcal": 42
+ },
+ {
+  "id": "Herbs, parsley, fresh @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 75
+ },
+ {
+  "id": "Seasoning mix, taco, dry @0.25",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Seasoning mix, taco, dry @0.6",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Seasoning mix, taco, dry @1",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Seasoning mix, taco, dry @1.8",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Seasoning mix, taco, dry @3.2",
+  "group": null,
+  "color": "yellow",
+  "servG": null,
+  "kcal": null
+ },
+ {
+  "id": "Potatoes, mashed, prepared from granules @0.25",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 23
+ },
+ {
+  "id": "Potatoes, mashed, prepared from granules @0.6",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 54
+ },
+ {
+  "id": "Potatoes, mashed, prepared from granules @1",
+  "group": "starchy",
+  "color": "yellow",
+  "servG": 80,
+  "kcal": 90
+ },
+ {
+  "id": "Potatoes, mashed, prepared from granules @1.8",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 163
+ },
+ {
+  "id": "Potatoes, mashed, prepared from granules @3.2",
+  "group": "starchy",
+  "color": "red",
+  "servG": 80,
+  "kcal": 289
+ },
+ {
+  "id": "Onions, frozen, chopped @0.25",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 6
+ },
+ {
+  "id": "Onions, frozen, chopped @0.6",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 14
+ },
+ {
+  "id": "Onions, frozen, chopped @1",
+  "group": "veg",
+  "color": "green",
+  "servG": 65,
+  "kcal": 23
+ },
+ {
+  "id": "Onions, frozen, chopped @1.8",
+  "group": "veg",
+  "color": "yellow",
+  "servG": 65,
+  "kcal": 42
+ },
+ {
+  "id": "Onions, frozen, chopped @3.2",
+  "group": "veg",
+  "color": "red",
+  "servG": 65,
+  "kcal": 75
+ },
+ {
+  "id": "Tofu, baked, seasoned @0.25",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 37
+ },
+ {
+  "id": "Tofu, baked, seasoned @0.6",
+  "group": "protein",
+  "color": "yellow",
+  "servG": 85,
+  "kcal": 89
+ },
+ {
+  "id": "Tofu, baked, seasoned @1",
+  "group": "protein",
+  "color": "red",
+  "servG": 85,
+  "kcal": 149
+ },
+ {
+  "id": "Tofu, baked, seasoned @1.8",
+  "group": "protein",
+  "color": "red",
+  "servG": 85,
+  "kcal": 268
+ },
+ {
+  "id": "Tofu, baked, seasoned @3.2",
+  "group": "protein",
+  "color": "red",
+  "servG": 85,
+  "kcal": 476
+ }
+]

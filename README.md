@@ -8,7 +8,7 @@ Works on a phone (camera barcode scanning) or a laptop (type a barcode or search
 
 ## Try it
 
-Open the live link above. `verified_barcodes.csv` lists 33 barcodes covering all three colors plus "no colour" water. They were confirmed before the app became USDA-only, so some no longer resolve: USDA Branded carries manufacturer submissions rather than every package on a US shelf. Search by name, or use Custom food, for anything that misses.
+Open the live link above, and scan or type a barcode or search by name. USDA Branded carries manufacturer submissions rather than every package on a US shelf, so a barcode can miss; search by name, or use Custom food, for anything that does.
 
 For more than casual use, get a free USDA API key at [api.data.gov/signup](https://api.data.gov/signup) and paste it into the app's Settings. The key is remembered on that device. The bundled `DEMO_KEY` allows only about 10 searches an hour per network (measured September 2026), so a clinic will run it out in minutes.
 
@@ -34,20 +34,19 @@ Every verdict shows its reasons, the food group can be changed, and any colour c
 | `index.html` | Redirect so the site root opens the app |
 | `ORIENTATION.md` | Full project orientation: architecture, data sources, thresholds, roadmap |
 | `Rules explained.docx` | The classification rules in plain language for clinicians: each group's serving and colour lines, the order the app checks groups, combination foods, portions and the daily limit |
-| `verified_barcodes.csv` / `.json` | 33 US barcodes confirmed to resolve, with assigned colors and reasons (3 green, 15 yellow, 12 red, 3 no colour) |
 | `screenshots/` | Light mode, dark mode, and USDA-search screenshots |
-| `tests/` | Test harness: eight suites covering the classification engine, the USDA mapper, the lookup flow, the ingredient estimator and 155 everyday foods end to end |
-| `fixtures/` | Saved USDA responses, plus an Open Food Facts corpus kept purely as classifier test data, so the tests run offline |
+| `tests/` | Test harness: the classification engine, the USDA mapper, the lookup flow, the ingredient estimator, 160 everyday foods end to end, and a 1,000-case net that catches any unintended change |
+| `fixtures/` | Saved USDA responses, so the tests run offline |
 
 See [ORIENTATION.md](ORIENTATION.md) for the full technical writeup.
 
 ## Testing
 
-With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs eight suites against offline fixtures: 237 hand-written classification and portion checks, 11 USDA mapping checks, 39 assertions over a saved corpus of real category vocabulary, 17 over saved USDA generic-food responses, 23 checks of the name-search plumbing (request shape and ranking), 15 of the lookup flow itself (what a barcode miss says, how results are ordered, how a USDA outage reads), 23 of the ingredient-list parsing behind combination foods, and 155 everyday foods carried through the USDA mapper and the classifier together.
+With Node.js installed, run `bash tests/extract_and_test.sh`. It re-extracts the JavaScript from the HTML and runs every suite offline, failing the run if any fails: 221 hand-written classification cases plus portion checks, each food described the way USDA describes it and sent through the real USDA mapper; 11 USDA mapping checks; 17 over saved USDA generic-food responses; 23 checks of the name-search plumbing; 15 of the lookup flow; 23 of the ingredient-list parsing behind combination foods; 160 everyday foods checked against the guide; and a characterization net of 1,000 cases that records what the engine does today and fails on any change.
 
-Three internet audits complement them. `node tests/audit_live.js` pulls about 130 named everyday US products and compares each with the guide. `node tests/audit_random.js 400 <seed>` draws products at random across 57 categories. `node tests/audit_analyze.js <file>` then checks every drawn product automatically: each category implies which food groups a product from it could legitimately take, so anything outside that set is printed for review. `node tests/audit_reclassify.js` re-runs a saved draw offline after a rule change. Across five random draws totalling 1,700 products the classifier now produces no group outside what the category allows.
+One internet audit complements them: `FDC_KEY=your-key node tests/audit_usda_foods.js` runs the everyday-foods list against the live USDA search, which the offline suites cannot reach.
 
-The two fixture suites matter most. Hand-written cases pass tidy category arrays like `['en:fruits']` straight to `classify()`, which is not what an API actually returns; running real saved responses through a mapper is what catches category-vocabulary bugs.
+Describing each test food the way USDA describes it matters more than it looks. USDA writes names inverted ("Beans, snap, green"), names colour variants ("Grapes, red or green"), and files foods in ways the guide does not (salad dressings under Fats and Oils, hot oatmeal under Breakfast Cereals). Rules that look right against tidy input break on exactly those, which is how most of this classifier's bugs were found.
 
 ## Status
 

@@ -3,8 +3,7 @@
 // answers 400 to a GET whose dataType list holds "SR Legacy" or "Survey
 // (FNDDS)" - and the name ranking that decides which record a clinician sees
 // first. USDA is now the only source, so that ranking is applied to its results
-// in lookup(); it used to be applied to Open Food Facts results instead, which
-// is why the ranking is asserted here against USDA-shaped records. Also covers
+// in lookup(), so the ranking is asserted here against USDA-shaped records. Also covers
 // the built-in quick-add match, which needs no network at all.
 const fs = require('fs');
 const path = require('path');
